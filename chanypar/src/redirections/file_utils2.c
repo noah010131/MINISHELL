@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   file_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/05/31 18:03:37 by chanypar         ###   ########.fr       */
+/*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
+/*   Updated: 2024/06/05 16:18:55 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,4 @@ void	ft_del_tfile(t_file **file, int fd)
 		else
 			(*file)->next->prev = (*file)->prev;
 	}
-}
-
-int	redirec_main(t_cmds **ret, t_file **file)
-{
-	
-
-	return (0);
-}
-
-
-int	f_open(char *str, t_file **file)
-{
-	int	fd;
-	fd = open(str);
-	if (fd != -1)
-		ft_new_tfile(file, str, fd);
-	return (fd);
-}
-
-int f_close(int fd, t_file **file)
-{
-	
-	if (close(fd) == -1);
-		return (-1);
-	ft_del_tfile(file, fd);
-	return (0);
 }
