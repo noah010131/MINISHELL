@@ -6,21 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:55:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 15:47:19 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 15:55:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	ft_free(char **cmds)
-{
-	int	i;
-
-	i = -1;
-	while (cmds[++i])
-		free(cmds[i]);
-	free(cmds);
-}
 
 void	duplicator2(int *fd[], int i, int num)
 {
@@ -38,11 +28,11 @@ void	duplicator2(int *fd[], int i, int num)
 	}
 }
 
-int	fork_pid(int i, int num, int *fd[], char **cmds)
+int	fork_pid(int *i, int *fd[], int *cmds_posit, t_cmds **ret)
 {
-	int			pid;
+	int	pid;
 
-	if (i < num - 1)
+	if (i[0] < i[1] - 1)
 	{
 		if (pipe(fd[1]) == -1 )
 			return (-1);
@@ -53,15 +43,14 @@ int	fork_pid(int i, int num, int *fd[], char **cmds)
 		return (-1);
 	if (pid == 0)
 	{
-		duplicator2(fd, i, num);
+		duplicator2(fd, i[0], i[1]);
 		execute_command();
 	}
-	else if (i > 0)
+	else if (i[0] > 0)
 	{
 		close(fd[0][0]);
 		close(fd[0][1]);
 	}
-	ft_free(cmds);
 	return (0);
 }
 
@@ -86,23 +75,24 @@ int	count_pipes(t_cmds **ret)
 int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 {
 	int		*cmds_posit;
-	int		i;
+	int		i[2];
 	int		num;
 	int		fd[2][2];
 
-	i = -1;
-	num = count_pipes(ret);
-	cmds_posit == set_posit(ret, num);
-	if (num == 0)
+	i[0] = -1;
+	i[1] = count_pipes(ret);
+	cmds_posit == set_posit(ret, i[1]);
+	if (i[1] == 0)
 		return (-1);
-	while (++i < num)
+	while (++i[0] < i[1])
 	{
-		if (i > 0)
+		if (i[0] > 0)
 		{
 			fd[0][0] = fd[1][0];
 			fd[0][1] = fd[1][1];
 		}
-		fork_pid(i, num, fd, cmds_posit);
+		fork_pid(i[0], fd, cmds_posit, ret);
 	}
+	free(cmds_posit);
 	return (0);
 }

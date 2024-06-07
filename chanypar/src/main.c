@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/07 14:47:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 15:49:28 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,53 @@ void	history(char *str)
 	}
 }
 
+char	*join_string(char *str, t_cmds **ret, int flag)
+{
+	char	*temp;
+
+	temp = NULL;
+	if (flag)
+	{
+		temp = ft_strjoin(str, " ");
+		free(str);
+		str = ft_strdup(temp);
+		free(temp);
+	}
+	temp = ft_strjoin(str,(*ret)->name);
+	free(str);
+	str = ft_strdup(temp);
+	free(temp);
+	return (str);
+}
+
+char	*lst_to_char(t_cmds **ret)
+{
+	t_cmds	*current;
+	char *str;
+	int	i;
+	int flag;
+	int	len;
+
+	i = 0;
+	str = (char *)malloc(500);
+	if (!str)
+		return (NULL);
+	current = *ret;
+	while(*ret)
+	{
+		len = ft_strlen((*ret)->name);
+		if (!i)
+			ft_strlcpy(str, (*ret)->name, len + 1);
+		else
+			str = join_string(str, ret, flag);
+		flag = len;
+		(*ret) = (*ret)->next;
+		i++;
+	}
+	*ret = current;
+	printf("%s\n", str);
+	free(str);
+}
 
 int	main(int ac, char **av, char **env)
 {
