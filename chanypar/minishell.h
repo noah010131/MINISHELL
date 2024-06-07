@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/05 17:32:23 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 14:56:27 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int					ft_cd(t_cmds *cmd, t_envp **lst);
 int					ft_echo(t_cmds *cmd);
 int					check_builtins(t_cmds **ret, t_envp **lst);
 int					builtins_checker(t_cmds *current);
-t_cmds				*find_redirec(t_cmds **ret);
+t_cmds				*find_name(t_cmds *current, char name);
 void				execute_command(int i, t_cmds *cmds, t_envp **lst);
 int					redirec_main(t_cmds **ret, t_file **file, t_envp **lst);
 int					f_open(char *str, t_file **file);
@@ -117,5 +117,7 @@ int					f_close2(int fd, t_file **file, FILE *f);
 int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
 int					read_heredoc(char *end_str, t_file **file);
+char				**making_cmds(t_cmds **ret);
+char				*lst_to_char(t_cmds **ret);
 
 #endif

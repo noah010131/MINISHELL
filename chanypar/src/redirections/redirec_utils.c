@@ -6,20 +6,27 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/05 17:35:07 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 14:20:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_cmds	*find_redirec(t_cmds **ret)
+t_cmds	*find_name(t_cmds *current, char name)
 {
-	t_cmds	*current;
 	t_cmds	*null;
 
-	current = *ret;
-	while (current->next && (current->code_id >= 11 && current->code_id <= 14))
-		current = current->next;
+	if (name == 'r')
+	{
+		while (current->next
+			&& (current->code_id >= 11 && current->code_id <= 14))
+			current = current->next;
+	}
+	else
+	{
+		while (current->next && current->code_id == 10)
+			current = current->next;
+	}
 	if (!current->next)
 	{
 		null = malloc(sizeof(t_cmds));

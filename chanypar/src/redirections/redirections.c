@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/05 17:45:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 14:21:23 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ int	redirec_main(t_cmds **ret, t_file **file, t_envp **lst)
 {
 	t_cmds	*current;
 
-	current = find_redirec(ret);
+	current = *(ret);
+	current = find_name(current, 'r');
 	if (!current)
 		return (-1);
 	if (current->code_id == 11) // "<"
