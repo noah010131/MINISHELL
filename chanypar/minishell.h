@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/07 14:56:27 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:22:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ typedef struct s_file
 	struct s_file		*next;
 	struct s_file		*prev;
 }					t_file;
+
+typedef struct s_pipe
+{
+	struct s_file	**file;
+	struct s_cmds	**ret;
+	struct s_envp	**lst;
+}						t_pipe;
+
 
 t_cmds				*ft_new_tcmd(char *str, int code);
 int					code_attr(t_cmds **cmds);

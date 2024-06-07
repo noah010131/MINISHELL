@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 14:21:23 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:06:12 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	operation_redir_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **fil
 	int		command;
 	int		stdin_save;
 
-	command = builtins_checker(current);
+	command = builtins_checker(current->prev);
 	if (command == -1)
 		return (-1);
 	if (!current->next && (current->next->code_id >= 10
@@ -45,7 +45,7 @@ int	operation_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **fi
 	int		command;
 	int		stdout_save;
 
-	command = builtins_checker(current);
+	command = builtins_checker(current->prev);
 	if (command == -1 || (!current->next && (current->next->code_id >= 10
 				&& current->next->code_id <= 14)))
 		return (-1);
@@ -74,7 +74,7 @@ int	operation_heredoc_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **f
 	int		command;
 	int		stdin_save;
 
-	command = builtins_checker(current);
+	command = builtins_checker(current->prev);
 	if (command == -1 || (!current->next && (current->next->code_id >= 10
 				&& current->next->code_id <= 14)))
 		return (-1);
@@ -102,7 +102,7 @@ int	operation_redir_app(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **fi
 	int		command;
 	int		stdout_save;
 
-	command = builtins_checker(current);
+	command = builtins_checker(current->prev);
 	if (command == -1 || (!current->next && (current->next->code_id >= 10
 				&& current->next->code_id <= 14)))
 		return (-1);

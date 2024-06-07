@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:55:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 15:55:37 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:28:24 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,22 @@ void	duplicator2(int *fd[], int i, int num)
 		close(fd[1][1]);
 	}
 }
+void	set_command(int i, int *cmds_posit, t_pipe *pip)
+{
+	t_cmds	*current;
+	int		n;
+	int		cmds;
 
-int	fork_pid(int *i, int *fd[], int *cmds_posit, t_cmds **ret)
+	n = -1;
+	current = *(pip->ret);
+	while (++n < cmds_posit[i])
+		current = current->next;
+	cmds = builtins_checker(current);
+	execute_command(cmds, current, pip->lst);
+
+}
+
+int	fork_pid(int *i, int *fd[], int *cmds_posit, t_pipe *pip)
 {
 	int	pid;
 
@@ -44,7 +58,7 @@ int	fork_pid(int *i, int *fd[], int *cmds_posit, t_cmds **ret)
 	if (pid == 0)
 	{
 		duplicator2(fd, i[0], i[1]);
-		execute_command();
+		set_command(i, cmds_posit, pip);
 	}
 	else if (i[0] > 0)
 	{
@@ -74,6 +88,7 @@ int	count_pipes(t_cmds **ret)
 
 int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 {
+	t_pipe	pipe;
 	int		*cmds_posit;
 	int		i[2];
 	int		num;
@@ -84,6 +99,7 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 	cmds_posit == set_posit(ret, i[1]);
 	if (i[1] == 0)
 		return (-1);
+	set_pipe(ret, list, file, &pipe);
 	while (++i[0] < i[1])
 	{
 		if (i[0] > 0)
@@ -91,7 +107,7 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 			fd[0][0] = fd[1][0];
 			fd[0][1] = fd[1][1];
 		}
-		fork_pid(i[0], fd, cmds_posit, ret);
+		fork_pid(i[0], fd, cmds_posit, pipe);
 	}
 	free(cmds_posit);
 	return (0);

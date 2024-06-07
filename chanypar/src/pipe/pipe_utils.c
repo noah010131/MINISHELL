@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:45:06 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 15:48:59 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:22:54 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ int	*set_posit(t_cmds **ret, int num)
 	}
 }
 
+void	set_pipe(t_cmds **ret, t_envp **list, t_file **file, t_pipe *pipe)
+{
+	pipe->ret = ret;
+	pipe->lst = list;
+	pipe->file = file;
+}
 
 // char	**making_cmds(t_cmds **ret)
 // {

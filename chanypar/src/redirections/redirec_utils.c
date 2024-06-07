@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 14:20:14 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:06:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	builtins_checker(t_cmds *current)
 	char	list_butilins[7][7];
 	int		i;
 
-	if (!current->prev)
+	if (!current)
 		retrun (-1);
 	ft_strlcpy(list_butilins[0], "echo", 5);
 	ft_strlcpy(list_butilins[1], "cd", 3);
@@ -54,16 +54,16 @@ int	builtins_checker(t_cmds *current)
 	ft_strlcpy(list_butilins[5], "env", 4);
 	ft_strlcpy(list_butilins[6], "exit", 5);
 	i = 0;
+	while (ft_strcmp(current->name, list_butilins[i]))
+		i++;
+	if (!(ft_strcmp(current->name, list_butilins[i])))
+		return (i);
+	i = 0;
+	if (!current->prev)
+		return (-1);
 	while (ft_strcmp(current->prev->name, list_butilins[i]))
 		i++;
 	if (!(ft_strcmp(current->prev->name, list_butilins[i])))
-		return (i);
-	i = 0;
-	if (!current->prev->prev)
-		return (-1);
-	while (ft_strcmp(current->prev->prev->name, list_butilins[i]))
-		i++;
-	if (!(ft_strcmp(current->prev->prev->name, list_butilins[i])))
 		return (i);
 	return (-1);
 }
