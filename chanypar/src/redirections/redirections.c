@@ -6,13 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 16:06:12 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:33:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	operation_redir_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
+int	oper_redir_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
 	int		fd;
 	int		command;
@@ -38,7 +38,7 @@ int	operation_redir_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **fil
 	retrun (0);
 }
 
-int	operation_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
+int	oper_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
 	FILE	*f;
 	int		fd;
@@ -66,7 +66,7 @@ int	operation_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **fi
 	return (0);
 }
 
-int	operation_heredoc_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
+int	oper_heredoc_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
 	FILE	*f;
 	int		fd;
@@ -95,7 +95,7 @@ int	operation_heredoc_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **f
 	return (0);
 }
 
-int	operation_redir_app(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
+int	oper_redir_app(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
 	FILE	*f;
 	int		fd;
@@ -123,22 +123,22 @@ int	operation_redir_app(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **fi
 	retrun (0);
 }
 
-int	redirec_main(t_cmds **ret, t_file **file, t_envp **lst)
+int	redirec_main(t_pipe *pipe)
 {
 	t_cmds	*current;
+	t_cmds **ret;
+	t_file **file;
+	t_envp **lst;
 
-	current = *(ret);
+	current = pipe->current;
+	ret = pipe->ret;
+	file = pipe->file;
+	lst = pipe->lst;
 	current = find_name(current, 'r');
 	if (!current)
+		return (1);
+	if (parsing_redir(current, ret, lst, file) == -1)
 		return (-1);
-	if (current->code_id == 11) // "<"
-		operation_redir_in(current, ret, lst, file);
-	else if (current->code_id == 12) // ">"
-		operation_redir_out(current, ret, lst, file);
-	else if (current->code_id == 13) // "<<"
-		operation_heredoc_in(current, ret, lst, file);
-	else if (current->code_id == 14) // ">>"
-		operation_redir_app(current, ret, lst, file);
 	return (0);
 }
 

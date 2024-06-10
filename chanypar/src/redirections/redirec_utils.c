@@ -6,11 +6,36 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 16:06:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:10:11 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
+{
+	if (current->code_id == 11)
+	{
+		if (operation_redir_in(current, ret, lst, file) == -1)
+			return (-1);
+	}
+	else if (current->code_id == 12)
+	{
+		if (operation_redir_out(current, ret, lst, file) == -1)
+			return (-1);
+	}
+	else if (current->code_id == 13)
+	{
+		if (operation_heredoc_in(current, ret, lst, file) == -1)
+			return (-1);
+	}
+	else if (current->code_id == 14)
+	{
+		if (operation_redir_app(current, ret, lst, file) == -1)
+			return (-1);
+	}
+	return (0);
+}
 
 t_cmds	*find_name(t_cmds *current, char name)
 {
@@ -18,7 +43,7 @@ t_cmds	*find_name(t_cmds *current, char name)
 
 	if (name == 'r')
 	{
-		while (current->next
+		while (current->next && (current->code_id != 10)
 			&& (current->code_id >= 11 && current->code_id <= 14))
 			current = current->next;
 	}
@@ -27,7 +52,7 @@ t_cmds	*find_name(t_cmds *current, char name)
 		while (current->next && current->code_id == 10)
 			current = current->next;
 	}
-	if (!current->next)
+	if (!current->next || current->code_id == 10)
 	{
 		null = malloc(sizeof(t_cmds));
 		null->code_id = 0;
@@ -75,11 +100,11 @@ void	execute_command(int i, t_cmds *cmds, t_envp **lst)
 	if (i == 1)
 		ft_cd(cmds, lst);
 	if (i == 2)
-		// pwd
+		ft_pwd(cmds, lst);
 	if (i == 3)
-		// export
+		ft_export(cmds, lst);
 	if (i == 4)
-		// unset
+		ft_unset(lst);
 	if (i == 5)
 		// env
 	if (i == 6)

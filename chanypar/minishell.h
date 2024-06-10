@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/07 16:22:40 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:36:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <errno.h>
 
 # define WORD 9
 # define PIPE_N 10
@@ -69,6 +70,7 @@ typedef struct s_pipe
 	struct s_file	**file;
 	struct s_cmds	**ret;
 	struct s_envp	**lst;
+	struct s_cmds	*current;
 }						t_pipe;
 
 
@@ -113,11 +115,24 @@ int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
 int					ft_cd(t_cmds *cmd, t_envp **lst);
 int					ft_echo(t_cmds *cmd);
+int					ft_pwd(t_cmds *cmd, t_envp **lst);
+int					ft_unset(t_envp **lst);
+int					ft_export(t_cmds *cmds, t_envp **env);
 int					check_builtins(t_cmds **ret, t_envp **lst);
 int					builtins_checker(t_cmds *current);
 t_cmds				*find_name(t_cmds *current, char name);
 void				execute_command(int i, t_cmds *cmds, t_envp **lst);
-int					redirec_main(t_cmds **ret, t_file **file, t_envp **lst);
+int					redirec_main(t_pipe *pipe);
+int					parsing_redir(t_cmds *current,
+						t_cmds **ret, t_envp **lst, t_file **file);
+int					oper_redir_in(t_cmds *current,
+						t_cmds **ret, t_envp **lst, t_file **file);
+int					oper_redir_out(t_cmds *current,
+						t_cmds **ret, t_envp **lst, t_file **file);
+int					oper_heredoc_in(t_cmds *current,
+						t_cmds **ret, t_envp **lst, t_file **file);
+int					oper_redir_app(t_cmds *current,
+						t_cmds **ret, t_envp **lst, t_file **file);
 int					f_open(char *str, t_file **file);
 FILE				*f_open2(char *str, t_file **file, int redir);
 int					f_close(int fd, t_file **file);

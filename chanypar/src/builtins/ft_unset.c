@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_builtins.c                                   :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 15:07:07 by chanypar          #+#    #+#             */
-/*   Updated: 2024/05/31 16:33:21 by chanypar         ###   ########.fr       */
+/*   Created: 2024/05/29 19:51:14 by ihibti            #+#    #+#             */
+/*   Updated: 2024/05/29 20:39:07 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int check_builtins(t_cmds **ret, t_envp **lst)
+int	ft_unset(t_envp **lst)
 {
-	if (!ft_strcmp((*ret)->name, "cd"))
-		ft_cd(*ret, lst);
-	else if (!ft_strcmp((*ret)->name, "echo"))
-	{
-		ft_echo(*ret);
-		return (1);
-	}
-	return (0);
+	if (!lst)
+		return ;
+	free_envp(lst);
+	lst = NULL;
 }
-

@@ -1,41 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/10 14:58:56 by chanypar         ###   ########.fr       */
+/*   Created: 2024/05/29 20:43:52 by ihibti            #+#    #+#             */
+/*   Updated: 2024/06/10 15:02:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_echo(t_cmds *cmd)
+int	ft_pwd(t_cmds *cmd, t_envp **lst)
 {
-	int		flag;
-	t_cmds	*current;
+	char	PWD[2048];
+	int		len;
 
 	if (!cmd)
 		return (1);
-	current = cmd;
-	current = cmd->next;
-	if (ft_strcmp(cmd->name, "-n") == 0)
-	{
-		flag = 1;
-		current = current->next;
-	}
-	else
-		flag = 0;
-	while (current)
-	{
-		printf("%s", current->name);
-		if (current->next)
-			printf(" ");
-		current = current->next;
-	}
-	if (flag == 1)
-		printf("\n");
+	if (!getcwd(PWD, 2048))
+		printf("PWD error : %s\n", strerr(errno));
+	if (ft_strlen(PWD) + 1 > printf("%s\n", PWD))
+		return (printf("error writing\n"), 1);
 	return (0);
 }

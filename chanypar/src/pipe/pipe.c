@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:55:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 16:28:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:36:58 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,29 @@ void	duplicator2(int *fd[], int i, int num)
 		close(fd[1][1]);
 	}
 }
-void	set_command(int i, int *cmds_posit, t_pipe *pip)
+
+int	excute_cmds(int i, int *cmds_posit, t_pipe *pip)
 {
-	t_cmds	*current;
 	int		n;
 	int		cmds;
+	int		res_v;
 
 	n = -1;
-	current = *(pip->ret);
 	while (++n < cmds_posit[i])
-		current = current->next;
-	cmds = builtins_checker(current);
-	execute_command(cmds, current, pip->lst);
-
+		pip->current = pip->current->next;
+	res_v = redirec_main(pip);
+	if (res_v == 1)
+	{
+		cmds = builtins_checker(pip->current);
+		execute_command(cmds, pip->current, pip->lst);	
+	}
+	else if (res_v == -1)
+	{
+		pip->current = *(pip->ret);
+		return (-1);
+	}
+	pip->current = *(pip->ret);
+	return (0);
 }
 
 int	fork_pid(int *i, int *fd[], int *cmds_posit, t_pipe *pip)
@@ -58,7 +68,8 @@ int	fork_pid(int *i, int *fd[], int *cmds_posit, t_pipe *pip)
 	if (pid == 0)
 	{
 		duplicator2(fd, i[0], i[1]);
-		set_command(i, cmds_posit, pip);
+		if (excute_cmds(i, cmds_posit, pip) == -1)
+			return (-1);
 	}
 	else if (i[0] > 0)
 	{
@@ -107,7 +118,7 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 			fd[0][0] = fd[1][0];
 			fd[0][1] = fd[1][1];
 		}
-		fork_pid(i[0], fd, cmds_posit, pipe);
+		fork_pid(i[0], fd, cmds_posit, &pipe);
 	}
 	free(cmds_posit);
 	return (0);
