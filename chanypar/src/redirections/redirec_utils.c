@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/10 14:10:11 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:19:49 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@ int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
 	if (current->code_id == 11)
 	{
-		if (operation_redir_in(current, ret, lst, file) == -1)
+		if (oper_redir_in(current, ret, lst, file) == -1)
 			return (-1);
 	}
 	else if (current->code_id == 12)
 	{
-		if (operation_redir_out(current, ret, lst, file) == -1)
+		if (oper_redir_out(current, ret, lst, file) == -1)
 			return (-1);
 	}
 	else if (current->code_id == 13)
 	{
-		if (operation_heredoc_in(current, ret, lst, file) == -1)
+		if (oper_heredoc_in(current, ret, lst, file) == -1)
 			return (-1);
 	}
 	else if (current->code_id == 14)
 	{
-		if (operation_redir_app(current, ret, lst, file) == -1)
+		if (oper_redir_app(current, ret, lst, file) == -1)
 			return (-1);
 	}
 	return (0);
@@ -44,15 +44,15 @@ t_cmds	*find_name(t_cmds *current, char name)
 	if (name == 'r')
 	{
 		while (current->next && (current->code_id != 10)
-			&& (current->code_id >= 11 && current->code_id <= 14))
+			&& (!(current->code_id >= 11 && current->code_id <= 14)))
 			current = current->next;
 	}
 	else
 	{
-		while (current->next && current->code_id == 10)
+		while (current->next && current->code_id != 10)
 			current = current->next;
 	}
-	if (!current->next || current->code_id == 10)
+	if (!current->next)
 	{
 		null = malloc(sizeof(t_cmds));
 		null->code_id = 0;
@@ -70,7 +70,7 @@ int	builtins_checker(t_cmds *current)
 	int		i;
 
 	if (!current)
-		retrun (-1);
+		return (-1);
 	ft_strlcpy(list_butilins[0], "echo", 5);
 	ft_strlcpy(list_butilins[1], "cd", 3);
 	ft_strlcpy(list_butilins[2], "pwd", 4);
@@ -79,22 +79,28 @@ int	builtins_checker(t_cmds *current)
 	ft_strlcpy(list_butilins[5], "env", 4);
 	ft_strlcpy(list_butilins[6], "exit", 5);
 	i = 0;
-	while (ft_strcmp(current->name, list_butilins[i]))
+	while (i < 7 && ft_strcmp(current->name, list_butilins[i]))
 		i++;
 	if (!(ft_strcmp(current->name, list_butilins[i])))
 		return (i);
 	i = 0;
 	if (!current->prev)
 		return (-1);
-	while (ft_strcmp(current->prev->name, list_butilins[i]))
+	while (i < 7 && ft_strcmp(current->prev->name, list_butilins[i]))
 		i++;
 	if (!(ft_strcmp(current->prev->name, list_butilins[i])))
 		return (i);
 	return (-1);
 }
 
-void	execute_command(int i, t_cmds *cmds, t_envp **lst)
+int	execute_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 {
+
+	(void)ret;
+	if (cmds->code_id != 9)
+		cmds = cmds->prev;
+	if (ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
+		cmds = cmds->prev;
 	if (i == 0)
 		ft_echo(cmds);
 	if (i == 1)
@@ -105,8 +111,9 @@ void	execute_command(int i, t_cmds *cmds, t_envp **lst)
 		ft_export(cmds, lst);
 	if (i == 4)
 		ft_unset(lst);
-	if (i == 5)
-		// env
-	if (i == 6)
-		// exit
+	// if (i == 5)
+	// 	// env
+	// if (i == 6)
+	// 	// exit
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/10 14:33:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:03:48 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	oper_redir_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 		return (-1);
 	if (f_close(fd, file) == -1)
 		return (-1);
-	execute_command(command, current->prev, lst);
+	execute_command(command, current->prev, lst, ret);
 	if (dup2(stdin_save, STDIN_FILENO) == -1)
 		return (-1);
-	retrun (0);
+	return (0);
 }
 
 int	oper_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
@@ -58,7 +58,7 @@ int	oper_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 		return (-1);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (-1);
-	execute_command(command, current->prev, lst);
+	execute_command(command, current->prev, lst, ret);
 	if (dup2(stdout_save, STDOUT_FILENO) == -1)
 		return (-1);
 	if (fclose(f) == -1)
@@ -68,12 +68,10 @@ int	oper_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 
 int	oper_heredoc_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
-	FILE	*f;
-	int		fd;
 	int		pid;
 	int		command;
-	int		stdin_save;
 
+	(void)ret;
 	command = builtins_checker(current->prev);
 	if (command == -1 || (!current->next && (current->next->code_id >= 10
 				&& current->next->code_id <= 14)))
@@ -87,7 +85,7 @@ int	oper_heredoc_in(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 	else if (pid > 0)
 	{
 		wait(NULL);
-		if (exec_heredoc(file, command, current->prev, lst) == -1)
+		if (exec_heredoc(file, command, current->prev, lst, ret) == -1)
 			return (-1);
 	}
 	else
@@ -115,12 +113,12 @@ int	oper_redir_app(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 		return (-1);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		return (-1);
-	execute_command(command, current->prev, lst);
+	execute_command(command, current->prev, lst, ret);
 	if (dup2(stdout_save, STDOUT_FILENO) == -1)
 		return (-1);
 	if (f_close2(fd, file, f) == -1)
 		return (-1);
-	retrun (0);
+	return (0);
 }
 
 int	redirec_main(t_pipe *pipe)
@@ -129,14 +127,19 @@ int	redirec_main(t_pipe *pipe)
 	t_cmds **ret;
 	t_file **file;
 	t_envp **lst;
+	int	i;
 
 	current = pipe->current;
 	ret = pipe->ret;
 	file = pipe->file;
 	lst = pipe->lst;
 	current = find_name(current, 'r');
-	if (!current)
-		return (1);
+	if (!current->next && !current->prev)
+	{
+		current = *(ret);
+		i = builtins_checker(current);
+		return (execute_command(i, current, lst, ret));
+	}
 	if (parsing_redir(current, ret, lst, file) == -1)
 		return (-1);
 	return (0);

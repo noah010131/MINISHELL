@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 21:44:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/25 20:40:19 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/11 16:46:44 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ int	ft_cd(t_cmds *cmd, t_envp **lst)
 		return (1);
 	update_env(lst, "PWD", new_pwd);
 	update_env(lst, "OLD_PWD", old_pwd);
-	printf("%s\n%s\n", old_pwd, new_pwd);
+	// printf("%s\n%s\n", old_pwd, new_pwd);
 	return (0);
 }

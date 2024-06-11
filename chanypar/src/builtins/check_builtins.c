@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   check_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 20:43:52 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/10 15:11:59 by chanypar         ###   ########.fr       */
+/*   Created: 2024/06/10 15:40:37 by chanypar          #+#    #+#             */
+/*   Updated: 2024/06/11 17:02:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_pwd(t_cmds *cmd, t_envp **lst)
+int	check_builtins(t_cmds **ret, t_envp **lst)
 {
-	char	PWD[2048];
-	int		len;
-
-	(void)lst;
-	(void)len;
-	if (!cmd)
+	if (!ft_strcmp((*ret)->name, "cd"))
+		ft_cd(*ret, lst);
+	else if (!ft_strcmp((*ret)->name, "echo"))
+	{
+		ft_echo(*ret);
 		return (1);
-	if (!getcwd(PWD, 2048))
-		printf("PWD error : %s\n", strerror(errno));
-	if (ft_strlen(PWD) + 1 > printf("%s\n", PWD))
-		return (printf("error writing\n"), 1);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/10 14:58:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/11 19:47:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ char	*join_string(char *str, t_cmds **ret, int flag)
 		str = ft_strdup(temp);
 		free(temp);
 	}
-	temp = ft_strjoin(str,(*ret)->name);
+	temp = ft_strjoin(str, (*ret)->name);
 	free(str);
 	str = ft_strdup(temp);
 	free(temp);
 	return (str);
 }
 
-int	print_terminal(t_cmds **ret)
+int	print_terminal (t_cmds **ret)
 {
 	t_cmds	*current;
 	char *str;
@@ -97,7 +97,7 @@ int	print_terminal(t_cmds **ret)
 int	main(int ac, char **av, char **env)
 {
 	t_cmds **ret;
-	t_cmds *current;
+	// t_cmds *current;
 	t_envp **lst;
 	t_file **file;
 	char	*cwd;
@@ -108,8 +108,8 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
-	(void)current;
-	(void)file;
+	// (void)current;
+	file = NULL;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	using_history();
@@ -121,19 +121,21 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		cpy = readline(shell_prompt);
-		if (!cpy || ft_strcmp(cpy, "exit") == 0)
+		if ( ft_strcmp(cpy, "exit") == 0)
 		{
 			free(cwd);
 			free(cpy);
 			break ;
 		}
+		while (!*cpy)
+				cpy = readline(shell_prompt);
 		ret = split_token(cpy);
-		history(cpy);
+		// history(cpy);
 		free(cpy);
 		code_attr(ret);
 		if (!ret)
 			return (printf("porblemooo\n"), 1);
-		current = *ret;
+		// current = *ret;
 		// while (current)
 		// {
 		// 	printf("char :%s\n", current->name);
@@ -143,7 +145,7 @@ int	main(int ac, char **av, char **env)
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		current = *ret;
+		// current = *ret;
 		// while (current)
 		// {	
 		// 	printf("char :%s\n", current->name);
@@ -151,8 +153,9 @@ int	main(int ac, char **av, char **env)
 		// 	current = current->next;
 		// }
 		free(cwd);
-		if (!check_builtins(ret, lst))
-			print_terminal(ret);
+		pipe_main(ret, lst, file);
+		// if (!check_builtins(ret, lst))
+		// 	print_terminal(ret);
 		cwd = getcwd(NULL, 1024); // au cas ou le cwd a change
 		snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
 		free_envp(lst);

@@ -6,13 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:55:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/10 14:36:58 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:46:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	duplicator2(int *fd[], int i, int num)
+void	duplicator2(int (*fd)[2], int i, int num)
 {
 	if (i > 0)
 	{
@@ -41,7 +41,7 @@ int	excute_cmds(int i, int *cmds_posit, t_pipe *pip)
 	if (res_v == 1)
 	{
 		cmds = builtins_checker(pip->current);
-		execute_command(cmds, pip->current, pip->lst);	
+		execute_command(cmds, pip->current, pip->lst, pip->ret);
 	}
 	else if (res_v == -1)
 	{
@@ -52,7 +52,7 @@ int	excute_cmds(int i, int *cmds_posit, t_pipe *pip)
 	return (0);
 }
 
-int	fork_pid(int *i, int *fd[], int *cmds_posit, t_pipe *pip)
+int	fork_pid(int *i, int (*fd)[2], int *cmds_posit, t_pipe *pip)
 {
 	int	pid;
 
@@ -68,7 +68,7 @@ int	fork_pid(int *i, int *fd[], int *cmds_posit, t_pipe *pip)
 	if (pid == 0)
 	{
 		duplicator2(fd, i[0], i[1]);
-		if (excute_cmds(i, cmds_posit, pip) == -1)
+		if (excute_cmds(i[0], cmds_posit, pip) == -1)
 			return (-1);
 	}
 	else if (i[0] > 0)
@@ -92,7 +92,10 @@ int	count_pipes(t_cmds **ret)
 		if (!current)
 			return (i);
 		if (current->next)
-			current->next;
+		{
+			current = current->next;
+			i++;
+		}
 	}
 	return (i);
 }
@@ -102,15 +105,14 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 	t_pipe	pipe;
 	int		*cmds_posit;
 	int		i[2];
-	int		num;
 	int		fd[2][2];
 
 	i[0] = -1;
 	i[1] = count_pipes(ret);
-	cmds_posit == set_posit(ret, i[1]);
-	if (i[1] == 0)
-		return (-1);
+	cmds_posit = set_posit(ret, i[1]);
 	set_pipe(ret, list, file, &pipe);
+	if (i[1] == 0)
+		return (redirec_main(&pipe));
 	while (++i[0] < i[1])
 	{
 		if (i[0] > 0)
@@ -118,7 +120,7 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 			fd[0][0] = fd[1][0];
 			fd[0][1] = fd[1][1];
 		}
-		fork_pid(i[0], fd, cmds_posit, &pipe);
+		fork_pid(i, fd, cmds_posit, &pipe);
 	}
 	free(cmds_posit);
 	return (0);

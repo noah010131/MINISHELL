@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:45:06 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/07 16:22:54 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:42:11 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	*set_posit(t_cmds **ret, int num)
 	posit[0] = 0;
 	i = -1;
 	times = 0;
+	current = *(ret);
 	while (++i < num)
 	{
 		while (current->next && ft_strcmp(current->name, "|"))
@@ -38,6 +39,7 @@ int	*set_posit(t_cmds **ret, int num)
 			current = current->next;
 		}
 	}
+	return (posit);
 }
 
 void	set_pipe(t_cmds **ret, t_envp **list, t_file **file, t_pipe *pipe)
@@ -45,6 +47,7 @@ void	set_pipe(t_cmds **ret, t_envp **list, t_file **file, t_pipe *pipe)
 	pipe->ret = ret;
 	pipe->lst = list;
 	pipe->file = file;
+	pipe->current = *(ret);
 }
 
 // char	**making_cmds(t_cmds **ret)

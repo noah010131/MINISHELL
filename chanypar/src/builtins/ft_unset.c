@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:14 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/29 20:39:07 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/10 15:12:24 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	ft_unset(t_envp **lst)
 {
 	if (!lst)
-		return ;
+		return (1);
 	free_envp(lst);
 	lst = NULL;
+	return (0);
 }
