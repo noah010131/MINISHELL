@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:55:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 16:29:15 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:15:10 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 
 	i[0] = -1;
 	i[1] = count_pipes(ret);
-	cmds_posit = set_posit(ret, i[1]);
+	if (i[1])
+		cmds_posit = set_posit(ret, i[1]);
 	set_pipe(ret, list, file, &pipe);
 	if (i[1] == 0)
 		return (redirec_main(&pipe));

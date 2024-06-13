@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 16:38:59 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:11:18 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	read_heredoc(char *end_str, t_file **file)
 	fd = fileno(temp);
 	while (1)
 	{
-		printf("\' ");
+		printf("-> ");
 		fgets(buffer, 1024, stdin);
 		if (ft_strncmp(buffer, end_str, i + 1) == 0)
 			break ;
@@ -95,7 +95,8 @@ int exec_command(t_cmds *cmds)
 		argv[i++] = cmds->name;
 		cmds = cmds->next;
 	}
-
+	if (i > 0)
+		argv[i] = NULL;
 	exec(command, argv);
 	return (0);
 }

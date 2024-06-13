@@ -6,21 +6,22 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 16:23:53 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:20:24 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	exec_finish(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
+int	exec_finish(t_cmds **ret, t_envp **lst, t_file **file)
 {
 	int		i;
 	t_file	*current_file;
+	t_cmds	*current;
 
 	current = *(ret);
 	i = builtins_checker(current);
 	parsing_command(i, current, lst, ret);
-	current_file = (*file);
+	current_file = *(file);
 	while (current_file->fd)
 	{
 		if (current_file->f)
@@ -77,7 +78,7 @@ int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 		if (!current->name)
 			break ;
 	}
-	if (exec_finish(current, ret, lst, file) == -1)
+	if (exec_finish(ret, lst, file) == -1)
 		return (-1);
 	if (reset_stdin_out(copy_stdin_out) == -1)
 		return (-1);

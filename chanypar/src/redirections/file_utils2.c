@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 11:21:51 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:24:03 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	ft_new_tfile(t_file **file, char file_name[], int fd)
 		return (-1);
 	new->file_name = file_name;
 	new->fd = fd;
-	new->prev = *(file);
+	if (isfirst)
+		new->prev = NULL;
+	else
+		new->prev = *(file);
 	if (isfirst)
 		(*file) = new;
 	else
@@ -44,7 +47,7 @@ void	ft_del_tfile(t_file **file, int fd)
 {
 	t_file *current;
 
-	current = (*file);
+	current = *(file);
 	while ((*file)->fd != fd)
 		(*file) = (*file)->next;
 	if ((*file)->prev)
