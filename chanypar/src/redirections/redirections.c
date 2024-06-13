@@ -6,17 +6,16 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 13:47:22 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:40:08 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	oper_redir_in(t_cmds *current, t_file **file, int flag)
+int	oper_redir_in(t_cmds *current, t_file **file, int stdin_save)
 {
 	int		fd;
 	// int		command;
-	int		stdin_save;
 
 	// command = builtins_checker(current->prev);
 	// if (command == -1)
@@ -24,8 +23,7 @@ int	oper_redir_in(t_cmds *current, t_file **file, int flag)
 	// if (!current->next && (current->next->code_id >= 10
 	// 		&& current->next->code_id <= 14))
 	// 	return (-1);
-	stdin_save = 0;
-	if (!flag)
+	if (!stdin_save)
 		stdin_save = dup(STDIN_FILENO);
 	fd = f_open(current->next->name, file);
 	if (fd == -1)
@@ -35,19 +33,17 @@ int	oper_redir_in(t_cmds *current, t_file **file, int flag)
 	return (stdin_save);
 }
 
-int	oper_redir_out(t_cmds *current, t_file **file, int flag)
+int	oper_redir_out(t_cmds *current, t_file **file, int stdout_save)
 {
 	FILE	*f;
 	int		fd;
 	// int		command;
-	int		stdout_save;
 
 	// command = builtins_checker(current->prev);
 	// if (command == -1 || (!current->next && (current->next->code_id >= 10
 	// 			&& current->next->code_id <= 14)))
 	// 	return (-1);
-	stdout_save = 0;
-	if (!flag)
+	if (!stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	f = f_open2(current->next->name, file, 12);
 	if (!f)
@@ -61,17 +57,15 @@ int	oper_redir_out(t_cmds *current, t_file **file, int flag)
 	return (stdout_save);
 }
 
-int	oper_heredoc_in(t_cmds *current, t_file **file, int flag)
+int	oper_heredoc_in(t_cmds *current, t_file **file, int stdin_save)
 {
 	int		pid;
 	// int		command;
-	int		stdin_save;
 
 	// command = builtins_checker(current->prev);
 	// if (command == -1 || (!current->next && (current->next->code_id >= 10
 	// 			&& current->next->code_id <= 14)))
 	// 	return (-1);
-	stdin_save = 0;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -81,26 +75,24 @@ int	oper_heredoc_in(t_cmds *current, t_file **file, int flag)
 	else if (pid > 0)
 	{
 		wait(NULL);
-		stdin_save = exec_heredoc(file, flag);
+		stdin_save = exec_heredoc(file, stdin_save);
 	}
 	else
 		return (-1);
 	return (stdin_save);
 }
 
-int	oper_redir_app(t_cmds *current, t_file **file, int flag)
+int	oper_redir_app(t_cmds *current, t_file **file, int stdout_save)
 {
 	FILE	*f;
 	int		fd;
 	// int		command;
-	int		stdout_save;
 
 	// command = builtins_checker(current->prev);
 	// if (command == -1 || (!current->next && (current->next->code_id >= 10
 	// 			&& current->next->code_id <= 14)))
 	// 	return (-1);
-	stdout_save = 0;
-	if (!flag)
+	if (!stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	f = f_open2(current->next->name, file, 14);
 	if (!f)
