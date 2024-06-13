@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 13:42:53 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:23:53 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	exec_finish(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 
 	current = *(ret);
 	i = builtins_checker(current);
-	execute_command(i, current, lst, ret);
+	parsing_command(i, current, lst, ret);
 	current_file = (*file);
 	while (current_file->fd)
 	{

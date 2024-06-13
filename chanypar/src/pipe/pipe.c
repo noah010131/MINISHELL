@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:55:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/11 16:46:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:29:15 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	excute_cmds(int i, int *cmds_posit, t_pipe *pip)
 	if (res_v == 1)
 	{
 		cmds = builtins_checker(pip->current);
-		execute_command(cmds, pip->current, pip->lst, pip->ret);
+		parsing_command(cmds, pip->current, pip->lst, pip->ret);
 	}
 	else if (res_v == -1)
 	{

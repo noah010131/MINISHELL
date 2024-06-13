@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/13 13:38:07 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:24:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int					ft_export(t_cmds *cmds, t_envp **env);
 int					check_builtins(t_cmds **ret, t_envp **lst);
 int					builtins_checker(t_cmds *current);
 t_cmds				*find_name(t_cmds *current, char name);
-int					execute_command(int i,
+int					parsing_command(int i,
 						t_cmds *cmds, t_envp **lst, t_cmds **ret);
 int					redirec_main(t_pipe *pipe);
 int					parsing_redir(t_cmds *current,

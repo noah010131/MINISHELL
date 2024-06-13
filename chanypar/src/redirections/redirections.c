@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 14:40:08 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:23:35 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,26 @@ int	oper_redir_out(t_cmds *current, t_file **file, int stdout_save)
 
 int	oper_heredoc_in(t_cmds *current, t_file **file, int stdin_save)
 {
-	int		pid;
+	// int		pid;
 	// int		command;
 
 	// command = builtins_checker(current->prev);
 	// if (command == -1 || (!current->next && (current->next->code_id >= 10
 	// 			&& current->next->code_id <= 14)))
 	// 	return (-1);
-	pid = fork();
-	if (pid == 0)
-	{
-		if (read_heredoc(current->name, file) == -1)
+	// pid = fork();
+	// if (pid == 0)
+	// {
+		if (read_heredoc(current->next->name, file) == -1)
 			return (-1);
-	}
-	else if (pid > 0)
-	{
-		wait(NULL);
+	// }
+	// else if (pid > 0)
+	// {
+		// wait(NULL);
 		stdin_save = exec_heredoc(file, stdin_save);
-	}
-	else
-		return (-1);
+	// }
+	// else
+	// 	return (-1);
 	return (stdin_save);
 }
 
@@ -122,7 +122,7 @@ int	redirec_main(t_pipe *pipe)
 	{
 		current = *(ret);
 		i = builtins_checker(current);
-		return (execute_command(i, current, lst, ret));
+		return (parsing_command(i, current, lst, ret));
 	}
 	i = 0;
 	if (parsing_redir(current, ret, lst, file) == -1)
