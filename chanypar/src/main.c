@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/11 19:47:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 11:33:48 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	history(char *str)
 	i = -1;
 	add_history(str);
 	his_list = NULL;
-	// his_list = history_list();
-	int length = history_length;
-	for(int i = 0; i < length; i++)
-		his_list[i] = history_get(i + history_base);
+	his_list = history_list();
+	// int length = history_length;
+	// for(int i = 0; i < length; i++)
+	// 	his_list[i] = history_get(i + history_base);
 	if (ft_strcmp(str, "history") == 0)
 	{
 		while (his_list[++i])
@@ -64,7 +64,7 @@ char	*join_string(char *str, t_cmds **ret, int flag)
 	return (str);
 }
 
-int	print_terminal (t_cmds **ret)
+int	print_terminal(t_cmds **ret)
 {
 	t_cmds	*current;
 	char *str;
@@ -109,7 +109,9 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 
 	// (void)current;
-	file = NULL;
+	file =  malloc(sizeof(t_file));
+	if (!file)
+		return (-1);
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	using_history();
@@ -121,16 +123,19 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		cpy = readline(shell_prompt);
-		if ( ft_strcmp(cpy, "exit") == 0)
+		if (!cpy || ft_strcmp(cpy, "exit") == 0)
 		{
 			free(cwd);
 			free(cpy);
 			break ;
 		}
 		while (!*cpy)
-				cpy = readline(shell_prompt);
+		{
+			free(cpy);
+			cpy = readline(shell_prompt);	
+		}
 		ret = split_token(cpy);
-		// history(cpy);
+		history(cpy);
 		free(cpy);
 		code_attr(ret);
 		if (!ret)

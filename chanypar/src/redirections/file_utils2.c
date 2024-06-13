@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/11 19:51:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 11:21:51 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 int	ft_new_tfile(t_file **file, char file_name[], int fd)
 {
 	t_file *new;
-	int	isfirst;
+	static int	isfirst;
 
-	isfirst = 0;
-	if (!file)
+	if (!isfirst)
 	{
 		isfirst = 1;
-		file =  malloc(sizeof(t_file));
-		if (!file)
-			return (-1);
+		// file =  malloc(sizeof(t_file));
+		// if (!file)
+		// 	return (-1);
 	}
 	new = malloc(sizeof(t_file));
 	if (!new)

@@ -6,34 +6,81 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/11 20:19:49 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:42:53 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int	exec_finish(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
+{
+	int		i;
+	t_file	*current_file;
+
+	current = *(ret);
+	i = builtins_checker(current);
+	execute_command(i, current, lst, ret);
+	current_file = (*file);
+	while (current_file->fd)
+	{
+		if (current_file->f)
+		{
+			if (f_close2(current_file->fd, file, current_file->f) == -1)
+				return (-1);
+		}
+		else
+		{
+			if (f_close(current_file->fd, file) == -1)
+				return (-1);
+		}
+		if (!current_file->next)
+			break ;
+		current_file = current_file->next;
+	}
+	return (0);
+}
+
+int	reset_stdin_out(int copy_stdin_out[])
+{
+	if (copy_stdin_out[0])
+	{
+		if (dup2(copy_stdin_out[0], STDIN_FILENO) == -1)
+			return (-1);
+	}
+	if (copy_stdin_out[1])
+	{
+		if (dup2(copy_stdin_out[1], STDOUT_FILENO) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
 int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
-	if (current->code_id == 11)
+	int	copy_stdin_out[2];
+
+	copy_stdin_out[0] = 0;
+	copy_stdin_out[1] = 0;
+	while (1)
 	{
-		if (oper_redir_in(current, ret, lst, file) == -1)
+		if (current->code_id == 11)
+			copy_stdin_out[0] = oper_redir_in(current, file, copy_stdin_out[0]);
+		else if (current->code_id == 12)
+			copy_stdin_out[1] = oper_redir_out(current, file, copy_stdin_out[1]);
+		else if (current->code_id == 13)
+			copy_stdin_out[0] = oper_heredoc_in(current, file, copy_stdin_out[0]);
+		else if (current->code_id == 14)
+			copy_stdin_out[1] = oper_redir_app(current, file, copy_stdin_out[1]);
+		if (copy_stdin_out[0] == -1 || copy_stdin_out[1] == -1)
 			return (-1);
+		current = find_name(current->next, 'r');
+		if (!current->name)
+			break ;
 	}
-	else if (current->code_id == 12)
-	{
-		if (oper_redir_out(current, ret, lst, file) == -1)
-			return (-1);
-	}
-	else if (current->code_id == 13)
-	{
-		if (oper_heredoc_in(current, ret, lst, file) == -1)
-			return (-1);
-	}
-	else if (current->code_id == 14)
-	{
-		if (oper_redir_app(current, ret, lst, file) == -1)
-			return (-1);
-	}
+	if (exec_finish(current, ret, lst, file) == -1)
+		return (-1);
+	if (reset_stdin_out(copy_stdin_out) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -91,29 +138,4 @@ int	builtins_checker(t_cmds *current)
 	if (!(ft_strcmp(current->prev->name, list_butilins[i])))
 		return (i);
 	return (-1);
-}
-
-int	execute_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
-{
-
-	(void)ret;
-	if (cmds->code_id != 9)
-		cmds = cmds->prev;
-	if (ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
-		cmds = cmds->prev;
-	if (i == 0)
-		ft_echo(cmds);
-	if (i == 1)
-		ft_cd(cmds, lst);
-	if (i == 2)
-		ft_pwd(cmds, lst);
-	if (i == 3)
-		ft_export(cmds, lst);
-	if (i == 4)
-		ft_unset(lst);
-	// if (i == 5)
-	// 	// env
-	// if (i == 6)
-	// 	// exit
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/11 18:13:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:38:07 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/wait.h>
 # include <stdio.h>
 # include <signal.h>
 # include <stdlib.h>
@@ -60,6 +61,7 @@ typedef struct s_ori
 typedef struct s_file
 {
 	int					fd;
+	FILE				*f;
 	char				*file_name;
 	struct s_file		*next;
 	struct s_file		*prev;
@@ -126,14 +128,10 @@ int					execute_command(int i,
 int					redirec_main(t_pipe *pipe);
 int					parsing_redir(t_cmds *current,
 						t_cmds **ret, t_envp **lst, t_file **file);
-int					oper_redir_in(t_cmds *current,
-						t_cmds **ret, t_envp **lst, t_file **file);
-int					oper_redir_out(t_cmds *current,
-						t_cmds **ret, t_envp **lst, t_file **file);
-int					oper_heredoc_in(t_cmds *current,
-						t_cmds **ret, t_envp **lst, t_file **file);
-int					oper_redir_app(t_cmds *current,
-						t_cmds **ret, t_envp **lst, t_file **file);
+int					oper_redir_in(t_cmds *current, t_file **file, int flag);
+int					oper_redir_out(t_cmds *current, t_file **file, int flag);
+int					oper_heredoc_in(t_cmds *current, t_file **file, int flag);
+int					oper_redir_app(t_cmds *current, t_file **file, int flag);
 int					f_open(char *str, t_file **file);
 FILE				*f_open2(char *str, t_file **file, int redir);
 int					f_close(int fd, t_file **file);
@@ -141,8 +139,7 @@ int					f_close2(int fd, t_file **file, FILE *f);
 int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
 int					read_heredoc(char *end_str, t_file **file);
-int					exec_heredoc(t_file **file,
-						int command, t_cmds *cmd, t_envp **lst, t_cmds **ret);
+int					exec_heredoc(t_file **file, int flag);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
 int					*set_posit(t_cmds **ret, int num);
 void				set_pipe(t_cmds **ret, t_envp **list, t_file **file, t_pipe *pipe);

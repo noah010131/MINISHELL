@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/10 15:23:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:09:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	read_heredoc(char *end_str, t_file **file)
 	return (0);
 }
 
-int	exec_heredoc(t_file **file,
-		int command, t_cmds *cmd, t_envp **lst, t_cmds **ret)
+int	exec_heredoc(t_file **file, int flag)
 {
 	FILE	*temp;
 	int		stdin_save;
@@ -50,13 +49,41 @@ int	exec_heredoc(t_file **file,
 	fd = fileno(temp);
 	if (fd == -1)
 		return (-1);
-	stdin_save = dup(STDIN_FILENO);
+	if (!flag)
+		stdin_save = dup(STDIN_FILENO);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		return (-1);
-	execute_command(command, cmd, lst, ret);
-	if (dup2(stdin_save, STDIN_FILENO) == -1)
-		return (-1);
-	if (f_close2(fd, file, temp) == -1)
-		return (-1);
+	return (stdin_save);
+}
+
+int	execute_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
+{
+
+	(void)ret;
+	if (cmds->code_id != 9)
+		cmds = cmds->prev;
+	if (ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
+		cmds = cmds->prev;
+	if (i == 0)
+		ft_echo(cmds);
+	if (i == 1)
+		ft_cd(cmds, lst);
+	if (i == 2)
+		ft_pwd(cmds, lst);
+	if (i == 3)
+		ft_export(cmds, lst);
+	if (i == 4)
+		ft_unset(lst);
+	else
+	{
+		// if (cmds->next)
+		// 	execlp(cmds->name, cmds->name, cmds->next->name);
+		// else
+			// execlp(cmds->name, cmds->name);
+	}
+	// if (i == 5)
+	// 	// env
+	// if (i == 6)
+	// 	// exit
 	return (0);
 }
