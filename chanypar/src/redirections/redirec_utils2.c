@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/14 15:55:51 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:01:31 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ int	read_heredoc(char *end_str, t_file **file, int flag)
 
 	i = ft_strlen(end_str);
 	end_str[i] = '\n';
-	if (flag)
-		temp = f_open2(TEMP, file, 14);
-	else
-	temp = f_open2(TEMP, file, 12);
+	temp = f_open2(TEMP, file, flag);
 	if (!temp)
 		return (-1);
 	fd = fileno(temp);
@@ -63,6 +60,7 @@ int	exec_heredoc(t_file **file, int flag)
 	(*file)->f = temp;
 	return (stdin_save);
 }
+
 int	exec(char *command, char **argv)
 {
 	int	pid;

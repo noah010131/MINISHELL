@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 12:55:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/14 15:57:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:58:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,17 @@ int	count_pipes(t_cmds **ret)
 	while (current->next)
 	{
 		current = find_name(current, 'p');
-		if (!current)
+		if (!current->code_id)
+		{
+			free(current);
 			return (i);
+		}
 		if (current->next)
 		{
 			current = current->next;
 			i++;
 		}
 	}
-	free(current);
 	return (i);
 }
 

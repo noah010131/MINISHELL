@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/14 16:10:46 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:42:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	sigint_handler(int sig)
 {
-	(void)sig;
 	char	*cwd;
 	char	*usr;
 	char	shell_prompt[100];
+	(void)sig;
 
 	cwd = getcwd(NULL, 1024);
 	usr = getenv("USER");
@@ -29,7 +29,7 @@ void	sigint_handler(int sig)
 void	history(char *str)
 {
 	HIST_ENTRY	**his_list;
-	int	i;
+	int			i;
 
 	i = -1;
 	add_history(str);
@@ -46,7 +46,7 @@ void	set_param(int ac, char **av, t_file ***file)
 {
 	(void)ac;
 	(void)av;
-	*file =  malloc(sizeof(t_file));
+	*file = malloc(sizeof(t_file));
 	if (!*file)
 		exit (-1);
 	using_history();
@@ -86,12 +86,12 @@ char	*ft_readline(void)
 
 int	main(int ac, char **av, char **env)
 {
-	t_cmds **ret;
-	t_envp **lst;
-	t_file **file;
+	t_cmds	**ret;
+	t_envp	**lst;
+	t_file	**file;
 	char	*string;
 
-	file =  NULL;
+	file = NULL;
 	set_param(ac, av, &file);
 	while (1)
 	{

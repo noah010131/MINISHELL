@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/14 15:00:04 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:01:04 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ int	oper_heredoc_in(t_cmds *current, t_file **file, int stdin_save)
 {
 	int	flag;
 
-	flag = 0;
+	flag = 12;
 	if (stdin_save != 0)
 	{
 		if (dup2(stdin_save, STDIN_FILENO) == -1)
 			return (-1);
 		stdin_save = 0;
-		flag = 1;
+		flag = 14;
 	}
 
 	if (read_heredoc(current->next->name, file, flag) == -1)
@@ -97,6 +97,7 @@ int	redirec_main(t_pipe *pipe)
 	current = find_name(current, 'r');
 	if (!current->next && !current->prev) // si y a pas de redirec
 	{
+		free(current);
 		current = *(ret);
 		i = builtins_checker(current);
 		return (parsing_command(i, current, lst, ret));
