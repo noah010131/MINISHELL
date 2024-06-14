@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/13 11:33:48 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:10:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ void	history(char *str)
 	add_history(str);
 	his_list = NULL;
 	his_list = history_list();
-	// int length = history_length;
-	// for(int i = 0; i < length; i++)
-	// 	his_list[i] = history_get(i + history_base);
 	if (ft_strcmp(str, "history") == 0)
 	{
 		while (his_list[++i])
@@ -45,124 +42,69 @@ void	history(char *str)
 	}
 }
 
-char	*join_string(char *str, t_cmds **ret, int flag)
+void	set_param(int ac, char **av, t_file ***file)
 {
-	char	*temp;
+	(void)ac;
+	(void)av;
+	*file =  malloc(sizeof(t_file));
+	if (!*file)
+		exit (-1);
+	using_history();
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 
-	temp = NULL;
-	if (flag)
-	{
-		temp = ft_strjoin(str, " ");
-		free(str);
-		str = ft_strdup(temp);
-		free(temp);
-	}
-	temp = ft_strjoin(str, (*ret)->name);
-	free(str);
-	str = ft_strdup(temp);
-	free(temp);
-	return (str);
 }
 
-int	print_terminal(t_cmds **ret)
+char	*ft_readline(void)
 {
-	t_cmds	*current;
-	char *str;
-	int	i;
-	int flag;
-	int	len;
+	char	*cpy;
+	char	*cwd;
+	char	*usr;
+	char	shell_prompt[100];
 
-	i = 0;
-	str = (char *)malloc(500);
-	if (!str)
-		return (-1);
-	current = *ret;
-	while(*ret)
+	cwd = getcwd(NULL, 1024);
+	usr = getenv("USER");
+	if (!cwd || !usr)
+		return (NULL);
+	snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
+	cpy = NULL;
+	cpy = readline(shell_prompt);
+	while (cpy && !*cpy)
 	{
-		len = ft_strlen((*ret)->name);
-		if (!i)
-			ft_strlcpy(str, (*ret)->name, len + 1);
-		else
-			str = join_string(str, ret, flag);
-		flag = len;
-		(*ret) = (*ret)->next;
-		i++;
+		free(cpy);
+		cpy = readline(shell_prompt);
 	}
-	*ret = current;
-	printf("%s\n", str);
-	free(str);
-	return (0);
+	free(cwd);
+	if (!cpy || (ft_strcmp(cpy, "exit") == 0))
+	{
+		free(cpy);
+		exit(0) ; // ft_free_and_exit
+	}
+	history(cpy);
+	return (cpy);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_cmds **ret;
-	// t_cmds *current;
 	t_envp **lst;
 	t_file **file;
-	char	*cwd;
-	char	*usr;
-	char	shell_prompt[100];
-	char	*cpy;
+	char	*string;
 
-	(void)ac;
-	(void)av;
-
-	// (void)current;
-	file =  malloc(sizeof(t_file));
-	if (!file)
-		return (-1);
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-	using_history();
-	cwd = getcwd(NULL, 1024);
-	usr = getenv("USER");
-	if (!cwd || !usr)
-		return (-1);
-	snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
+	file =  NULL;
+	set_param(ac, av, &file);
 	while (1)
 	{
-		cpy = readline(shell_prompt);
-		if (!cpy || ft_strcmp(cpy, "exit") == 0)
-		{
-			free(cwd);
-			free(cpy);
-			break ;
-		}
-		while (!*cpy)
-		{
-			free(cpy);
-			cpy = readline(shell_prompt);	
-		}
-		ret = split_token(cpy);
-		history(cpy);
-		free(cpy);
+		string = ft_readline();
+		ret = split_token(string);
+		free(string);
 		code_attr(ret);
 		if (!ret)
 			return (printf("porblemooo\n"), 1);
-		// current = *ret;
-		// while (current)
-		// {
-		// 	printf("char :%s\n", current->name);
-		// 	printf("code : %d\n_________\n", current->code_id);
-		// 	current = current->next;
-		// }
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		// current = *ret;
-		// while (current)
-		// {	
-		// 	printf("char :%s\n", current->name);
-		// 	printf("code : %d\n_________\n", current->code_id);
-		// 	current = current->next;
-		// }
-		free(cwd);
 		pipe_main(ret, lst, file);
-		// if (!check_builtins(ret, lst))
-		// 	print_terminal(ret);
-		cwd = getcwd(NULL, 1024); // au cas ou le cwd a change
-		snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
 		free_envp(lst);
 		free_tcmd(ret);
 	}

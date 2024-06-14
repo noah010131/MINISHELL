@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/14 13:53:35 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:03:16 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 int	exec_finish(t_cmds **ret, t_envp **lst, t_file **file)
 {
-	int		i;
 	t_file	*current_file;
 	t_cmds	*current;
 
 	current = *(ret);
-	i = builtins_checker(current);
-	parsing_command(i, current, lst, ret);
+	parsing_command(builtins_checker(current), current, lst, ret);
 	current_file = *(file);
 	while (current_file->fd)
 	{
@@ -28,6 +26,8 @@ int	exec_finish(t_cmds **ret, t_envp **lst, t_file **file)
 		{
 			if (f_close2(current_file->fd, file, current_file->f) == -1)
 				return (-1);
+			if (!(ft_strcmp(current_file->file_name, TEMP)))
+				remove(TEMP);
 		}
 		else
 		{
@@ -58,29 +58,28 @@ int	reset_stdin_out(int copy_stdin_out[])
 
 int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
-	int	copy_stdin_out[2];
+	int	cpy_stdin_out[2];
 
-	copy_stdin_out[0] = 0;
-	copy_stdin_out[1] = 0;
-	while (1)
+	cpy_stdin_out[0] = 0;
+	cpy_stdin_out[1] = 0;
+	while (current->name)
 	{
 		if (current->code_id == 11)
-			copy_stdin_out[0] = oper_redir_in(current, file, copy_stdin_out[0]);
+			cpy_stdin_out[0] = oper_redir_in(current, file, cpy_stdin_out[0]);
 		else if (current->code_id == 12)
-			copy_stdin_out[1] = oper_redir_out(current, file, copy_stdin_out[1]);
+			cpy_stdin_out[1] = oper_redir_out(current, file, cpy_stdin_out[1]);
 		else if (current->code_id == 13)
-			copy_stdin_out[0] = oper_heredoc_in(current, file, copy_stdin_out[0]);
+			cpy_stdin_out[0] = oper_heredoc_in(current, file, cpy_stdin_out[0]);
 		else if (current->code_id == 14)
-			copy_stdin_out[1] = oper_redir_app(current, file, copy_stdin_out[1]);
-		if (copy_stdin_out[0] == -1 || copy_stdin_out[1] == -1)
+			cpy_stdin_out[1] = oper_redir_app(current, file, cpy_stdin_out[1]);
+		if (cpy_stdin_out[0] == -1 || cpy_stdin_out[1] == -1)
 			return (-1);
 		current = find_name(current->next, 'r');
-		if (!current->name)
-			break ;
 	}
+	free(current);
 	if (exec_finish(ret, lst, file) == -1)
 		return (-1);
-	if (reset_stdin_out(copy_stdin_out) == -1)
+	if (reset_stdin_out(cpy_stdin_out) == -1)
 		return (-1);
 	return (0);
 }

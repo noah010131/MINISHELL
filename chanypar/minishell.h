@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/14 14:12:01 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:21:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define SIN_QUOTE 20
 # define DOUB_QUOTE 21
 # define TOKEN_EX_STT 22
+
+# define TEMP ".temp_heredoc.txt"
 
 typedef struct s_cmds
 {
