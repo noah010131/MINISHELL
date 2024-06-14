@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:23:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/10 15:27:00 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 12:58:24 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ FILE	*f_open2(char *str, t_file **file, int redir)
 	int		fd;
 
 	f = NULL;
-	if (redir == 12 || redir == 13)
+	if (redir == 12 )
 		f = fopen(str, "wr");
+	else if (redir == 13)
+		f = fopen(str, "r");
 	else if (redir == 14)
 		f = fopen(str, "a");
 	if (f)

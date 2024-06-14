@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 18:20:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:53:35 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	builtins_checker(t_cmds *current)
 	char	list_butilins[7][7];
 	int		i;
 
-	if (!current)
+	if (!current || !current->name)
 		return (-1);
 	ft_strlcpy(list_butilins[0], "echo", 5);
 	ft_strlcpy(list_butilins[1], "cd", 3);
@@ -129,14 +129,14 @@ int	builtins_checker(t_cmds *current)
 	i = 0;
 	while (i < 7 && ft_strcmp(current->name, list_butilins[i]))
 		i++;
-	if (!(ft_strcmp(current->name, list_butilins[i])))
+	if (i != 7)
 		return (i);
 	i = 0;
 	if (!current->prev)
 		return (-1);
 	while (i < 7 && ft_strcmp(current->prev->name, list_butilins[i]))
 		i++;
-	if (!(ft_strcmp(current->prev->name, list_butilins[i])))
+	if (i != 7)
 		return (i);
 	return (-1);
 }

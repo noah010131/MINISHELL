@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 18:11:18 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:12:58 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* if CTRL + C, just appear new prompt*/
 
-int	read_heredoc(char *end_str, t_file **file)
+int	read_heredoc(char *end_str, t_file **file, int flag)
 {
 	FILE	*temp;
 	int		fd;
@@ -23,10 +23,14 @@ int	read_heredoc(char *end_str, t_file **file)
 
 	i = ft_strlen(end_str);
 	end_str[i] = '\n';
-	temp = f_open2(".temp_heredoc.txt", file, 13);
+	if (flag)
+		temp = f_open2(".temp_heredoc.txt", file, 14);
+	else
+	temp = f_open2(".temp_heredoc.txt", file, 12);
 	if (!temp)
 		return (-1);
 	fd = fileno(temp);
+	ft_strlcpy(buffer, "\0", 1);
 	while (1)
 	{
 		printf("-> ");
@@ -56,6 +60,7 @@ int	exec_heredoc(t_file **file, int flag)
 		stdin_save = dup(STDIN_FILENO);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		return (-1);
+	(*file)->f = temp;
 	return (stdin_save);
 }
 int	exec(char *command, char **argv)
@@ -81,23 +86,20 @@ int exec_command(t_cmds *cmds)
 
 	argv = NULL;
 	command = ft_strjoin("/bin/", cmds->name);
-	if (cmds->next && cmds->next->code_id == 9)
-	{
-		argv = malloc(100);
-		if (!argv)
-			return (-1);
-		i = 0;
-	}
-	else
-		i = -1;
-	while (i >= 0 && cmds && cmds->code_id == 9)
+	argv = malloc(100);
+	if (!argv)
+		return (-1);
+	i = 0;
+	while (cmds && cmds->code_id == 9)
 	{
 		argv[i++] = cmds->name;
+		if (!cmds->next || cmds->next->code_id != 9)
+			break;
 		cmds = cmds->next;
 	}
-	if (i > 0)
-		argv[i] = NULL;
-	exec(command, argv);
+	argv[i] = NULL;
+	if (exec(command, argv) == -1)
+		return (-1);
 	return (0);
 }
 

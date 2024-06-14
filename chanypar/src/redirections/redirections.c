@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 18:10:32 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:15:26 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,7 @@
 int	oper_redir_in(t_cmds *current, t_file **file, int stdin_save)
 {
 	int		fd;
-	// int		command;
 
-	// command = builtins_checker(current->prev);
-	// if (command == -1)
-	// 	return (-1);
-	// if (!current->next && (current->next->code_id >= 10
-	// 		&& current->next->code_id <= 14))
-	// 	return (-1);
 	if (!stdin_save)
 		stdin_save = dup(STDIN_FILENO);
 	fd = f_open(current->next->name, file);
@@ -37,12 +30,7 @@ int	oper_redir_out(t_cmds *current, t_file **file, int stdout_save)
 {
 	FILE	*f;
 	int		fd;
-	// int		command;
 
-	// command = builtins_checker(current->prev);
-	// if (command == -1 || (!current->next && (current->next->code_id >= 10
-	// 			&& current->next->code_id <= 14)))
-	// 	return (-1);
 	if (!stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	f = f_open2(current->next->name, file, 12);
@@ -59,26 +47,20 @@ int	oper_redir_out(t_cmds *current, t_file **file, int stdout_save)
 
 int	oper_heredoc_in(t_cmds *current, t_file **file, int stdin_save)
 {
-	// int		pid;
-	// int		command;
+	int	flag;
 
-	// command = builtins_checker(current->prev);
-	// if (command == -1 || (!current->next && (current->next->code_id >= 10
-	// 			&& current->next->code_id <= 14)))
-	// 	return (-1);
-	// pid = fork();
-	// if (pid == 0)
-	// {
-		if (read_heredoc(current->next->name, file) == -1)
+	flag = 0;
+	if (stdin_save != 0)
+	{
+		if (dup2(stdin_save, STDIN_FILENO) == -1)
 			return (-1);
-	// }
-	// else if (pid > 0)
-	// {
-		// wait(NULL);
-		stdin_save = exec_heredoc(file, stdin_save);
-	// }
-	// else
-	// 	return (-1);
+		stdin_save = 0;
+		flag = 1;
+	}
+
+	if (read_heredoc(current->next->name, file, flag) == -1)
+		return (-1);
+	stdin_save = exec_heredoc(file, stdin_save);
 	return (stdin_save);
 }
 
@@ -86,12 +68,7 @@ int	oper_redir_app(t_cmds *current, t_file **file, int stdout_save)
 {
 	FILE	*f;
 	int		fd;
-	// int		command;
 
-	// command = builtins_checker(current->prev);
-	// if (command == -1 || (!current->next && (current->next->code_id >= 10
-	// 			&& current->next->code_id <= 14)))
-	// 	return (-1);
 	if (!stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	f = f_open2(current->next->name, file, 14);
