@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/14 17:41:47 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:04:23 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int					f_open(char *str, t_file **file);
 FILE				*f_open2(char *str, t_file **file, int redir);
 int					f_close(int fd, t_file **file);
 int					f_close2(int fd, t_file **file, FILE *f);
+int					close_file(t_file **file);
 int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
 int					read_heredoc(char *end_str, t_file **file, int flag);

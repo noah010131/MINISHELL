@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/14 15:46:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:04:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,30 @@ void	ft_del_tfile(t_file **file, int fd)
 		else
 			(*file)->next->prev = (*file)->prev;
 	}
+}
+
+int	close_file(t_file **file)
+{
+	t_file	*current_file;
+
+	current_file = *(file);
+	while (current_file->fd)
+	{
+		if (current_file->f)
+		{
+			if (f_close2(current_file->fd, file, current_file->f) == -1)
+				return (-1);
+			if (!(ft_strcmp(current_file->file_name, TEMP)))
+				remove(TEMP);
+		}
+		else
+		{
+			if (f_close(current_file->fd, file) == -1)
+				return (-1);
+		}
+		if (!current_file->next)
+			break ;
+		current_file = current_file->next;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/14 17:01:31 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/15 17:15:07 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	read_heredoc(char *end_str, t_file **file, int flag)
 	ft_strlcpy(buffer, "\0", 1);
 	while (1)
 	{
-		printf("-> ");
+		// fprintf(STDOUT_FILENO, "%s", "-> "),
+		write(STDOUT_FILENO, "-> ", 3);
 		fgets(buffer, 1024, stdin);
 		if (ft_strncmp(buffer, end_str, i + 1) == 0)
 			break ;
@@ -119,18 +120,14 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 		cmds = cmds->prev;
 	if (i == 0)
 		ft_echo(cmds);
-	if (i == 1)
+	else if (i == 1)
 		ft_cd(cmds, lst);
-	if (i == 2)
+	else if (i == 2)
 		ft_pwd(cmds, lst);
-	if (i == 3)
+	else if (i == 3)
 		ft_export(cmds, lst);
-	if (i == 4)
+	else if (i == 4)
 		ft_unset(lst);
-	// if (i == 5)
-	// 	// env
-	// if (i == 6)
-	// 	// exit
 	else
 	{
 		if (exec_command(cmds) == -1)
@@ -138,3 +135,8 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 	}
 	return (0);
 }
+
+	// if (i == 5)
+	// 	// env
+	// if (i == 6)
+	// 	// exit
