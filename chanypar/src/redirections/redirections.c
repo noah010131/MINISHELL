@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/15 21:21:08 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 00:10:49 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,18 @@ int	oper_redir_app(t_cmds *current, t_file **file, int stdout_save)
 int	redirec_main(t_pipe *pipe)
 {
 	t_cmds	*current;
-	t_cmds **ret;
-	t_file **file;
-	t_envp **lst;
-	int	i;
+	t_cmds	**ret;
+	t_file	**file;
+	t_envp	**lst;
+	int		i;
 
 	current = pipe->current;
 	ret = pipe->ret;
 	file = pipe->file;
 	lst = pipe->lst;
+	current = *(ret);
 	current = find_name(current, 'r');
-	if (!current->next && !current->prev) // si y a pas de redirec
+	if (!current->name)
 	{
 		free(current);
 		current = *(ret);

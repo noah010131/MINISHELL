@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/15 18:04:23 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/16 22:36:19 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,12 @@ typedef struct s_pipe
 {
 	struct s_file	**file;
 	struct s_cmds	**ret;
+	struct s_cmds	**ret_save;
 	struct s_envp	**lst;
 	struct s_cmds	*current;
+	int				num_pipes;
+	int				**fds;
+	int				*pids;
 }						t_pipe;
 
 
@@ -145,7 +149,9 @@ int					read_heredoc(char *end_str, t_file **file, int flag);
 int					exec_heredoc(t_file **file, int flag);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
 int					*set_posit(t_cmds **ret, int num);
+int					count_pipes(t_cmds **ret);
 void				set_pipe(t_cmds **ret, t_envp **list,
 						t_file **file, t_pipe *pipe);
+int					pipe_main2(t_cmds **ret, t_envp **list, t_file **file);
 
 #endif
