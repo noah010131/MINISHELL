@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 17:27:08 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:31:00 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,21 +112,23 @@ int exec_command(t_cmds *cmds, t_cmds **ret)
 
 int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 {
-	(void)ret;
+	t_status *status;
+
+	status = (*ret)->status;
 	if (cmds->prev && cmds->code_id != 9)
 		cmds = cmds->prev;
 	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
 		cmds = cmds->prev;
 	if (i == 0)
-		ft_echo(cmds, ret);
+		status->code = ft_echo(cmds, ret);
 	else if (i == 1)
-		ft_cd(cmds, lst);
+		status->code = ft_cd(cmds, lst);
 	else if (i == 2)
-		ft_pwd(cmds, lst);
+		status->code = ft_pwd(cmds, lst);
 	else if (i == 3)
-		ft_export(cmds, lst);
+		status->code = ft_export(cmds, lst);
 	else if (i == 4)
-		ft_unset(lst);
+		status->code = ft_unset(lst);
 	else
 	{
 		if (exec_command(cmds, ret) == -1)
