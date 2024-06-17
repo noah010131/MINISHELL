@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/11 20:48:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:10:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_echo(t_cmds *cmd)
 {
-	int flag;
-	t_cmds *current;
+	int		flag;
+	t_cmds	*current;
 
 	if (!cmd)
 		return (1);
@@ -31,6 +31,8 @@ int	ft_echo(t_cmds *cmd)
 	while (current && (current->code_id == 9
 			|| (current->code_id >=20 && current->code_id != 22)))
 	{
+		if(ft_strcmp(cmd->name, current->name))
+			printf(" ");
 		printf("%s", current->name);
 		current = current->next;
 	}
