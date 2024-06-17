@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:19:16 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 21:44:33 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:50:31 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_envp	**add_envplast(t_envp **ret, char *str)
 	new->value = ft_strdup(str + ft_pos_c(str, '=') + 1);
 	new->next = NULL;
 	new->prev = NULL;
+	new->unset = 0;
 	if (!*ret)
 	{
 		*ret = new;

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 12:41:38 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:21:47 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	main(int ac, char **av, char **env)
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		pipe_main(ret, lst, file);
+		pipe_main2(ret, lst, file);
 		free_envp(lst);
 		free_tcmd(ret);
 	}

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 12:53:56 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:25:48 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	exec(char *command, char **argv)
 	}
 	return (0);
 }
-
 int exec_command(t_cmds *cmds)
 {
 	char	*command;

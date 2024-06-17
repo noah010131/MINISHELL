@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 21:44:58 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/05 18:15:36 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,35 @@ char	*end_quote(char *str, char c)
 
 int	go_last_lex(char *str, int i, int j)
 {
-	while (str[i + j] && !ft_isspace(str[i + j]))
+	if (is_token(str + i + j))
+	{
+		while (str[i + j] && (str[i + j] == str[i]))
+			j++;
+		return (j);
+	}
+	while (str[i + j] && !ft_isspace(str[i + j]) && !is_token(str + i + j))
 	{
 		if (str[i + j] == '\'' || str[i + j] == '"')
-		{
 			j = n_end_quote(str, i, j) + 1;
-			return (j);
-		}
-		j++;
+		else
+			j++;
 	}
 	return (j);
+}
+
+int	is_token(char *str)
+{
+	if (!str)
+		return (-1);
+	if (!*str)
+		return (-1);
+	if (ft_strncmp("<<", str, 2) == 0 || ft_strncmp(">>", str, 2) == 0)
+		return (1);
+	if (ft_strncmp("<", str, 1) == 0 || ft_strncmp(">", str, 1) == 0)
+		return (1);
+	if (ft_strncmp("|", str, 1) == 0)
+		return (1);
+	return (0);
 }
 
 int	n_end_quote(char *str, int i, int j)

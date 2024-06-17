@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 12:43:01 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:22:15 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_envp
 	// Tableau de str contenant le nom et la valeur de chaque variable d'environnement
 	struct s_envp	*next;
 	struct s_envp	*prev;
+	int				unset;
 }					t_envp;
 
 typedef struct s_ori
@@ -99,6 +100,8 @@ int					is_not_word(char *str);
 int					meta_type(char *str);
 int					type_quote(char *str);
 int					ft_tablen(char **env);
+int					is_token(char *str);
+int					tok_acc(char *str);
 t_envp				**add_envplast(t_envp **ret, char *str);
 void				*free_envp(t_envp **lst);
 t_envp				**lst_env(char **env);
@@ -147,11 +150,11 @@ int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
 int					read_heredoc(char *end_str, t_file **file, int flag);
 int					exec_heredoc(t_file **file, int flag);
-int					*set_posit(t_cmds *current, int num);
+int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
+int					*set_posit(t_cmds **ret, int num);
 int					count_pipes(t_cmds **ret);
 void				set_pipe(t_cmds **ret, t_envp **list,
 						t_file **file, t_pipe *pipe);
-int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
-int					set_command(t_cmds **ret, t_cmds ***new_ret, int i, int num);
+int					pipe_main2(t_cmds **ret, t_envp **list, t_file **file);
 
 #endif

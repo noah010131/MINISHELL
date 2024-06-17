@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:39:20 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/25 18:21:44 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:27:42 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ int	replace_quote(t_cmds *cmds)
 				str[j++] = str[i++];
 			i++;
 		}
+		else
+			str[j++] = str[i++];
 		if (!str[i])
 			return (str[j] = 0, 0);
-		str[j++] = str[i++];
 	}
 	str[j] = 0;
 	return (0);
