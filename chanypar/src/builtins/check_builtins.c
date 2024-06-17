@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:40:37 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/11 17:02:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:37:31 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_builtins(t_cmds **ret, t_envp **lst)
 		ft_cd(*ret, lst);
 	else if (!ft_strcmp((*ret)->name, "echo"))
 	{
-		ft_echo(*ret);
+		ft_echo(*ret, ret);
 		return (1);
 	}
 	return (0);

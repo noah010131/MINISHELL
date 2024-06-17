@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 16:05:18 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:26:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	main(int ac, char **av, char **env)
 
 	file = NULL;
 	set_param(ac, av, &file, &status);
-	(*ret)->status = &status;
 	while (1)
 	{
 		string = ft_readline(file);
@@ -116,7 +115,8 @@ int	main(int ac, char **av, char **env)
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		if (pipe_main2(ret, lst, file) == -1)
+		(*ret)->status = &status;
+		if (pipe_main(ret, lst, file) == -1)
 			return (-1);
 		free_envp(lst);
 		free_tcmd(ret);

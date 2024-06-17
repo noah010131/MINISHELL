@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 16:06:33 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:20:49 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ t_cmds				**pptreatment(t_cmds **cmds);
 int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
 int					ft_cd(t_cmds *cmd, t_envp **lst);
-int					ft_echo(t_cmds *cmd);
+int					ft_echo(t_cmds *cmd, t_cmds **ret);
 int					ft_pwd(t_cmds *cmd, t_envp **lst);
 int					ft_unset(t_envp **lst);
 int					ft_export(t_cmds *cmds, t_envp **env);
@@ -157,11 +157,12 @@ int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
 int					read_heredoc(char *end_str, t_file **file, int flag);
 int					exec_heredoc(t_file **file, int flag);
-int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
 int					*set_posit(t_cmds **ret, int num);
 int					count_pipes(t_cmds **ret);
+int					set_command(t_cmds **ret,
+						t_cmds ***new_ret, int i, int num);
 void				set_pipe(t_cmds **ret, t_envp **list,
 						t_file **file, t_pipe *pipe);
-int					pipe_main2(t_cmds **ret, t_envp **list, t_file **file);
+int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
 
 #endif

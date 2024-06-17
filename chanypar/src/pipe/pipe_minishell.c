@@ -6,53 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:10:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 16:04:07 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:26:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-t_cmds	*make_list(t_cmds *current)
-{
-	t_cmds	*new;
-
-	new = malloc(sizeof(t_cmds));
-	if (!new)
-		return (NULL);
-	new->code_id = current->code_id;
-	new->name = current->name;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
-int	set_command(t_cmds **ret, t_cmds ***new_ret, int i, int num)
-{
-	t_cmds		*current_ret;
-	t_cmds		*new;
-	int			*pipe_posit;
-	int			n;
-
-	current_ret = *(ret);
-	n = -1;
-	pipe_posit = set_posit(ret, num);
-	while (i != 0 && ++n < pipe_posit[i] + 1)
-		current_ret = current_ret->next;
-	*new_ret = malloc(sizeof(t_cmds));
-	new = make_list(current_ret);
-	if (!*new_ret || !new)
-		return (-1);
-	**new_ret = new;
-	current_ret = current_ret->next;
-	while (current_ret && current_ret->code_id != 10)
-	{
-		new->next = make_list(current_ret);
-		new->next->prev = new;
-		new = new->next;
-		current_ret = current_ret->next;
-	}
-	free(pipe_posit);
-	return (0);
-}
 
 void	free_fds(int **fds, int end)
 {
@@ -85,7 +43,7 @@ int	**malloc_fds(int num_pipes)
 	return (fds);
 }
 
-void	free_finish(int num_pipes, int *pids, int **fds)
+int	free_finish(int num_pipes, int *pids, int **fds)
 {
 	int	i;
 	int status;
@@ -98,10 +56,7 @@ void	free_finish(int num_pipes, int *pids, int **fds)
 	while (++i < num_pipes)
 		free(fds[i]);
 	free(fds);
-	while (!WIFEXITED(status) && !WIFSIGNALED(status))
-		i++;
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
+	return (WEXITSTATUS(status));
 }
 
 int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
@@ -131,7 +86,7 @@ int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
 	return (0);
 }
 
-int	pipe_main2(t_cmds **ret, t_envp **list, t_file **file)
+int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 {
 	t_pipe		pipe;
 	t_cmds		**new_ret;
@@ -158,6 +113,6 @@ int	pipe_main2(t_cmds **ret, t_envp **list, t_file **file)
 		close(pipe.fds[i][0]);
 		close(pipe.fds[i][1]);
 	}
-	free_finish(pipe.num_pipes, pipe.pids, pipe.fds);
+	(*ret)->status->code = free_finish(pipe.num_pipes, pipe.pids, pipe.fds);
 	return (0);
 }

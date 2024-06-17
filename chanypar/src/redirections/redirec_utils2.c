@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 14:08:33 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:27:08 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	exec_heredoc(t_file **file, int flag)
 	return (stdin_save);
 }
 
-int	exec(char *command, char **argv)
+int	exec(char *command, char **argv, t_cmds **ret)
 {
 	int	pid;
-	// int	i;
+	int	status;
 
 	pid = fork();
 	if (pid < 0)
@@ -78,16 +78,14 @@ int	exec(char *command, char **argv)
 	}
 	else
 	{
-		wait(NULL);
+		waitpid(pid, &status, 0);
+		(*ret)->status->code = WEXITSTATUS(status);
 		free(command);
-		// i = 0;
-		// while (argv[i])
-		// 	free(argv[i++]);
 		free(argv);
 	}
 	return (0);
 }
-int exec_command(t_cmds *cmds)
+int exec_command(t_cmds *cmds, t_cmds **ret)
 {
 	char	*command;
 	char	**argv;
@@ -107,7 +105,7 @@ int exec_command(t_cmds *cmds)
 		cmds = cmds->next;
 	}
 	argv[i] = NULL;
-	if (exec(command, argv) == -1)
+	if (exec(command, argv, ret) == -1)
 		return (-1);
 	return (0);
 }
@@ -120,7 +118,7 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
 		cmds = cmds->prev;
 	if (i == 0)
-		ft_echo(cmds);
+		ft_echo(cmds, ret);
 	else if (i == 1)
 		ft_cd(cmds, lst);
 	else if (i == 2)
@@ -131,7 +129,7 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 		ft_unset(lst);
 	else
 	{
-		if (exec_command(cmds) == -1)
+		if (exec_command(cmds, ret) == -1)
 			return (-1);
 	}
 	return (0);
