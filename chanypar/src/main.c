@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 11:21:47 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:05:18 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,19 @@ void	history(char *str)
 	}
 }
 
-void	set_param(int ac, char **av, t_file ***file)
+void	set_param(int ac, char **av, t_file ***file, t_status *status)
 {
 	(void)ac;
 	(void)av;
 	*file = malloc(sizeof(t_file));
 	if (!*file)
 		exit (-1);
+	status = malloc(sizeof(t_status));
+	if (!status)
+	{
+		free(*file);
+		exit (-1);
+	}
 	using_history();
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -79,7 +85,7 @@ char	*ft_readline(t_file **file)
 		cpy = readline(shell_prompt);
 	}
 	free(cwd);
-	if (!cpy || (ft_strcmp(cpy, "exit") == 0))
+	if (!cpy)
 	{
 		clear_history();
 		free(cpy);
@@ -92,25 +98,26 @@ char	*ft_readline(t_file **file)
 
 int	main(int ac, char **av, char **env)
 {
-	t_cmds	**ret;
-	t_envp	**lst;
-	t_file	**file;
+	t_cmds		**ret;
+	t_envp		**lst;
+	t_file		**file;
+	t_status	status;
 	char	*string;
 
 	file = NULL;
-	set_param(ac, av, &file);
+	set_param(ac, av, &file, &status);
+	(*ret)->status = &status;
 	while (1)
 	{
 		string = ft_readline(file);
 		ret = split_token(string);
 		free(string);
 		code_attr(ret);
-		if (!ret)
-			return (printf("porblemooo\n"), 1);
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		pipe_main2(ret, lst, file);
+		if (pipe_main2(ret, lst, file) == -1)
+			return (-1);
 		free_envp(lst);
 		free_tcmd(ret);
 	}

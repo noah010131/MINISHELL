@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:10:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 12:14:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:04:07 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,20 @@ int	**malloc_fds(int num_pipes)
 void	free_finish(int num_pipes, int *pids, int **fds)
 {
 	int	i;
+	int status;
 
 	i = -1;
 	while (++i <= num_pipes)
-		waitpid(pids[i], NULL, 0);
+		waitpid(pids[i], &status, 0);
 	free(pids);
 	i = -1;
 	while (++i < num_pipes)
 		free(fds[i]);
 	free(fds);
+	while (!WIFEXITED(status) && !WIFSIGNALED(status))
+		i++;
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
 }
 
 int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
@@ -120,7 +125,7 @@ int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
 			close(pipe->fds[n][1]);
 		}
 		if (redirec_main(pipe))
-			return (-1);
+			exit(-1);
 		exit(0);
 	}
 	return (0);

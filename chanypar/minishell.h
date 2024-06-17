@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 13:22:15 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:06:33 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_cmds
 	char			*name;
 	struct s_cmds	*prev;
 	struct s_cmds	*next;
+	struct s_status	*status;
+	
 }					t_cmds;
 
 typedef struct s_envp
@@ -80,8 +82,13 @@ typedef struct s_pipe
 	int				num_pipes;
 	int				**fds;
 	int				*pids;
-}						t_pipe;
+}					t_pipe;
 
+typedef struct s_status
+{
+	char	error_m[100];
+	int		code;
+}					t_status;
 
 t_cmds				*ft_new_tcmd(char *str, int code);
 int					code_attr(t_cmds **cmds);
