@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:45:06 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/16 23:34:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:12:41 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	*set_posit(t_cmds **ret, int num)
 	int		times;
 	t_cmds	*current;
 
-	posit = malloc(num * sizeof(int));
+	posit = malloc((num + 2) * sizeof(int *));
 	if (!posit)
 		return (NULL);
 	posit[0] = 0;
@@ -34,11 +34,10 @@ int	*set_posit(t_cmds **ret, int num)
 			current = current->next;
 			times++;
 		}
-		if (current->next)
-		{
-			posit[i] = times;
-			current = current->next;
-		}
+		posit[i] = times;
+		current = current->next;
+		if (i != num)
+			times++;
 	}
 	return (posit);
 }

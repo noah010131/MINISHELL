@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:10:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 00:14:23 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:14:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,12 @@ int	set_command(t_cmds **ret, t_cmds ***new_ret, int i, int num)
 {
 	t_cmds		*current_ret;
 	t_cmds		*new;
-	static int	*pipe_posit;
+	int			*pipe_posit;
 	int			n;
 
 	current_ret = *(ret);
 	n = -1;
-	if (!pipe_posit)
-		pipe_posit = set_posit(ret, num);
+	pipe_posit = set_posit(ret, num);
 	while (i != 0 && ++n < pipe_posit[i] + 1)
 		current_ret = current_ret->next;
 	*new_ret = malloc(sizeof(t_cmds));
@@ -51,6 +50,7 @@ int	set_command(t_cmds **ret, t_cmds ***new_ret, int i, int num)
 		new = new->next;
 		current_ret = current_ret->next;
 	}
+	free(pipe_posit);
 	return (0);
 }
 
@@ -106,9 +106,6 @@ int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
 	if (set_command(pipe->ret_save, &new_ret, i, pipe->num_pipes) == -1)
 		return (-1);
 	pipe->ret = new_ret;
-	printf("%s\n", (*new_ret)->name);
-	if ((*new_ret)->next)
-		printf("%s\n", (*new_ret)->next->name);
 	pipe->pids[i] = fork();
 	if (pipe->pids[i] == 0)
 	{
@@ -124,6 +121,7 @@ int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
 		}
 		if (redirec_main(pipe))
 			return (-1);
+		exit(0);
 	}
 	return (0);
 }
