@@ -6,19 +6,21 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 17:26:46 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/22 20:09:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	g_exit_code;
 
 void	sigint_handler(int sig)
 {
 	char	*cwd;
 	char	*usr;
 	char	shell_prompt[100];
-	(void)sig;
 
+	(void)sig;
 	cwd = getcwd(NULL, 1024);
 	usr = getenv("USER");
 
@@ -116,8 +118,8 @@ int	main(int ac, char **av, char **env)
 		expanding(ret, lst);
 		ret = pptreatment(ret);
 		(*ret)->status = &status;
-		if (pipe_main(ret, lst, file) == -1)
-			return (-1);
+		pipe_main(ret, lst, file);
+		g_exit_code = status.code;
 		free_envp(lst);
 		free_tcmd(ret);
 	}
