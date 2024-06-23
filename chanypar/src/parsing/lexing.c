@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:03:59 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 21:44:44 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/22 20:36:12 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ int	code_attr(t_cmds **cmds)
 
 int	code_lex(char *str)
 {
-	int	i;
-
-	i = 0;
 	if (!str)
 		return (-1);
 	if (type_quote(str))
@@ -62,8 +59,7 @@ int	is_not_word(char *str)
 	}
 	return (1);
 }
-// fonction qui retourne le type de
-// metacharactere -1 si erreur
+
 int	meta_type(char *str)
 {
 	if (ft_strncmp(str, "|", 1) == 0 && ft_strlen(str) == 1)

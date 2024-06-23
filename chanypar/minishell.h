@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 17:20:49 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/22 20:18:24 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,14 @@ int					parsing_command(int i,
 int					redirec_main(t_pipe *pipe);
 int					parsing_redir(t_cmds *current,
 						t_cmds **ret, t_envp **lst, t_file **file);
-int					oper_redir_in(t_cmds *current, t_file **file, int flag);
-int					oper_redir_out(t_cmds *current, t_file **file, int flag);
-int					oper_heredoc_in(t_cmds *current, t_file **file, int flag);
-int					oper_redir_app(t_cmds *current, t_file **file, int flag);
+int					oper_redir_in(t_cmds *current, t_file **file,
+						int stdin_save, t_status *stat);
+int					oper_redir_out(t_cmds *current, t_file **file,
+						int stdout_save, t_status *stat);
+int					oper_heredoc_in(t_cmds *current, t_file **file,
+						int stdin_save, t_status *stat);
+int					oper_redir_app(t_cmds *current, t_file **file,
+						int stdout_save, t_status *stat);
 int					f_open(char *str, t_file **file);
 FILE				*f_open2(char *str, t_file **file, int redir);
 int					f_close(int fd, t_file **file);
