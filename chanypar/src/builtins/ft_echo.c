@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 14:01:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:06:09 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,25 @@
 
 void	execute(t_cmds *current, t_status *status)
 {
-	if (ft_strcmp(current->name, "$?") == 0)
-		printf("%d", status->code);
-	else
-		printf("%s", current->name);
+	while (current && (current->code_id == 9
+			|| (current->code_id >=20 && current->code_id != 22) || current->code_id == 11))
+	{
+		if (current->code_id == 11)
+		{
+			current = current->next;
+			if (current->next)
+				current = current->next;
+			else
+				return ;
+		}
+		if (ft_strcmp(current->name, "$?") == 0)
+			printf("%d", status->code);
+		else
+			printf("%s", current->name);
+		current = current->next;
+		if (current)
+			printf(" ");
+	}
 }
 
 int	ft_echo(t_cmds *cmd, t_cmds **ret)
@@ -37,22 +52,7 @@ int	ft_echo(t_cmds *cmd, t_cmds **ret)
 	}
 	else
 		flag = 1;
-	while (current && (current->code_id == 9
-			|| (current->code_id >=20 && current->code_id != 22) || current->code_id == 11))
-	{
-		if (current->code_id == 11)
-		{
-			current = current->next;
-			if (current->next)
-				current = current->next;
-			else
-				return(printf("\n"));
-		}
-		execute(current, status);
-		current = current->next;
-		if (current)
-			printf(" ");
-	}
+	execute(current, status);
 	if (flag == 1)
 		printf("\n");
 	return (0);
