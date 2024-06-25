@@ -6,13 +6,14 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/22 20:39:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:53:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	oper_redir_in(t_cmds *current, t_file **file, int stdin_save, t_status *stat)
+int	oper_redir_in(t_cmds *current,
+	t_file **file, int stdin_save, t_status *stat)
 {
 	int		fd;
 
@@ -21,13 +22,17 @@ int	oper_redir_in(t_cmds *current, t_file **file, int stdin_save, t_status *stat
 		stdin_save = dup(STDIN_FILENO);
 	fd = f_open(current->next->name, file);
 	if (fd == -1)
+	{
+		printf("no such file or directory: %s\n", current->next->name);
 		return (-1);
+	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 		return (-1);
 	return (stdin_save);
 }
 
-int	oper_redir_out(t_cmds *current, t_file **file, int stdout_save, t_status *stat)
+int	oper_redir_out(t_cmds *current,
+	t_file **file, int stdout_save, t_status *stat)
 {
 	FILE	*f;
 	int		fd;
@@ -47,7 +52,8 @@ int	oper_redir_out(t_cmds *current, t_file **file, int stdout_save, t_status *st
 	return (stdout_save);
 }
 
-int	oper_heredoc_in(t_cmds *current, t_file **file, int stdin_save, t_status *stat)
+int	oper_heredoc_in(t_cmds *current,
+	t_file **file, int stdin_save, t_status *stat)
 {
 	int	flag;
 
@@ -67,7 +73,8 @@ int	oper_heredoc_in(t_cmds *current, t_file **file, int stdin_save, t_status *st
 	return (stdin_save);
 }
 
-int	oper_redir_app(t_cmds *current, t_file **file, int stdout_save, t_status *stat)
+int	oper_redir_app(t_cmds *current,
+	t_file **file, int stdout_save, t_status *stat)
 {
 	FILE	*f;
 	int		fd;

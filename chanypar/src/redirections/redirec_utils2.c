@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 17:31:00 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:58:08 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	exec(char *command, char **argv, t_cmds **ret)
 	if (pid == 0)
 	{
 		execve(command, argv, NULL);
-		strerror(errno);
 		exit(EXIT_FAILURE);
 	}
 	else

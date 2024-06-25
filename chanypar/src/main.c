@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/22 20:38:03 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:08:38 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,42 @@ void	sigint_handler(int sig)
 	printf("\n%s", shell_prompt);
 }
 
-// void	history(char *str)
-// {
-// 	HIST_ENTRY	**his_list;
-// 	int			i;
-// 	char		*cpy;
+void	history(char *str)
+{
+	HIST_ENTRY	**his_list;
+	int			i;
+	char		*cpy;
 
-// 	i = -1;
-// 	cpy = ft_strdup(str);
-// 	his_list = NULL;
-// 	add_history(cpy);
-// 	free(cpy);
-// 	his_list = NULL;
-// 	his_list = history_list();
-// 	if (ft_strcmp(str, "history") == 0)
-// 	{
-// 		while (his_list[++i])
-// 			printf("%d: %s\n", i + 1, his_list[i]->line);
-// 	}
-// }
+	i = -1;
+	cpy = ft_strdup(str);
+	his_list = NULL;
+	add_history(cpy);
+	free(cpy);
+	his_list = NULL;
+	his_list = history_list();
+	if (ft_strcmp(str, "history") == 0)
+	{
+		while (his_list[++i])
+			printf("%d: %s\n", i + 1, his_list[i]->line);
+	}
+}
 
-void	set_param(int ac, char **av, t_file ***file, t_status *status)
+void	set_param(int ac, char **av, t_file ***file, t_status **status)
 {
 	(void)ac;
 	(void)av;
 	*file = malloc(sizeof(t_file));
 	if (!*file)
 		exit (-1);
-	status = malloc(sizeof(t_status));
-	if (!status)
+	*status = malloc(sizeof(t_status));
+	if (!*status)
 	{
 		free(*file);
 		exit (-1);
 	}
-	// using_history();
+	(*status)->isexit = 0;
+	using_history();
+	g_exit_code = 0;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 
@@ -71,14 +73,12 @@ char	*ft_readline(t_file **file)
 {
 	char	*cpy;
 	char	*cwd;
-	char	*usr;
 	char	shell_prompt[100];
 
 	cwd = getcwd(NULL, 1024);
-	usr = getenv("USER");
-	if (!cwd || !usr)
+	if (!cwd)
 		return (NULL);
-	snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
+	snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
 	cpy = NULL;
 	cpy = readline(shell_prompt);
 	while (cpy && !*cpy)
@@ -89,12 +89,12 @@ char	*ft_readline(t_file **file)
 	free(cwd);
 	if (!cpy)
 	{
-		// clear_history();
+		rl_clear_history();
 		free(cpy);
 		free(file);
 		exit(0);
 	}
-	// history(cpy);
+	history(cpy);
 	return (cpy);
 }
 
@@ -103,8 +103,8 @@ int	main(int ac, char **av, char **env)
 	t_cmds		**ret;
 	t_envp		**lst;
 	t_file		**file;
-	t_status	status;
-	char	*string;
+	t_status	*status;
+	char		*string;
 
 	file = NULL;
 	set_param(ac, av, &file, &status);
@@ -117,11 +117,12 @@ int	main(int ac, char **av, char **env)
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		(*ret)->status = &status;
+		(*ret)->status = status;
 		pipe_main(ret, lst, file);
-		g_exit_code = status.code;
+		g_exit_code = status->code;
 		free_envp(lst);
 		free_tcmd(ret);
+		check_exit_code(status, g_exit_code);
 	}
 	return (0);
 }

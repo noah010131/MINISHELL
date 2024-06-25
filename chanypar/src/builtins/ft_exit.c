@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/22 21:04:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:51:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_arg(t_cmds *current, t_status *status)
 	i = 0;
 	if (ft_isalpha(current->next->name[0]))
 	{
-		ft_strlcpy(status->error_m, "exit: numeric argument required", 100);
+		printf("exit: numeric argument required");
 		status->code = 2;
 		return (-1);
 	}
@@ -44,6 +44,7 @@ int	ft_exit(t_cmds **ret)
 
 	current = *(ret);
 	status = (*ret)->status;
+	status->isexit = 1;
 	if (current->next && !current->next->next)
 	{
 		if (check_arg(current, status))
@@ -51,7 +52,7 @@ int	ft_exit(t_cmds **ret)
 	}
 	else if (current->next->next)
 	{
-		ft_strlcpy(status->error_m, "exit: too many arguments", 100);
+		printf("exit: too many arguments");
 		status->code = 1;
 		return (-1);
 	}

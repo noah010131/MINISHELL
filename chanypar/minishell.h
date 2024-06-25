@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/22 20:18:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:52:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ typedef struct s_pipe
 
 typedef struct s_status
 {
-	char	error_m[100];
+	// char	error_m[100];
 	int		code;
+	int		isexit;
 }					t_status;
 
 t_cmds				*ft_new_tcmd(char *str, int code);
@@ -168,5 +169,6 @@ int					set_command(t_cmds **ret,
 void				set_pipe(t_cmds **ret, t_envp **list,
 						t_file **file, t_pipe *pipe);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
+void				check_exit_code(t_status *status, int exit_code);
 
 #endif
