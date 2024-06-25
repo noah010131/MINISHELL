@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 10:58:08 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:31:19 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,24 +119,21 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
 		cmds = cmds->prev;
 	if (i == 0)
-		status->code = ft_echo(cmds, ret);
+		return (ft_echo(cmds, ret));
 	else if (i == 1)
-		status->code = ft_cd(cmds, lst);
+		return (ft_cd(cmds, lst));
 	else if (i == 2)
-		status->code = ft_pwd(cmds, lst);
+		return (ft_pwd(cmds, lst));
 	else if (i == 3)
-		status->code = ft_export(cmds, lst);
+		return (ft_export(cmds, lst));
 	else if (i == 4)
-		status->code = ft_unset(lst);
+		return (ft_unset(lst));
+	else if (i == 6)
+		return (ft_exit(ret));
 	else
-	{
-		if (exec_command(cmds, ret) == -1)
-			return (-1);
-	}
+		return (exec_command(cmds, ret));
 	return (0);
 }
 
 	// if (i == 5)
 	// 	// env
-	// if (i == 6)
-	// 	// exit

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 10:51:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:34:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_arg(t_cmds *current, t_status *status)
 		status->code = 2;
 		return (-1);
 	}
-	while (current->name[i] >= '0' && current->name[i] <= '9'
+	while ((current->name[i] >= '0' && current->name[i] <= '9')
 		|| (current->name[i] == '+' || current->name[i] == '-'))
 		i++;
 	if (!current->name[i])
@@ -40,7 +40,6 @@ int	ft_exit(t_cmds **ret)
 {
 	t_cmds		*current;
 	t_status	*status;
-	int			i;
 
 	current = *(ret);
 	status = (*ret)->status;
@@ -50,7 +49,7 @@ int	ft_exit(t_cmds **ret)
 		if (check_arg(current, status))
 			return (-1);
 	}
-	else if (current->next->next)
+	else if (current->next && current->next->next)
 	{
 		printf("exit: too many arguments");
 		status->code = 1;

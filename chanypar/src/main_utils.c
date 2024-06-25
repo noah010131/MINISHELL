@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 10:54:32 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:35:53 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_exit_code(t_status *status, int exit_code)
 {
-	if (exit_code == 0)
+	if (exit_code == 0 && status->isexit == 0)
 		return ;
 	if (status->isexit)
 		exit(exit_code);
