@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 11:34:01 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:57:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,26 @@
 int	check_arg(t_cmds *current, t_status *status)
 {
 	int		i;
-	char	num;
 
 	i = 0;
 	if (ft_isalpha(current->next->name[0]))
 	{
-		printf("exit: numeric argument required");
+		ft_putstr_fd("exit: numeric argument required\n", 2);
 		status->code = 2;
 		return (-1);
 	}
-	while ((current->name[i] >= '0' && current->name[i] <= '9')
-		|| (current->name[i] == '+' || current->name[i] == '-'))
+	current = current->next;
+	while (current->name[i] && ((current->name[i] >= '0' && current->name[i] <= '9')
+		|| (current->name[0] == '+' || current->name[0] == '-')))
 		i++;
 	if (!current->name[i])
 	{
 		i = ft_atoi(current->name);
-		num = i;
-		status->code = num;
+		if (i < 0)
+			i = 256 + i;
+		else if (i > 256)
+			i = i - 256;
+		status->code = i;
 	}
 	return (0);
 }
@@ -51,7 +54,7 @@ int	ft_exit(t_cmds **ret)
 	}
 	else if (current->next && current->next->next)
 	{
-		printf("exit: too many arguments");
+		ft_putstr_fd("exit: too many arguments", 2);
 		status->code = 1;
 		return (-1);
 	}

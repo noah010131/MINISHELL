@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 11:31:19 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:11:02 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 	if (i == 0)
 		return (ft_echo(cmds, ret));
 	else if (i == 1)
-		return (ft_cd(cmds, lst));
+		status->code = ft_cd(cmds, lst);
 	else if (i == 2)
 		return (ft_pwd(cmds, lst));
 	else if (i == 3)

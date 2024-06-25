@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 21:44:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/11 16:46:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:12:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,14 @@ int	ft_cd(t_cmds *cmd, t_envp **lst)
 		i++;
 	}
 	if (i != 2)
-		return (ft_putstr_fd("cd : wrong number of  args\n", 2), 1);
+		return (ft_putstr_fd("cd : too many arguments\n", 2), 1);
 	if (!getcwd(old_pwd, 2048))
 		return (1);
 	if (chdir(cmd->next->name) == -1)
-		return (ft_putstr_fd("error wrong directory\n", 2), 0);
+		return (ft_putstr_fd("cd : No such file or directory\n", 2), 1);
 	if (!getcwd(new_pwd, 2048))
 		return (1);
 	update_env(lst, "PWD", new_pwd);
 	update_env(lst, "OLD_PWD", old_pwd);
-	// printf("%s\n%s\n", old_pwd, new_pwd);
 	return (0);
 }
