@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 13:04:43 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:29:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,14 @@ int exec_command(t_cmds *cmds, t_cmds **ret)
 	if (!argv)
 		return (-1);
 	i = 0;
-	while (cmds && (cmds->code_id == 9 || cmds->code_id == 21))
-	{
+	while (cmds)
+	{	
+		if (cmds->code_id >= 11 & cmds->code_id <= 14)
+		{
+			cmds = cmds->next;
+			if (ft_strcmp(cmds->name, (*(*ret)->file)->file_name) == 0)
+				cmds = cmds->next;
+		}
 		argv[i++] = cmds->name;
 		if (!cmds->next || (cmds->next->code_id != 9 && cmds->next->code_id != 21))
 			break ;

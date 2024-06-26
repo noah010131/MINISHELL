@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 12:52:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:04:58 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@
 
 typedef struct s_cmds
 {
+	int				flag;
 	int				code_id;
 	char			*name;
 	struct s_cmds	*prev;
 	struct s_cmds	*next;
 	struct s_status	*status;
+	struct s_file	**file;
 	
 }					t_cmds;
 
@@ -143,7 +145,7 @@ int					builtins_checker(t_cmds *current);
 t_cmds				*find_name(t_cmds *current, char name);
 int					parsing_command(int i,
 						t_cmds *cmds, t_envp **lst, t_cmds **ret);
-int					redirec_main(t_pipe *pipe);
+int					redirec_main(t_pipe *pipe, int flag);
 int					parsing_redir(t_cmds *current,
 						t_cmds **ret, t_envp **lst, t_file **file);
 int					oper_redir_in(t_cmds *current, t_file **file,

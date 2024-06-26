@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:10:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 17:20:12 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:02:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
 			close(pipe->fds[n][0]);
 			close(pipe->fds[n][1]);
 		}
-		if (redirec_main(pipe))
+		if (redirec_main(pipe, 1))
 			exit(-1);
 		exit(0);
 	}
@@ -101,7 +101,7 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 	set_pipe(ret, list, file, &pipe);
 	pipe.num_pipes = count_pipes(ret);
 	if (!pipe.num_pipes)
-		return (redirec_main(&pipe));
+		return (redirec_main(&pipe, 0));
 	if (malloc_pipe(pipe.num_pipes, &pipe) == -1)
 		return (-1);
 	i = -1;

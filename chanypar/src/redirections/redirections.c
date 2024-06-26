@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 17:59:25 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:06:30 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	oper_redir_app(t_cmds *current,
 	return (stdout_save);
 }
 
-int	redirec_main(t_pipe *pipe)
+int	redirec_main(t_pipe *pipe, int flag)
 {
 	t_cmds	*current;
 	t_cmds	**ret;
@@ -130,6 +130,7 @@ int	redirec_main(t_pipe *pipe)
 	file = pipe->file;
 	lst = pipe->lst;
 	current = *(ret);
+	(*ret)->flag = flag;
 	current = find_name(current, 'r');
 	if (!current->name)
 	{
@@ -140,7 +141,5 @@ int	redirec_main(t_pipe *pipe)
 	}
 	i = 0;
 	return (parsing_redir(current, ret, lst, file));
-		return (1);
-	return (0);
 }
 

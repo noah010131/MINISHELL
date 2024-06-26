@@ -6,25 +6,29 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 16:30:02 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:09:06 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	execute(t_cmds *current, t_status *status)
+void	execute(t_cmds *current, t_status *status, t_cmds **ret)
 {
 	while (current && (current->code_id == 9
-			|| (current->code_id >=20 && current->code_id != 22) || current->code_id == 11 || current->code_id == 14))
+			|| (current->code_id >=20 && current->code_id != 22) || (current->code_id >= 11 && current->code_id <= 14)))
 	{
-		if (current->code_id == 11 || current->code_id == 14)
+		if (current->code_id >= 11 && current->code_id <= 14)
 		{
 			current = current->next;
-			if (current->next)
+			if (ft_strcmp(current->name, (*(*ret)->file)->file_name) == 0)
 				current = current->next;
-			else
-				return ;
+			// if (current->next)
+			// 	current = current->next;
+			// else
+			// 	return ;
 		}
+		if (!current)
+			break;
 		if (ft_strcmp(current->name, "$?") == 0)
 			printf("%d", status->code);
 		else
@@ -52,7 +56,7 @@ int	ft_echo(t_cmds *cmd, t_cmds **ret)
 	}
 	else
 		flag = 1;
-	execute(current, status);
+	execute(current, status, ret);
 	if (flag == 1)
 		printf("\n");
 	return (0);

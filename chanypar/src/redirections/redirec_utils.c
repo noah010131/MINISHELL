@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 12:53:30 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:05:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ int	check_in_out(t_cmds *current, t_envp **lst, t_cmds **ret, int stdin_out[])
 		cur = *(ret);
 		if (parsing_command(builtins_checker(cur), cur, lst, ret) == -1)
 			return (-1);
-		reset_stdin_out(stdin_out);
+		(void)stdin_out;
+		if ((*ret)->flag == 0)
+			reset_stdin_out(stdin_out);
 		prev_redir = 0;
 		return (-1);
 	}
