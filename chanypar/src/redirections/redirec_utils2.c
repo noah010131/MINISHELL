@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 13:29:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:54:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ int	exec(char *command, char **argv, t_cmds **ret)
 	else
 	{
 		waitpid(pid, &status, 0);
+		status = check_exec(command, WEXITSTATUS(status));
 		free(command);
 		free(argv);
-		return (WEXITSTATUS(status));
+		return (status);
 	}
 	return (0);
 }

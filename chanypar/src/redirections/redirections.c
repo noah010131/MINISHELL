@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 14:06:30 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:55:33 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	oper_redir_in(t_cmds *current,
 	fd = f_open(current->next->name, file);
 	if (fd == -1)
 	{
-		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		if (errno == ENOENT)
-			ft_putstr_fd("no such file or directory : ", 2);
+			ft_putstr_fd("no such file or directory: ", 2);
 		else if (errno == EACCES)
-			ft_putstr_fd("Permission denied : ", 2);
+			ft_putstr_fd("Permission denied: ", 2);
 		ft_putstr_fd(current->next->name, 2);
 		ft_putstr_fd("\n", 2);
 		return (-1);
@@ -49,11 +49,11 @@ int	oper_redir_out(t_cmds *current,
 	f = f_open2(current->next->name, file, 12);
 	if (!f)
 	{
-		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		if (errno == ENOENT)
-			ft_putstr_fd("no such file or directory : ", 2);
+			ft_putstr_fd("no such file or directory: ", 2);
 		else if (errno == EACCES)
-			ft_putstr_fd("Permission denied : ", 2);
+			ft_putstr_fd("Permission denied: ", 2);
 		ft_putstr_fd(current->next->name, 2);
 		ft_putstr_fd("\n", 2);
 		return (-1);
@@ -100,11 +100,11 @@ int	oper_redir_app(t_cmds *current,
 	f = f_open2(current->next->name, file, 14);
 	if (!f)
 	{
-		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		if (errno == ENOENT)
-			ft_putstr_fd("no such file or directory : ", 2);
+			ft_putstr_fd("no such file or directory: ", 2);
 		else if (errno == EACCES)
-			ft_putstr_fd("Permission denied : ", 2);
+			ft_putstr_fd("Permission denied: ", 2);
 		ft_putstr_fd(current->next->name, 2);
 		ft_putstr_fd("\n", 2);
 		return (-1);

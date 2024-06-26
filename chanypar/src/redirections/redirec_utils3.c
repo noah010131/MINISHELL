@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:39:55 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 12:52:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:59:09 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,25 @@ int	ch_err(int num, int cpy_stdin_out[])
 		return (-1);
 	}
 	return (num);
+}
+
+int check_exec(char *command, int status)
+{
+	int	i;
+
+	if (status == 1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		if (errno == ENOENT)
+			ft_putstr_fd("No such file or directory: ", 2);
+		else
+			ft_putstr_fd("Command not found: ", 2);
+		i = 4;
+		while (command[++i])
+			ft_putchar_fd(command[i], 2);
+		ft_putstr_fd("\n", 2);
+		return (127);
+	}
+	return (status);
 }
 
