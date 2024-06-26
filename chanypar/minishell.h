@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 14:50:38 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:15:41 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 	struct s_status	*status;
 	struct s_file	**file;
-	
 }					t_cmds;
 
 typedef struct s_envp
 {
 	char			*name;
 	char			*value;
-	// Tableau de str contenant le nom et la valeur de chaque variable d'environnement
+
 	struct s_envp	*next;
 	struct s_envp	*prev;
 	int				unset;
@@ -88,7 +87,6 @@ typedef struct s_pipe
 
 typedef struct s_status
 {
-	// char	error_m[100];
 	int		code;
 	int		isexit;
 }					t_status;
@@ -179,5 +177,7 @@ int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
 int					check_exec(char *command, int status);
+void				sigint_handler(int sig);
+int					exec_command(t_cmds *cmds, t_cmds **ret);
 
 #endif

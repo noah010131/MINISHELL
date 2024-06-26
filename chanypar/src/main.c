@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 13:27:47 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:53:23 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@ int	g_exit_code;
 void	sigint_handler(int sig)
 {
 	char	*cwd;
-	char	*usr;
 	char	shell_prompt[100];
 
 	(void)sig;
 	cwd = getcwd(NULL, 1024);
-	usr = getenv("USER");
 
-	snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
+	snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
 	printf("\n%s", shell_prompt);
 }
 

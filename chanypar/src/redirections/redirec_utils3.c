@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:39:55 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 14:59:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:06:07 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,33 @@ int check_exec(char *command, int status)
 	}
 	return (status);
 }
+
+int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
+{
+	t_status *status;
+	
+	status = (*ret)->status;
+	if (cmds->prev && cmds->code_id != 9)
+		cmds = cmds->prev;
+	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
+		cmds = cmds->prev;
+	if (i == 0)
+		return (ft_echo(cmds, ret));
+	else if (i == 1)
+		status->code = ft_cd(cmds, lst);
+	else if (i == 2)
+		return (ft_pwd(cmds, lst));
+	else if (i == 3)
+		return (ft_export(cmds, lst));
+	else if (i == 4)
+		return (ft_unset(lst));
+	else if (i == 6)
+		return (ft_exit(ret));
+	else
+		return (exec_command(cmds, ret));
+	return (0);
+}
+
+	// if (i == 5)
+	// 	// env
 
