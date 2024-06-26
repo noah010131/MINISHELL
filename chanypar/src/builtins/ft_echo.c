@@ -6,22 +6,37 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 16:11:04 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:04:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int 	check_file_name(char *name, t_cmds **ret)
+{
+	t_file	*file;
+
+	file = (*(*ret)->file);
+	ft_putstr_fd(file->file_name, 2);
+	while (file)
+	{
+		if (ft_strcmp(name, file->file_name) == 0)
+			return (1);
+		file = file->prev;
+	}
+	return (0);
+}
+
 void	execute(t_cmds *current, t_status *status, t_cmds **ret)
 {
 	while (current && (current->code_id == 9
 			|| (current->code_id >=20 && current->code_id != 22)
-			|| (current->code_id >= 11 && current->code_id <= 14)))
+			|| current->code_id == 11))
 	{
-		if (current->code_id >= 11 && current->code_id <= 14)
+		while (current && (current->code_id == 11))
 		{
 			current = current->next;
-			if (ft_strcmp(current->name, (*(*ret)->file)->file_name) == 0)
+			if (check_file_name(current->name, ret))
 				current = current->next;
 		}
 		if (!current)

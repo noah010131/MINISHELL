@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 14:05:37 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:01:33 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_in_out(t_cmds *current, t_envp **lst, t_cmds **ret, int stdin_out[])
 		if (parsing_command(builtins_checker(cur), cur, lst, ret) == -1)
 			return (-1);
 		(void)stdin_out;
-		if ((*ret)->flag == 0)
+		// if ((*ret)->flag == 0)
 			reset_stdin_out(stdin_out);
 		prev_redir = 0;
 		return (-1);
@@ -112,11 +112,11 @@ int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 
 	while (current->name)
 	{
-		check_in_out(current, lst, ret, cpy_stdin_out);
+		// check_in_out(current, lst, ret, cpy_stdin_out);
 		if (execute_parsing(current, file, cpy_stdin_out, ret) == -1)
 			return (-1);
 		current = find_name(current->next, 'r');
-		res = check_in_out(current, lst, ret, cpy_stdin_out);
+		// res = check_in_out(current, lst, ret, cpy_stdin_out);
 		if (res == -1)
 			return (-1);
 		flag = check_flag(flag, res);

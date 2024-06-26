@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:45:06 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 17:20:26 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:38:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_cmds	*make_list(t_cmds *current)
 		return (NULL);
 	new->code_id = current->code_id;
 	new->name = current->name;
+	new->file = current->file;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
