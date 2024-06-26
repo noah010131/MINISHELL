@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:39:55 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 17:21:45 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:52:06 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,15 @@ t_cmds	*find_name(t_cmds *current, char name)
 	}
 	return (current);
 }
+
+int	ch_err(int num, int cpy_stdin_out[])
+{
+
+	if (num == -1)
+	{
+		reset_stdin_out(cpy_stdin_out);
+		return (-1);
+	}
+	return (num);
+}
+

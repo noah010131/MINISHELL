@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 12:41:12 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:59:25 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ int	oper_redir_in(t_cmds *current,
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell : ", 2);
-		ft_putstr_fd("no such file or directory : ", 2);
+		if (errno == ENOENT)
+			ft_putstr_fd("no such file or directory : ", 2);
+		else if (errno == EACCES)
+			ft_putstr_fd("Permission denied : ", 2);
 		ft_putstr_fd(current->next->name, 2);
 		ft_putstr_fd("\n", 2);
-		stat->code = 1;
 		return (-1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
@@ -46,7 +48,16 @@ int	oper_redir_out(t_cmds *current,
 		stdout_save = dup(STDOUT_FILENO);
 	f = f_open2(current->next->name, file, 12);
 	if (!f)
+	{
+		ft_putstr_fd("minishell : ", 2);
+		if (errno == ENOENT)
+			ft_putstr_fd("no such file or directory : ", 2);
+		else if (errno == EACCES)
+			ft_putstr_fd("Permission denied : ", 2);
+		ft_putstr_fd(current->next->name, 2);
+		ft_putstr_fd("\n", 2);
 		return (-1);
+	}
 	(*file)->f = f;
 	fd = fileno(f);
 	if (fd == -1)
@@ -90,10 +101,12 @@ int	oper_redir_app(t_cmds *current,
 	if (!f)
 	{
 		ft_putstr_fd("minishell : ", 2);
-		ft_putstr_fd("Permission denied : ", 2);
+		if (errno == ENOENT)
+			ft_putstr_fd("no such file or directory : ", 2);
+		else if (errno == EACCES)
+			ft_putstr_fd("Permission denied : ", 2);
 		ft_putstr_fd(current->next->name, 2);
 		ft_putstr_fd("\n", 2);
-		stat->code = 1;
 		return (-1);
 	}
 	fd = fileno(f);
@@ -126,8 +139,8 @@ int	redirec_main(t_pipe *pipe)
 		return (parsing_command(i, current, lst, ret));
 	}
 	i = 0;
-	if (parsing_redir(current, ret, lst, file) == -1)
-		return (-1);
+	return (parsing_redir(current, ret, lst, file));
+		return (1);
 	return (0);
 }
 

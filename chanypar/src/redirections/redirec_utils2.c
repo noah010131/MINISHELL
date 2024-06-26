@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 12:11:02 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:04:43 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	exec(char *command, char **argv, t_cmds **ret)
 	int	pid;
 	int	status;
 
+	(void)ret;
 	pid = fork();
 	if (pid < 0)
 		return (-1);
@@ -78,9 +79,9 @@ int	exec(char *command, char **argv, t_cmds **ret)
 	else
 	{
 		waitpid(pid, &status, 0);
-		(*ret)->status->code = WEXITSTATUS(status);
 		free(command);
 		free(argv);
+		return (WEXITSTATUS(status));
 	}
 	return (0);
 }
@@ -96,23 +97,20 @@ int exec_command(t_cmds *cmds, t_cmds **ret)
 	if (!argv)
 		return (-1);
 	i = 0;
-	while (cmds && cmds->code_id == 9)
+	while (cmds && (cmds->code_id == 9 || cmds->code_id == 21))
 	{
 		argv[i++] = cmds->name;
-		if (!cmds->next || cmds->next->code_id != 9)
+		if (!cmds->next || (cmds->next->code_id != 9 && cmds->next->code_id != 21))
 			break ;
 		cmds = cmds->next;
 	}
 	argv[i] = NULL;
-	if (exec(command, argv, ret) == -1)
-		return (-1);
-	return (0);
+	return (exec(command, argv, ret));
 }
 
 int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 {
 	t_status *status;
-
 	status = (*ret)->status;
 	if (cmds->prev && cmds->code_id != 9)
 		cmds = cmds->prev;

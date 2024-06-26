@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:10:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 17:26:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:20:12 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,30 @@ void	free_fds(int **fds, int end)
 	free(fds);
 }
 
-int	**malloc_fds(int num_pipes)
+int	malloc_pipe(int num_pipes, t_pipe *p)
 {
-	int	**fds;
 	int	i;
 
-	fds = malloc(num_pipes * sizeof(int *));
-	if (!fds)
-		return (NULL);
+	p->fds = malloc(num_pipes * sizeof(int *));
+	if (!p->fds)
+		return (-1);
 	i = -1;
 	while (++i < num_pipes)
 	{
-		fds[i] = malloc(2 * sizeof(int));
-		if (pipe(fds[i]) == -1)
+		p->fds[i] = malloc(2 * sizeof(int));
+		if (pipe(p->fds[i]) == -1)
 		{
-			free_fds(fds, i);
-			return (NULL);
+			free_fds(p->fds, i);
+			return (-1);
 		}
 	}
-	return (fds);
+	p->pids = malloc((p->num_pipes + 1) * sizeof(int));
+	if (!p->pids)
+	{
+		free_fds(p->fds, num_pipes);
+		return (-1);
+	}
+	return (0);
 }
 
 int	free_finish(int num_pipes, int *pids, int **fds)
@@ -97,9 +102,7 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 	pipe.num_pipes = count_pipes(ret);
 	if (!pipe.num_pipes)
 		return (redirec_main(&pipe));
-	pipe.fds = malloc_fds(pipe.num_pipes);
-	pipe.pids = malloc((pipe.num_pipes + 1) * sizeof(int));
-	if (!pipe.fds || !pipe.pids)
+	if (malloc_pipe(pipe.num_pipes, &pipe) == -1)
 		return (-1);
 	i = -1;
 	while (++i <= pipe.num_pipes)
@@ -113,6 +116,5 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 		close(pipe.fds[i][0]);
 		close(pipe.fds[i][1]);
 	}
-	(*ret)->status->code = free_finish(pipe.num_pipes, pipe.pids, pipe.fds);
-	return (0);
+	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
 }

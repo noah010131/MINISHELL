@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 14:06:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:30:02 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	execute(t_cmds *current, t_status *status)
 {
 	while (current && (current->code_id == 9
-			|| (current->code_id >=20 && current->code_id != 22) || current->code_id == 11))
+			|| (current->code_id >=20 && current->code_id != 22) || current->code_id == 11 || current->code_id == 14))
 	{
-		if (current->code_id == 11)
+		if (current->code_id == 11 || current->code_id == 14)
 		{
 			current = current->next;
 			if (current->next)
