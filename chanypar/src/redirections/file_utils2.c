@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/27 15:16:27 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:16:22 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_new_tfile(t_file **file, char file_name[], int fd)
 	else
 		(*file)->next = new;
 	new->next = NULL;
-	if ((*file)->prev)
+	if ((*file)->next)
 		(*file) = (*file)->next;
 	return (0);
 }
