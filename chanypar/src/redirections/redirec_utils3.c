@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:39:55 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 20:42:56 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:33:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	builtins_checker(t_cmds *current)
 	char	list_butilins[7][7];
 	int		i;
 
-	if (!current || !current->name)
+	if (!current || !current->name || !current->code_id)
 		return (-1);
 	ft_strlcpy(list_butilins[0], "echo", 5);
 	ft_strlcpy(list_butilins[1], "cd", 3);
@@ -99,28 +99,32 @@ int check_exec(char *command, int status)
 	return (status);
 }
 
-int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
+int	parsing_command(int i, t_cmds *c, t_envp **lst, t_cmds **ret)
 {
-	if (cmds->prev && cmds->code_id != 9)
-		cmds = cmds->prev;
-	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
-		cmds = cmds->prev;
+	if (c->prev && c->code_id != 9)
+		c = c->prev;
+	if (c->prev && ft_strcmp(c->name, "cd") && ft_strcmp(c->name, "echo"))
+		c = c->prev;
 	if (i == 0)
-		return (ft_echo(cmds, ret));
+		return (ft_echo(c, ret));
 	else if (i == 1)
-		return (ft_cd(cmds, lst));
+		return (ft_cd(c, lst));
 	else if (i == 2)
-		return (ft_pwd(cmds, lst));
+		return (ft_pwd(c, lst));
 	else if (i == 3)
-		return (ft_export(cmds, lst));
+		return (ft_export(c, lst));
 	else if (i == 4)
-		return (ft_unset(lst, cmds));
+		return (ft_unset(lst, c));
 	else if (i == 5)
 		return (ft_env(lst));
 	else if (i == 6)
 		return (ft_exit(ret));
 	else
-		return (exec_command(cmds, ret));
+	{
+		if (!c->code_id)
+			return (0);
+		return (exec_command(c, ret));
+	}
 	return (0);
 }
 

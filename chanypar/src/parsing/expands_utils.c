@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:58:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 21:47:15 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/27 13:23:14 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_stricmp(const char *first, const char *second, size_t length)
 	size_t	i;
 
 	i = 0;
-	if (ft_strlen(second) > length)
+	if (ft_strlen(second) > (int)length)
 		return (1);
 	while ((i < length) && (first[i] || second[i]))
 	{

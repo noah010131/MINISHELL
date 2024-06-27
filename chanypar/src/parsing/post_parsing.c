@@ -6,15 +6,29 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:39:20 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/05 17:27:42 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:41:03 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+void	freeonetcmd(t_cmds *cmd)
+{
+	if (!cmd)
+		return ;
+	if (cmd->prev)
+		cmd->prev->next = cmd->next;
+	if (cmd->next)
+		cmd->next->prev = cmd->prev;
+	if (cmd->name)
+		free(cmd->name);
+	free(cmd);
+}
+
 t_cmds	**pptreatment(t_cmds **cmds)
 {
 	t_cmds	*current;
+	char	*str;
 
 	if (!cmds)
 		return (NULL);
@@ -22,6 +36,9 @@ t_cmds	**pptreatment(t_cmds **cmds)
 	while (current)
 	{
 		replace_quote(current);
+		str = current->name;
+		if (str[0] == 0)
+			freeonetcmd(current);
 		current = current->next;
 	}
 	return (cmds);
