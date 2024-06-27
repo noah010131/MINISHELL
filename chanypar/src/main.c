@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 21:49:49 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:02:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,31 @@ void	sigint_handler(int sig)
 	printf("\n%s", shell_prompt);
 }
 
-// void	history(char *str)
-// {
-// 	HIST_ENTRY	**his_list;
-// 	int			i;
-// 	char		*cpy;
+void	history(char *str)
+{
+	HIST_ENTRY	**his_list;
+	int			i;
+	char		*cpy;
 
-// 	i = -1;
-// 	cpy = ft_strdup(str);
-// 	his_list = NULL;
-// 	add_history(cpy);
-// 	free(cpy);
-// 	his_list = NULL;
-// 	his_list = history_list();
-// 	if (ft_strcmp(str, "history") == 0)
-// 	{
-// 		while (his_list[++i])
-// 			printf("%d: %s\n", i + 1, his_list[i]->line);
-// 	}
-// }
+	i = -1;
+	cpy = ft_strdup(str);
+	his_list = NULL;
+	add_history(cpy);
+	free(cpy);
+	his_list = NULL;
+	his_list = history_list();
+	if (ft_strcmp(str, "history") == 0)
+	{
+		while (his_list[++i])
+			printf("%d: %s\n", i + 1, his_list[i]->line);
+	}
+}
 
 void	set_param(int ac, char **av, t_file ***file, t_status **status)
 {
 	(void)ac;
 	(void)av;
-	*file = malloc(sizeof(t_file));
-	if (!*file)
-		exit(-1);
+	(void)file;
 	*status = malloc(sizeof(t_status));
 	if (!*status)
 	{
@@ -85,12 +83,12 @@ char	*ft_readline(t_file **file)
 	free(cwd);
 	if (!cpy)
 	{
-		// rl_clear_history();
+		rl_clear_history();
 		free(cpy);
 		free(file);
 		exit(0);
 	}
-	// history(cpy);
+	history(cpy);
 	return (cpy);
 }
 

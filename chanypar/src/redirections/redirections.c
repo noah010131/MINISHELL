@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 18:09:03 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:05:11 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,10 @@ int	redirec_main(t_pipe *pipe, int flag)
 
 	current = pipe->current;
 	ret = pipe->ret;
-	file = pipe->file;
+	file = malloc(sizeof(t_file));
+	if (!file)
+		return (-1);
+	(*file) = NULL;
 	lst = pipe->lst;
 	current = *(ret);
 	(*ret)->flag = flag;

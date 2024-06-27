@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:10:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 18:44:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:55:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,5 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 		close(pipe.fds[i][1]);
 	}
 	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
+	return (0);
 }

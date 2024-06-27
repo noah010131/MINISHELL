@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/15 18:04:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:16:27 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	ft_new_tfile(t_file **file, char file_name[], int fd)
 {
-	t_file *new;
-	static int	isfirst;
+	t_file		*new;
 
 	new = malloc(sizeof(t_file));
 	if (!new)
@@ -23,18 +22,17 @@ int	ft_new_tfile(t_file **file, char file_name[], int fd)
 	new->file_name = file_name;
 	new->fd = fd;
 	new->f = NULL;
-	if (!isfirst)
+	if ((*file) == NULL)
 		new->prev = NULL;
 	else
 		new->prev = *(file);
-	if (!isfirst)
+	if ((*file) == NULL)
 		(*file) = new;
 	else
 		(*file)->next = new;
 	new->next = NULL;
-	if (isfirst)
+	if ((*file)->prev)
 		(*file) = (*file)->next;
-	isfirst++;
 	return (0);
 }
 
@@ -66,26 +64,28 @@ void	ft_del_tfile(t_file **file, int fd)
 
 int	close_file(t_file **file)
 {
-	t_file	*current_file;
-
-	current_file = *(file);
-	while (current_file->fd)
+	while ((*file))
 	{
-		if (current_file->f)
+		if ((*file)->f)
 		{
-			if (f_close2(current_file->fd, file, current_file->f) == -1)
+			if (f_close2((*file)->fd, file, (*file)->f) == -1)
 				return (-1);
-			if (!(ft_strcmp(current_file->file_name, TEMP)))
+			if (!(ft_strcmp((*file)->file_name, TEMP)))
 				remove(TEMP);
 		}
 		else
 		{
-			if (f_close(current_file->fd, file) == -1)
+			if (f_close((*file)->fd, file) == -1)
 				return (-1);
 		}
-		if (!current_file->next)
+		if (!(*file)->next)
+		{
+			free((*file));
 			break ;
-		current_file = current_file->next;
+		}
+		(*file) = (*file)->next;
+		free((*file)->prev);
 	}
+	free(file);
 	return (0);
 }

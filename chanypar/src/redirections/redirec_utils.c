@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 20:41:37 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:06:12 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_file **file, int cpy_stdin_out[], t_cmds **ret)
 	t_status	*stat;
 
 	stat = (*ret)->status;
+	(*ret)->file = file;
 	if (current->code_id == 11)
 		cpy_stdin_out[0] = ch_err(oper_redir_in
 				(current, file, cpy_stdin_out[0], stat), cpy_stdin_out);
