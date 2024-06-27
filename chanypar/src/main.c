@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 15:53:23 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 21:49:49 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	g_exit_code;
+int		g_exit_code = 0;
 
 void	sigint_handler(int sig)
 {
@@ -21,30 +21,29 @@ void	sigint_handler(int sig)
 
 	(void)sig;
 	cwd = getcwd(NULL, 1024);
-
 	snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
 	printf("\n%s", shell_prompt);
 }
 
-void	history(char *str)
-{
-	HIST_ENTRY	**his_list;
-	int			i;
-	char		*cpy;
+// void	history(char *str)
+// {
+// 	HIST_ENTRY	**his_list;
+// 	int			i;
+// 	char		*cpy;
 
-	i = -1;
-	cpy = ft_strdup(str);
-	his_list = NULL;
-	add_history(cpy);
-	free(cpy);
-	his_list = NULL;
-	his_list = history_list();
-	if (ft_strcmp(str, "history") == 0)
-	{
-		while (his_list[++i])
-			printf("%d: %s\n", i + 1, his_list[i]->line);
-	}
-}
+// 	i = -1;
+// 	cpy = ft_strdup(str);
+// 	his_list = NULL;
+// 	add_history(cpy);
+// 	free(cpy);
+// 	his_list = NULL;
+// 	his_list = history_list();
+// 	if (ft_strcmp(str, "history") == 0)
+// 	{
+// 		while (his_list[++i])
+// 			printf("%d: %s\n", i + 1, his_list[i]->line);
+// 	}
+// }
 
 void	set_param(int ac, char **av, t_file ***file, t_status **status)
 {
@@ -52,19 +51,18 @@ void	set_param(int ac, char **av, t_file ***file, t_status **status)
 	(void)av;
 	*file = malloc(sizeof(t_file));
 	if (!*file)
-		exit (-1);
+		exit(-1);
 	*status = malloc(sizeof(t_status));
 	if (!*status)
 	{
 		free(*file);
-		exit (-1);
+		exit(-1);
 	}
 	(*status)->isexit = 0;
 	using_history();
 	g_exit_code = 0;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
-
 }
 
 char	*ft_readline(t_file **file)
@@ -87,12 +85,12 @@ char	*ft_readline(t_file **file)
 	free(cwd);
 	if (!cpy)
 	{
-		rl_clear_history();
+		// rl_clear_history();
 		free(cpy);
 		free(file);
 		exit(0);
 	}
-	history(cpy);
+	// history(cpy);
 	return (cpy);
 }
 
@@ -121,7 +119,6 @@ int	main(int ac, char **av, char **env)
 		free_envp(lst);
 		free_tcmd(ret);
 		check_exit_code(status, g_exit_code);
-		status->code = g_exit_code;
 	}
 	return (0);
 }

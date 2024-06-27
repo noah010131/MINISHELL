@@ -6,13 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 11:57:14 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:42:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	check_arg(t_cmds *current, t_status *status)
+int	check_arg(t_cmds *current)
 {
 	int		i;
 
@@ -20,8 +20,7 @@ int	check_arg(t_cmds *current, t_status *status)
 	if (ft_isalpha(current->next->name[0]))
 	{
 		ft_putstr_fd("exit: numeric argument required\n", 2);
-		status->code = 2;
-		return (-1);
+		return (2);
 	}
 	current = current->next;
 	while (current->name[i] && ((current->name[i] >= '0' && current->name[i] <= '9')
@@ -34,31 +33,28 @@ int	check_arg(t_cmds *current, t_status *status)
 			i = 256 + i;
 		else if (i > 256)
 			i = i - 256;
-		status->code = i;
 	}
-	return (0);
+	return (i);
 }
 
 int	ft_exit(t_cmds **ret)
 {
 	t_cmds		*current;
-	t_status	*status;
+	int			rv;
 
 	current = *(ret);
-	status = (*ret)->status;
-	status->isexit = 1;
+	(*ret)->status->isexit = 1;
+	rv = 0;
 	if (current->next && !current->next->next)
 	{
-		if (check_arg(current, status))
-			return (-1);
+		rv = check_arg(current);
+		if (rv)
+			return (rv);
 	}
 	else if (current->next && current->next->next)
 	{
 		ft_putstr_fd("exit: too many arguments", 2);
-		status->code = 1;
 		return (-1);
 	}
-	else
-		status->code = 0;
 	return (0);
 }

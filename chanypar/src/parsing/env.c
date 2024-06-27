@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:19:16 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/29 17:50:31 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 22:15:54 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	*free_envp(t_envp **lst)
 
 	if (!lst)
 		return (NULL);
-	if (!*lst)
+	if (!(*lst))
 		return (free(lst), NULL);
 	current = *lst;
 	while (current)
@@ -99,6 +99,6 @@ void	*free_envp(t_envp **lst)
 		free(current);
 		current = tmp;
 	}
-	free(lst);
+	*lst = NULL;
 	return (NULL);
 }

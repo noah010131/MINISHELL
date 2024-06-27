@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:58:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 21:44:36 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 21:47:15 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ int	is_lim_exp(char c)
 	return (1);
 }
 
+int	ft_stricmp(const char *first, const char *second, size_t length)
+{
+	size_t	i;
+
+	i = 0;
+	if (ft_strlen(second) > length)
+		return (1);
+	while ((i < length) && (first[i] || second[i]))
+	{
+		if (first[i] != second[i])
+			return ((unsigned char)first[i] - (unsigned char)second[i]);
+		i += 1;
+	}
+	return (0);
+}
 // fonction qui a pour but de trouver un equivalent de la valeur
 // a expand dans le tableau d'environnement
 // retourne null si erreur ou si il n y a
@@ -37,12 +52,14 @@ t_envp	*env_match(char *str, t_envp **lst)
 	i = 0;
 	if (!str || !str[0] || !lst)
 		return (NULL);
+	if (str[i] == '?')
+		return (NULL);
 	while (str[i] && is_lim_exp(str[i]) == 0)
 		i++;
 	current = *lst;
 	while (current)
 	{
-		if (ft_strncmp(str, current->name, i) == 0)
+		if (ft_stricmp(str, current->name, i) == 0)
 			return (current);
 		current = current->next;
 	}
