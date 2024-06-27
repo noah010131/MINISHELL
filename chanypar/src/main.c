@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 15:45:51 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:46:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	main(int ac, char **av, char **env)
 	{
 		string = ft_readline(file);
 		ret = split_token(string);
-		free(string);
 		code_attr(ret);
 		lst = lst_env(env);
 		expanding(ret, lst);
@@ -117,6 +116,7 @@ int	main(int ac, char **av, char **env)
 		free_envp(lst);
 		free_tcmd(ret);
 		check_exit_code(status, g_exit_code);
+		free(string);
 	}
 	return (0);
 }

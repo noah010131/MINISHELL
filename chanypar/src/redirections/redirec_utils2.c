@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 17:46:00 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:22:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ int	exec_heredoc(t_file **file, int flag)
 	return (stdin_save);
 }
 
-int	exec(char *command, char **argv, t_cmds **ret)
+int	exec(char *command, char **argv, t_cmds **ret, char *check)
 {
 	int	pid;
 	int	status;
+
 
 	(void)ret;
 	pid = fork();
@@ -83,7 +84,7 @@ int	exec(char *command, char **argv, t_cmds **ret)
 	else
 	{
 		waitpid(pid, &status, 0);
-		status = check_exec(command, WEXITSTATUS(status));
+		status = check_exec(command, WEXITSTATUS(status), check);
 		free(command);
 		free(argv);
 		return (status);
@@ -117,5 +118,5 @@ int exec_command(t_cmds *c, t_cmds **ret)
 		c = c->next;
 	}
 	argv[i] = NULL;
-	return (exec(command, argv, ret));
+	return (exec(command, argv, ret, c->name));
 }

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:39:55 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/27 15:51:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 18:17:58 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ int	builtins_checker(t_cmds *current)
 		i++;
 	if (i != 7)
 		return (i);
+	i = 0;
+	if (current->code_id >= 11 && current->code_id <= 14)
+	{
+		if (!current->next && !current->next->next)
+			return (-1);
+		while (i < 7 && ft_strcmp(current->next->next->name, list_butilins[i]))
+			i++;
+		if (i != 7)
+			return (i);
+	}
 	i = 0;
 	if (!current->prev)
 		return (-1);
@@ -79,13 +89,21 @@ int	ch_err(int num, int cpy_stdin_out[])
 	return (num);
 }
 
-int check_exec(char *command, int status)
+int check_exec(char *command, int status, char *check)
 {
 	int	i;
+	struct stat buff;
 
 	if (status == 1)
 	{
 		ft_putstr_fd("minishell: ", 2);
+		if (stat(check, &buff) == 0 && !(buff.st_mode & S_IRUSR))
+		{
+			ft_putstr_fd(": Permission denied: ", 2);
+			ft_putstr_fd(check, 2);
+			ft_putstr_fd("\n", 2);
+			return(126);
+		}
 		if (errno == ENOENT)
 			ft_putstr_fd("No such file or directory: ", 2);
 		else
@@ -99,6 +117,16 @@ int check_exec(char *command, int status)
 	return (status);
 }
 
+t_cmds *check_posit(t_cmds *current)
+{
+	if (current->code_id >= 11 && current->code_id <= 14)
+	{
+		if (current->next)
+			current = current->next->next;
+	}
+	return (current);
+}
+
 int	parsing_command(int i, t_cmds *c, t_envp **lst, t_cmds **ret)
 {
 	if (c->prev && c->code_id != 9)
@@ -106,7 +134,7 @@ int	parsing_command(int i, t_cmds *c, t_envp **lst, t_cmds **ret)
 	if (c->prev && ft_strcmp(c->name, "cd") && ft_strcmp(c->name, "echo"))
 		c = c->prev;
 	if (i == 0)
-		return (ft_echo(c, ret));
+		return (ft_echo(check_posit(c), ret));
 	else if (i == 1)
 		return (ft_cd(c, lst));
 	else if (i == 2)
@@ -121,7 +149,7 @@ int	parsing_command(int i, t_cmds *c, t_envp **lst, t_cmds **ret)
 		return (ft_exit(ret));
 	else
 	{
-		if (c->code_id == 0)
+		if (c->code_id == 0 || (c->code_id >= 11 && c->code_id <= 14))
 			return (0);
 		return (exec_command(c, ret));
 	}

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 13:41:26 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:21:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <termcap.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 # define WORD 9
 # define PIPE_N 10
@@ -179,7 +181,7 @@ void				set_redir_parsing_param(int cpy_stdin_out[]);
 int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
-int					check_exec(char *command, int status);
+int					check_exec(char *command, int status, char *check);
 void				sigint_handler(int sig);
 int					exec_command(t_cmds *cmds, t_cmds **ret);
 
