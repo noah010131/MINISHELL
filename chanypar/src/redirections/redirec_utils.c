@@ -22,6 +22,7 @@ int	exec_finish(t_cmds **ret, t_envp **lst, t_file **file, int flag)
 	if (!flag && rv == -1)
 		return (1);
 	if (close_file(file) == -1)
+	free(file);
 		return (1);
 	return (rv);
 }

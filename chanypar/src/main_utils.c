@@ -6,18 +6,22 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/27 13:41:10 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:24:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_exit_code(t_status *status, int exit_code)
+void	check_exit_code(t_status *status, int exit_code, t_envp **lst)
 {
 	if (exit_code == 0 && status->isexit == 0)
 		return ;
 	if (status->isexit)
+	{
+		free(status);
+		free(lst);
 		exit(exit_code);
+	}
 }
 
 int	check_flag(int flag, int res)

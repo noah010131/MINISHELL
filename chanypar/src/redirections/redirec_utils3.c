@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:39:55 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/27 18:17:58 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:13:52 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ int	builtins_checker(t_cmds *current)
 
 t_cmds	*find_name(t_cmds *current, char name)
 {
-	t_cmds	*null;
-
 	if (name == 'r')
 	{
 		while (current->next && (current->code_id != 10)
@@ -67,14 +65,7 @@ t_cmds	*find_name(t_cmds *current, char name)
 			current = current->next;
 	}
 	if (!current->next)
-	{
-		null = malloc(sizeof(t_cmds));
-		null->code_id = 0;
-		null->name = NULL;
-		null->next = NULL;
-		null->prev = NULL;
-		return (null);
-	}
+		return (NULL);
 	return (current);
 }
 

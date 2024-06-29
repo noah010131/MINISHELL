@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 17:21:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:24:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int					set_command(t_cmds **ret, t_cmds ***new_ret, int i,
 void				set_pipe(t_cmds **ret, t_envp **list, t_file **file,
 						t_pipe *pipe);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
-void				check_exit_code(t_status *status, int exit_code);
+void				check_exit_code(t_status *status, int exit_code, t_envp **lst);
 int					check_flag(int flag, int res);
 void				set_redir_parsing_param(int cpy_stdin_out[]);
 int					convert_code(int num);
