@@ -20,9 +20,14 @@ void	sigint_handler(int sig)
 	char	shell_prompt[100];
 
 	(void)sig;
-	cwd = getcwd(NULL, 1024);
-	snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
-	printf("\n%s", shell_prompt);
+	if (g_exit_code != -2)
+	{
+		cwd = getcwd(NULL, 1024);
+		snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
+		printf("\n%s", shell_prompt);
+	}
+	else
+		printf("\n");
 }
 
 void	history(char *str)

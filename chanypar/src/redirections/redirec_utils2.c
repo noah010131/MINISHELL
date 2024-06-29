@@ -71,8 +71,8 @@ int	exec(char *command, char **argv, t_cmds **ret, char *check)
 	int	pid;
 	int	status;
 
-
 	(void)ret;
+	g_exit_code = -2;
 	pid = fork();
 	if (pid < 0)
 		return (-1);
