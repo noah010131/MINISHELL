@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/29 15:24:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/29 16:20:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int	main(int ac, char **av, char **env)
 	{
 		string = ft_readline(file);
 		ret = split_token(string);
+		if (!ret)
+			ft_free_all(ret, lst, status, 1);
 		code_attr(ret);
 		lst = lst_env(env);
 		expanding(ret, lst);
@@ -118,10 +120,8 @@ int	main(int ac, char **av, char **env)
 		(*ret)->status = status;
 		(*ret)->file = file;
 		g_exit_code = convert_code(pipe_main(ret, lst, file));
-		free_envp(lst);
-		free_tcmd(ret);
-		check_exit_code(status, g_exit_code, lst);
-		free(string);
+		ft_free_all(ret, lst, status, 0);
+		check_exit_code(status, g_exit_code, lst, string);
 	}
 	return (0);
 }
