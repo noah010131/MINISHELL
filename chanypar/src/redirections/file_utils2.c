@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/27 16:16:22 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:37:58 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	ft_new_tfile(t_file **file, char file_name[], int fd)
 	if ((*file) == NULL)
 		new->prev = NULL;
 	else
+	{
 		new->prev = *(file);
+		(*file)->next = new;
+	}
 	if ((*file) == NULL)
 		(*file) = new;
 	else
@@ -60,32 +63,27 @@ void	ft_del_tfile(t_file **file, int fd)
 		else
 			(*file)->next->prev = (*file)->prev;
 	}
+	(*file) = (*file)->prev;
+	free(current);
 }
 
-int	close_file(t_file **file)
+int	close_file(t_file **file, int rv)
 {
-	while ((*file))
+	while (file && (*file))
 	{
 		if ((*file)->f)
 		{
-			if (f_close2((*file)->fd, file, (*file)->f) == -1)
-				return (-1);
 			if (!(ft_strcmp((*file)->file_name, TEMP)))
 				remove(TEMP);
+			if (f_close2((*file)->fd, file, (*file)->f) == -1)
+				return (-1);
 		}
 		else
 		{
 			if (f_close((*file)->fd, file) == -1)
 				return (-1);
 		}
-		if (!(*file)->next)
-		{
-			free((*file));
-			break ;
-		}
-		(*file) = (*file)->next;
-		free((*file)->prev);
 	}
 	free(file);
-	return (0);
+	return (rv);
 }

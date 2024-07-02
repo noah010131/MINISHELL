@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/27 14:06:12 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:11:30 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_finish(t_cmds **ret, t_envp **lst, t_file **file, int flag)
 	rv = parsing_command(builtins_checker(current), current, lst, ret);
 	if (!flag && rv == -1)
 		return (1);
-	if (close_file(file) == -1)
+	if (close_file(file, 0) == -1)
 	free(file);
 		return (1);
 	return (rv);
@@ -112,11 +112,11 @@ int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 	res = 0;
 	flag = 0;
 
-	while (current->name)
+	while (current && current->name)
 	{
 		// check_in_out(current, lst, ret, cpy_stdin_out);
 		if (execute_parsing(current, file, cpy_stdin_out, ret) == -1)
-			return (-1);
+			return (close_file(file, -1));
 		current = find_name(current->next, 'r');
 		// res = check_in_out(current, lst, ret, cpy_stdin_out);
 		if (res == -1)

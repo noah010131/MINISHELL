@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/29 15:13:18 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:43:42 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	oper_redir_app(t_cmds *current,
 		return (-1);
 	}
 	fd = fileno(f);
+	(*file)->f = f;
 	if (fd == -1)
 		return (-1);
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -125,7 +126,10 @@ int	redirec_main(t_pipe *pipe, int flag)
 	t_envp	**lst;
 	int		i;
 
-	ret = pipe->ret;
+	if (flag == 1)
+		ret = pipe->new_ret;
+	else
+		ret = pipe->ret;
 	file = malloc(sizeof(t_file));
 	if (!file)
 		return (-1);

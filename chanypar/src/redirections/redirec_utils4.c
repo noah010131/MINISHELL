@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:09:16 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/29 16:19:15 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:41:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void ft_free_all(t_cmds **ret, t_envp **lst, t_status *status, int flag)
 	if (!flag)
 	{
 		free_envp(lst);
+		free(lst);
 		free_tcmd(ret);
 	}
 	else

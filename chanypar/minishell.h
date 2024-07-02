@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/29 16:20:40 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:35:26 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <termcap.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 # define WORD 9
 # define PIPE_N 10
@@ -81,6 +81,7 @@ typedef struct s_pipe
 	struct s_file	**file;
 	struct s_cmds	**ret;
 	struct s_cmds	**ret_save;
+	struct s_cmds	**new_ret;
 	struct s_envp	**lst;
 	struct s_cmds	*current;
 	int				num_pipes;
@@ -162,7 +163,7 @@ int					f_open(char *str, t_file **file);
 FILE				*f_open2(char *str, t_file **file, int redir);
 int					f_close(int fd, t_file **file);
 int					f_close2(int fd, t_file **file, FILE *f);
-int					close_file(t_file **file);
+int					close_file(t_file **file, int rv);
 int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
 int					time_w(void);
@@ -172,10 +173,9 @@ int					*set_posit(t_cmds **ret, int num);
 int					count_pipes(t_cmds **ret);
 int					set_command(t_cmds **ret, t_cmds ***new_ret, int i,
 						int num);
-void				set_pipe(t_cmds **ret, t_envp **list, t_file **file,
-						t_pipe *pipe);
-int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
-void				check_exit_code(t_status *status, int exit_code, t_envp **lst, char *string);
+void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe);
+int					pipe_main(t_cmds **ret, t_envp **list);
+void				check_exit_code(t_status *status, int exit_code, char *string);
 int					check_flag(int flag, int res);
 void				set_redir_parsing_param(int cpy_stdin_out[]);
 int					convert_code(int num);

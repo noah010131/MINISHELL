@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:10:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/27 12:55:01 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:50:02 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	malloc_pipe(int num_pipes, t_pipe *p)
 	return (0);
 }
 
-int	free_finish(int num_pipes, int *pids, int **fds)
+int	free_finish(int num_pipes, int *pids, int **fds, t_pipe *pipe)
 {
 	int	i;
 	int status;
@@ -62,15 +62,18 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 		free(fds[i]);
 	free(fds);
 	return (WEXITSTATUS(status));
+	free_tcmd(pipe->ret_save);
+	free(pipe);
+	return (0);
 }
 
 int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
 {
 	int	n;
 
-	if (set_command(pipe->ret_save, &new_ret, i, pipe->num_pipes) == -1)
+	if (set_command(pipe->ret, &new_ret, i, pipe->num_pipes) == -1)
 		return (-1);
-	pipe->ret = new_ret;
+	pipe->new_ret = new_ret;
 	pipe->pids[i] = fork();
 	if (pipe->pids[i] == 0)
 	{
@@ -91,14 +94,14 @@ int	execute_pipe(t_pipe *pipe, t_cmds **new_ret, int i)
 	return (0);
 }
 
-int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
+int	pipe_main(t_cmds **ret, t_envp **list)
 {
 	t_pipe		pipe;
 	t_cmds		**new_ret;
 	int			i;
 
 	new_ret = NULL;
-	set_pipe(ret, list, file, &pipe);
+	set_pipe(ret, list, &pipe);
 	pipe.num_pipes = count_pipes(ret);
 	if (!pipe.num_pipes)
 		return (redirec_main(&pipe, 0));
@@ -109,6 +112,7 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 	{
 		if (execute_pipe(&pipe, new_ret, i) == -1)
 			return (-1);
+		free_tcmd(pipe.new_ret);
 	}
 	i = -1;
 	while (++i < pipe.num_pipes)
@@ -116,6 +120,5 @@ int	pipe_main(t_cmds **ret, t_envp **list, t_file **file)
 		close(pipe.fds[i][0]);
 		close(pipe.fds[i][1]);
 	}
-	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
-	return (0);
+	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds, &pipe));
 }
