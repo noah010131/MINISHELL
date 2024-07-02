@@ -6,13 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 18:18:30 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:47:31 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int 	check_file_name(char *name, t_cmds **ret)
+int	check_file_name(char *name, t_cmds **ret)
 {
 	t_file	*file;
 
@@ -41,8 +41,6 @@ void	execute(t_cmds *current, t_cmds **ret)
 			if (check_file_name(current->name, ret))
 				current = current->next;
 		}
-		// if (current && (current->code_id > 12 && current->code_id <= 14))
-		// 	current = current->next;
 		if (!current)
 			break ;
 		if (current && current->code_id == 9 && i)

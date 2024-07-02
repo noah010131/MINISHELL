@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expands.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 21:50:51 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:50:34 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-/*
-creer une fonction qui a la ide d utils
-va lire dans les double quotes et les words si il faut
-les $"" par des valeurs
-
-*/
 
 int	expanding(t_cmds **cmds, t_envp **lst)
 {
@@ -45,9 +38,6 @@ int	expanding(t_cmds **cmds, t_envp **lst)
 	}
 	return (1);
 }
-// fonction qui donne le nombre d expands
-// dans une commande
-// -1 si erreur
 
 int	nb_expand(t_cmds *cmd)
 {
@@ -60,9 +50,7 @@ int	nb_expand(t_cmds *cmd)
 	return (exp_exception(cmd->name));
 }
 
-// fonction qui a pour but de trouver le nombre
-// d'expands a realiser pour la string
-// retourne -1 en cas d erreur
+
 int	exp_exception(char *str)
 {
 	int	i;
@@ -101,7 +89,7 @@ int	replace_exp(t_cmds *cmd, t_envp **lst)
 	while (str[i])
 	{
 		if (str[i] == '$' && ((is_lim_exp(str[i + 1]) == 0) || (str[i
-					+ 1] == '?')))
+						+ 1] == '?')))
 			return (cmd->name = new_expanded(str, str + i, env_match(str + i
 						+ 1, lst)), 1);
 		if (str[i] == '\'' && interpret(str, str + i) == 1)
@@ -191,10 +179,8 @@ char	*rep_ex_sig(char *str, char *ptr)
 	int		i;
 	int		j;
 
-	// char	*frs;
 	j = 0;
 	i = 0;
-	// frs = str;
 	sigar = ft_itoa(g_exit_code);
 	if (!sigar)
 		return (NULL);

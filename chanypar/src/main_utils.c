@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 11:40:15 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:54:53 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	check_flag(int flag, int res)
 		return (res);
 	return (flag);
 }
+
 void	set_redir_parsing_param(int cpy_stdin_out[])
 {
 	cpy_stdin_out[0] = 0;

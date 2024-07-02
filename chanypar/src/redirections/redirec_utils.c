@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 14:11:30 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:47:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ int	exec_finish(t_cmds **ret, t_envp **lst, t_file **file, int flag)
 	if (!flag && rv == -1)
 		return (1);
 	if (close_file(file, 0) == -1)
-	free(file);
+	{
+		free(file);
 		return (1);
+	}
 	return (rv);
 }
 
@@ -45,32 +47,6 @@ int	reset_stdin_out(int copy_stdin_out[])
 			return (-1);
 		}
 	}
-	return (0);
-}
-
-int	check_in_out(t_cmds *current, t_envp **lst, t_cmds **ret, int stdin_out[])
-{
-	static int	prev_redir;
-	t_cmds		*cur;
-
-	if (!prev_redir)
-	{
-		prev_redir = current->code_id;
-		return (0);
-	}
-	if (current->name && (!(prev_redir % 2) && (current->code_id % 2)))
-	{
-		cur = *(ret);
-		if (parsing_command(builtins_checker(cur), cur, lst, ret) == -1)
-			return (-1);
-		(void)stdin_out;
-		// if ((*ret)->flag == 0)
-			reset_stdin_out(stdin_out);
-		prev_redir = 0;
-		return (-1);
-	}
-	else
-		prev_redir = current->code_id;
 	return (0);
 }
 
@@ -114,11 +90,9 @@ int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 
 	while (current && current->name)
 	{
-		// check_in_out(current, lst, ret, cpy_stdin_out);
 		if (execute_parsing(current, file, cpy_stdin_out, ret) == -1)
 			return (close_file(file, -1));
 		current = find_name(current->next, 'r');
-		// res = check_in_out(current, lst, ret, cpy_stdin_out);
 		if (res == -1)
 			return (-1);
 		flag = check_flag(flag, res);

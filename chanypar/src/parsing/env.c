@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:19:16 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/29 15:24:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:49:26 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ dessus et l actualiser au fil des commandes
 
 t_envp	**lst_env(char **env)
 {
-	t_envp	**head;
-	int		i;
+	t_envp		**head;
+	int			i;
 
 	i = 0;
 	if (!env)

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/27 17:22:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:52:34 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	exec(char *command, char **argv, t_cmds **ret, char *check)
 	return (0);
 }
 
-int exec_command(t_cmds *c, t_cmds **ret)
+int	exec_command(t_cmds *c, t_cmds **ret)
 {
 	char	*command;
 	char	**argv;

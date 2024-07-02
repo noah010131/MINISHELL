@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 13:35:26 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:55:53 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,8 @@ int					set_command(t_cmds **ret, t_cmds ***new_ret, int i,
 						int num);
 void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe);
 int					pipe_main(t_cmds **ret, t_envp **list);
-void				check_exit_code(t_status *status, int exit_code, char *string);
+void				check_exit_code(t_status *status,
+						int exit_code, char *string);
 int					check_flag(int flag, int res);
 void				set_redir_parsing_param(int cpy_stdin_out[]);
 int					convert_code(int num);
@@ -184,7 +185,8 @@ int					reset_stdin_out(int copy_stdin_out[]);
 int					check_exec(char *command, int status, char *check);
 void				sigint_handler(int sig);
 int					exec_command(t_cmds *cmds, t_cmds **ret);
-void				ft_free_all(t_cmds **ret, t_envp **lst, t_status *status, int flag);
-extern int g_exit_code;
+void				ft_free_all(t_cmds **ret,
+						t_envp **lst, t_status *status, int flag);
+extern int	g_exit_code;
 
 #endif

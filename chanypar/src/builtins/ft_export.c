@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 22:37:45 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:48:44 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,24 +72,4 @@ int	ft_export(t_cmds *cmds, t_envp **env)
 		return (-1);
 	return (0);
 }
-// petit probleme car la fonction de base ne se
-// comporte pas comme ailleurs dans le lexing
-// a voir
-// int	syn_export(char *str)
-// {
-// 	if (!str)
-// 		return (NULL);
-// 	int i = 0;
-// 	while (ft_isspace(str[i]))
-// 		i++;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '=')
-// 			break ;
-// 		i++;
-// 	}
-// 	if (str[i++] != '=')
-// 		return (1);
-// 	while (str[i])
 
-// }

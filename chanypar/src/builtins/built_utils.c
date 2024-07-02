@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 20:21:39 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/25 20:36:54 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:48:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	update_env(t_envp **lst, char *key, char *n_value)
 {
-	t_envp *current;
+	t_envp	*current;
 
 	if (!lst || !key)
 		return (-1);

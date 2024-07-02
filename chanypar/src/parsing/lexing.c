@@ -6,15 +6,12 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:03:59 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/22 20:36:12 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:50:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// debut de la fonction qui va servir a attribuer
-// un code token a chaque t_cmd
-//-1 si erreur
 int	code_attr(t_cmds **cmds)
 {
 	t_cmds	*current;
@@ -41,9 +38,6 @@ int	code_lex(char *str)
 	return (WORD);
 }
 
-// fonction qui retourne 1 si le mot est entierement
-// compose de symboles(meta charatceres)
-//-1 si erreur
 int	is_not_word(char *str)
 {
 	int	i;
@@ -75,10 +69,6 @@ int	meta_type(char *str)
 	return (0);
 }
 
-// fonction qui retourne le type de quote qui entoure
-// le char deja parse
-// -1 si erreur
-// 0 si il y a pas de quotes
 int	type_quote(char *str)
 {
 	if (!str)

@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expands_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:58:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 13:23:14 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:49:44 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// fonction qui a pour but de definir la taille de la
-// valeur a expand
 
 int	is_lim_exp(char c)
 {
@@ -39,11 +36,7 @@ int	ft_stricmp(const char *first, const char *second, size_t length)
 	}
 	return (0);
 }
-// fonction qui a pour but de trouver un equivalent de la valeur
-// a expand dans le tableau d'environnement
-// retourne null si erreur ou si il n y a
-// pas de valeur correspondante
-// retorune la value qui match si il y a un match
+
 t_envp	*env_match(char *str, t_envp **lst)
 {
 	int		i;

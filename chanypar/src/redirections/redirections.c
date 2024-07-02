@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 15:43:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:46:11 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,12 @@ int	redirec_main(t_pipe *pipe, int flag)
 		return (-1);
 	(*file) = NULL;
 	lst = pipe->lst;
-	(*ret)->flag = flag;
 	current = (*ret);
 	current = find_name(current, 'r');
 	if (!current)
 	{
 		current = *(ret);
-		i = builtins_checker(current);
-		i = parsing_command(i, current, lst, ret);
+		i = parsing_command(builtins_checker(current), current, lst, ret);
 		free(file);
 		return (i);
 	}
