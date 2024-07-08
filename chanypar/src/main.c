@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 13:17:49 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/08 11:42:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	set_param(int ac, char **av, t_status **status)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-char	*ft_readline(void)
+char	*ft_readline(t_status *status)
 {
 	char	*cpy;
 	char	*cwd;
@@ -87,6 +87,7 @@ char	*ft_readline(void)
 	{
 		rl_clear_history();
 		free(cpy);
+		free(status);
 		exit(0);
 	}
 	history(cpy);
@@ -103,7 +104,7 @@ int	main(int ac, char **av, char **env)
 	set_param(ac, av, &status);
 	while (1)
 	{
-		string = ft_readline();
+		string = ft_readline(status);
 		ret = split_token(string);
 		if (!ret)
 			ft_free_all(ret, lst, status, 1);
