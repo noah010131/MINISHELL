@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 15:52:34 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:58:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ int	exec(char *command, char **argv, t_cmds **ret, char *check)
 
 int	exec_command(t_cmds *c, t_cmds **ret)
 {
-	char	*command;
 	char	**argv;
 	int		i;	
 
 	argv = NULL;
-	command = ft_strjoin("/bin/", c->name);
+	if (c->code_id == 0 || (c->code_id >= 11 && c->code_id <= 14))
+		return (0);
 	argv = malloc(100);
 	if (!argv)
 		return (-1);
@@ -118,5 +118,5 @@ int	exec_command(t_cmds *c, t_cmds **ret)
 		c = c->next;
 	}
 	argv[i] = NULL;
-	return (exec(command, argv, ret, c->name));
+	return (exec(put_path(c, ret), argv, ret, c->name));
 }

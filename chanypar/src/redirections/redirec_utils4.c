@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:09:16 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 15:54:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:41:11 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,32 @@ void	ft_free_all(t_cmds **ret, t_envp **lst, t_status *status, int flag)
 	}
 }
 
-int	check_redir_builtins(t_cmds *current, char list_builtins[][7])
+int	check_redir_builtins(t_cmds *c, char list_builtins[][7])
 {
 	int	i;
+	int	flag;
 
 	i = 0;
-	if (current->code_id >= 11 && current->code_id <= 14)
+	flag = 0;
+	if (c->code_id >= 11 && c->code_id <= 14)
 	{
-		if (!current->next && !current->next->next)
+		if (!c->next || !c->next->next)
 			return (-1);
-		while (i < 7 && ft_strcmp(current->next->next->name, list_builtins[i]))
+		while (i < 7 && ft_strcmp(c->next->next->name, list_builtins[i]))
 			i++;
 		if (i != 7)
 			return (i);
+		flag = 1;
 	}
 	i = 0;
-	if (!current->prev)
+	if (!c->prev && !flag)
 		return (-1);
-	while (i < 7 && ft_strcmp(current->prev->name, list_builtins[i]))
+	while (c->prev && (i < 7 && ft_strcmp(c->prev->name, list_builtins[i])))
 		i++;
-	if (i != 7)
+	if (c->prev && i != 7)
 		return (i);
+	if (flag)
+		return (-2);
 	return (-1);
 }
 
@@ -102,3 +107,4 @@ int	builtins_checker(t_cmds *current)
 		return (i);
 	return (check_redir_builtins(current, list_builtins));
 }
+

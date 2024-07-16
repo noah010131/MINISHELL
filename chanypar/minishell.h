@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 15:55:53 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:44:18 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 	struct s_status	*status;
 	struct s_file	**file;
+	char			**env;
 }					t_cmds;
 
 typedef struct s_envp
@@ -187,6 +188,7 @@ void				sigint_handler(int sig);
 int					exec_command(t_cmds *cmds, t_cmds **ret);
 void				ft_free_all(t_cmds **ret,
 						t_envp **lst, t_status *status, int flag);
+char 				*put_path(t_cmds *c, t_cmds **ret);
 extern int	g_exit_code;
 
 #endif
