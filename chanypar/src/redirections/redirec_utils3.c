@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 17:39:55 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 15:57:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:25:27 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_cmds	*find_name(t_cmds *current, char name)
 
 int	ch_err(int num, int cpy_stdin_out[])
 {
-
 	if (num == -1)
 	{
 		reset_stdin_out(cpy_stdin_out);
@@ -79,5 +78,3 @@ int	parsing_command(int i, t_cmds *c, t_envp **lst, t_cmds **ret)
 	}
 	return (0);
 }
-
-

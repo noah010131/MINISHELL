@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 17:58:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:24:51 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	exec_command(t_cmds *c, t_cmds **ret)
 		return (-1);
 	i = 0;
 	while (c)
-	{	
+	{
 		if (c->code_id >= 11 & c->code_id <= 14)
 		{
 			c = c->next;

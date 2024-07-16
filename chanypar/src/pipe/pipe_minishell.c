@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:10:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 13:50:02 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:23:08 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	malloc_pipe(int num_pipes, t_pipe *p)
 int	free_finish(int num_pipes, int *pids, int **fds, t_pipe *pipe)
 {
 	int	i;
-	int status;
+	int	status;
 
 	i = -1;
 	while (++i <= num_pipes)

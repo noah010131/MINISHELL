@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 15:46:11 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:25:10 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	oper_heredoc_in(t_cmds *current,
 		stdin_save = 0;
 		flag = 14;
 	}
-
 	if (read_heredoc(current->next->name, file, flag) == -1)
 		return (-1);
 	stdin_save = exec_heredoc(file, stdin_save);
@@ -146,4 +145,3 @@ int	redirec_main(t_pipe *pipe, int flag)
 	}
 	return (parsing_redir(current, ret, lst, file));
 }
-

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:09:16 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 17:41:11 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:26:42 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	check_exec(char *command, int status, char *check)
 {
-	int	i;
-	struct stat buff;
+	int			i;
+	struct stat	buff;
 
 	if (status == 1)
 	{
@@ -107,4 +107,3 @@ int	builtins_checker(t_cmds *current)
 		return (i);
 	return (check_redir_builtins(current, list_builtins));
 }
-

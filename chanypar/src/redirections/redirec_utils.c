@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 15:47:14 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:26:16 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 	set_redir_parsing_param(cpy_stdin_out);
 	res = 0;
 	flag = 0;
-
 	while (current && current->name)
 	{
 		if (execute_parsing(current, file, cpy_stdin_out, ret) == -1)

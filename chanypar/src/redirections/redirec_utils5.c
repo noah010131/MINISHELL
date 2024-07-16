@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 17:47:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:24:08 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ char	*pathfinder(char *cmd, char **path_t)
 
 char	*put_path(t_cmds *c, t_cmds **ret)
 {
-    int     i;
-    char	**temp_path;
+	int		i;
+	char	**temp_path;
 	char	*path;
-    
-    i = 0;
-    if (access(c->name, F_OK) == 0)
-		return(ft_strdup(c->name));
+
+	i = 0;
+	if (access(c->name, F_OK) == 0)
+		return (ft_strdup(c->name));
 	else
 	{
 		while ((*ret)->env[i])
@@ -60,5 +60,5 @@ char	*put_path(t_cmds *c, t_cmds **ret)
 		temp_path = ft_split((*ret)->env[i], ':');
 		path = pathfinder(c->name, temp_path);
 	}
-    return (path);
+	return (path);
 }

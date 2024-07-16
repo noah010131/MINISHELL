@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 15:52:14 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:24:26 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void	ft_del_tfile(t_file **file, int fd)
 		if ((*file)->next)
 			(*file)->prev->next = (*file)->next;
 		else
-			(*file)->prev->next = NULL; // while fd in looking is a lastlist
+			(*file)->prev->next = NULL;
 	}
 	if ((*file)->next)
 	{
-		if (current->fd == fd) // while fd in looking is a head
+		if (current->fd == fd)
 		{
 			(*file)->next->prev = NULL;
 			current = current->next;
