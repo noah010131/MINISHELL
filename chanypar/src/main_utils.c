@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/02 15:54:53 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:13:42 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	convert_code(int num)
 	return (num);
 }
 
-
 int	time_w(void)
 {
 	struct timespec	req;
@@ -53,4 +52,3 @@ int	time_w(void)
 	req.tv_nsec = (100 % 1000000) * 1000;
 	return (nanosleep (&req, NULL));
 }
-

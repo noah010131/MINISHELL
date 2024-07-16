@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 20:42:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:17:06 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	check_arg(t_cmds *current)
 		return (2);
 	}
 	current = current->next;
-	while (current->name[i] && ((current->name[i] >= '0' && current->name[i] <= '9')
-		|| (current->name[0] == '+' || current->name[0] == '-')))
+	while (current->name[i]
+		&& ((current->name[i] >= '0' && current->name[i] <= '9')
+			|| (current->name[0] == '+' || current->name[0] == '-')))
 		i++;
 	if (!current->name[i])
 	{

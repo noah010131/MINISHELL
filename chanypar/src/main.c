@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/16 16:27:26 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:14:15 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	set_param(int ac, char **av, t_status **status)
 	(void)av;
 	*status = malloc(sizeof(t_status));
 	if (!*status)
-
 		exit(-1);
 	(*status)->isexit = 0;
 	using_history();

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:47:18 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 15:48:32 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:17:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_env(t_envp **lst)
 {
-	t_envp *current;
-	
+	t_envp	*current;
+
 	if (!lst)
 		return (1);
 	current = *lst;

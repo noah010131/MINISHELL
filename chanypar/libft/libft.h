@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 22:36:59 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:12:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void				init_printf(int *i, int *len);
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 45
 # endif
-
 
 char				*distrib(char *ret, char *reste, char *acquired);
 char				*re_alloc(char *ret, char *acquired);

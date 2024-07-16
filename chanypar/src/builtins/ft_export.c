@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 15:48:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:18:15 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,3 @@ int	ft_export(t_cmds *cmds, t_envp **env)
 		return (-1);
 	return (0);
 }
-

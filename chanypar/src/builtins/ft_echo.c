@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 15:47:31 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:14:59 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	execute(t_cmds *current, t_cmds **ret)
 {
 	int	i;
 
-	i = 0;	
+	i = 0;
 	while (current && (current->code_id == 9
-			|| (current->code_id >=20 && current->code_id != 22)
+			|| (current->code_id >= 20 && current->code_id != 22)
 			|| current->code_id == 11 || current->code_id == 12))
 	{
 		while (current && (current->code_id == 11 || current->code_id == 12))
