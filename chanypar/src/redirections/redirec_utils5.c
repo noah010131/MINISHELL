@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/17 17:36:41 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:40:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	read_heredoc(char *end_str, t_file **file, int flag)
 	int		pid;
 	int		status;
 
-	if (access(TEMP, F_OK) == 0)
-		remove(TEMP);
+	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
+		return (-1);
 	temp = f_open2(TEMP, file, flag);
 	pid = fork();
 	if (pid == -1)

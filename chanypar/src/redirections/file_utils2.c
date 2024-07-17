@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 20:24:26 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:42:22 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	close_file(t_file **file, int rv)
 		if ((*file)->f)
 		{
 			if (!(ft_strcmp((*file)->file_name, TEMP)))
-				remove(TEMP);
+				unlink(TEMP);
 			if (f_close2((*file)->fd, file, (*file)->f) == -1)
 				return (-1);
 		}
