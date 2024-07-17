@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/16 18:13:04 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:09:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,8 @@ int					*set_posit(t_cmds **ret, int num);
 int					count_pipes(t_cmds **ret);
 int					set_command(t_cmds **ret, t_cmds ***new_ret, int i,
 						int num);
-void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe);
-int					pipe_main(t_cmds **ret, t_envp **list);
+void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe, char **env);
+int					pipe_main(t_cmds **ret, t_envp **list, char **env);
 void				check_exit_code(t_status *status,
 						int exit_code, char *string);
 int					check_flag(int flag, int res);

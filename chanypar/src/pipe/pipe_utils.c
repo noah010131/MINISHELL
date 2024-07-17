@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:45:06 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 20:22:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:09:27 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,15 @@ int	*set_posit(t_cmds **ret, int num)
 	return (posit);
 }
 
-void	set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe)
+void	set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe, char **env)
 {
 	pipe->ret = ret;
 	pipe->lst = list;
 	pipe->current = *(ret);
+	(*ret)->env = env;
 }
 
-t_cmds	*make_list(t_cmds *current)
+t_cmds	*make_list(t_cmds *current, char **env, t_status *status, int flag)
 {
 	t_cmds	*new;
 
@@ -58,6 +59,11 @@ t_cmds	*make_list(t_cmds *current)
 	new->name = ft_strdup(current->name);
 	new->next = NULL;
 	new->prev = NULL;
+	if (flag)
+	{
+		new->env = env;
+		new->status = status;
+	}
 	return (new);
 }
 
@@ -74,14 +80,14 @@ int	set_command(t_cmds **ret, t_cmds ***new_ret, int i, int num)
 	while (i != 0 && ++n < pipe_posit[i] + 1)
 		current_ret = current_ret->next;
 	*new_ret = malloc(sizeof(t_cmds));
-	new = make_list(current_ret);
+	new = make_list(current_ret, (*ret)->env, (*ret)->status, 1);
 	if (!*new_ret || !new)
 		return (-1);
 	**new_ret = new;
 	current_ret = current_ret->next;
 	while (current_ret && current_ret->code_id != 10)
 	{
-		new->next = make_list(current_ret);
+		new->next = make_list(current_ret, (*ret)->env, (*ret)->status, 0);
 		new->next->prev = new;
 		new = new->next;
 		current_ret = current_ret->next;
