@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/17 17:40:40 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:09:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ int	print_buff(char *buffer, int filenum)
 	ft_putstr_fd(buffer, filenum);
 	ft_putchar_fd('\n', filenum);
 	free(buffer);
+	buffer = NULL;
 	return (0);
 }
-int put_heredoc(char *buffer, char *end_str, t_file **file, FILE *temp)
+
+int	put_heredoc(char *buffer, char *end_str, t_file **file, FILE *temp)
 {
 	signal(SIGINT, SIG_DFL);
 	while (1)
@@ -30,7 +32,7 @@ int put_heredoc(char *buffer, char *end_str, t_file **file, FILE *temp)
 		if (!buffer)
 		{
 			ft_putchar_fd('\n', 1);
-			ft_putstr_fd("MINI:  warning: here-document delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd("MINI:  warning:here-document delimited by end-of-file (wanted `", 2);
 			ft_putstr_fd(end_str, 2);
 			ft_putstr_fd("')\n", 2);
 			exit(f_close2(fileno(temp), file, temp));
@@ -42,6 +44,7 @@ int put_heredoc(char *buffer, char *end_str, t_file **file, FILE *temp)
 	}
 	exit (f_close2(fileno(temp), file, temp));
 }
+
 int	read_heredoc(char *end_str, t_file **file, int flag)
 {
 	FILE	*temp;
@@ -51,12 +54,14 @@ int	read_heredoc(char *end_str, t_file **file, int flag)
 
 	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
 		return (-1);
-	temp = f_open2(TEMP, file, flag);
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
+	{
+		temp = f_open2(TEMP, file, flag);
 		put_heredoc(buffer, end_str, file, temp);
+	}
 	else
 	{
 		signal(SIGINT, SIG_IGN);
