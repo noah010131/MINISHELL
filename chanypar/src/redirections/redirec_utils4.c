@@ -6,13 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:09:16 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/17 11:55:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:07:18 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	check_exec(char *command, int status, char *check)
+int	check_exec(char *command, int status, char *check, int o_status)
 {
 	int			i;
 	struct stat	buff;
@@ -35,6 +35,11 @@ int	check_exec(char *command, int status, char *check)
 		ft_putstr_fd(command, 2);
 		ft_putstr_fd("\n", 2);
 		return (127);
+	}
+	else if (o_status == 131)
+	{
+		ft_putstr_fd("Quit (core dumped)\n", 2);
+		return (o_status);
 	}
 	return (status);
 }

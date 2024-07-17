@@ -6,18 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/17 13:53:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:24:24 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	sigint_han(int sig)
-{
-	(void)sig;
-	printf("\n>");
-	g_exit_code = -3;
-}
+
 
 int	print_buff(char *buffer, int filenum)
 {
@@ -28,33 +23,51 @@ int	print_buff(char *buffer, int filenum)
 	free(buffer);
 	return (0);
 }
-
-int	read_heredoc(char *end_str, t_file **file, int flag)
+int put_heredoc(char *buffer, char *end_str, t_file **file, FILE *temp)
 {
-	FILE	*temp;
-	char	*buffer;
-
-	temp = f_open2(TEMP, file, flag);
-	signal(SIGINT, sigint_han);
+	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
 		buffer = readline(">");
 		if (g_exit_code == -3 || buffer == NULL)
 		{
 			if (g_exit_code == -3)
-			return (-1);
+			exit (-1);
 			ft_putchar_fd('\n', 1);
-			ft_putstr_fd("MINI:  warning: here-document at line 1 delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd("MINI:  warning: here-document delimited by end-of-file (wanted `", 2);
 			ft_putstr_fd(end_str, 2);
 			ft_putstr_fd("')\n", 2);
-			return(f_close2(fileno(temp), file, temp));
+			exit(f_close2(fileno(temp), file, temp));
 		}
 		if (ft_strncmp(buffer, end_str, ft_strlen(end_str)) == 0)
 			break ;
 		if (print_buff(buffer, fileno(temp)) == -1)
-			return (-1);
+			exit (-1);
 	}
-	return (f_close2(fileno(temp), file, temp));
+	exit (f_close2(fileno(temp), file, temp));
+}
+int	read_heredoc(char *end_str, t_file **file, int flag)
+{
+	FILE	*temp;
+	char	*buffer;
+	int		pid;
+	int		status;
+
+	temp = f_open2(TEMP, file, flag);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+		put_heredoc(buffer, end_str, file, temp);
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(pid, &status, 0);
+		if (status == 2)
+			printf("\n");
+		return (status);
+	}
+	return (0);
 }
 
 int	exec_heredoc(t_file **file, int flag)

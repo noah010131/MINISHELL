@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/17 15:09:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:05:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void				set_redir_parsing_param(int cpy_stdin_out[]);
 int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
-int					check_exec(char *command, int status, char *check);
+int					check_exec(char *command, int status, char *check, int o_status);
 void				sigint_handler(int sig);
 int					exec_command(t_cmds *cmds, t_cmds **ret);
 void				ft_free_all(t_cmds **ret,
