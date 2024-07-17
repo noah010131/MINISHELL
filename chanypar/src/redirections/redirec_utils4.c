@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:09:16 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 20:26:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:55:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int	check_exec(char *command, int status, char *check)
 		else
 			ft_putstr_fd("Command not found: ", 2);
 		i = 4;
-		while (command[++i])
-			ft_putchar_fd(command[i], 2);
+		ft_putstr_fd(command, 2);
 		ft_putstr_fd("\n", 2);
 		return (127);
 	}
