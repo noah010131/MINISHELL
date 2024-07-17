@@ -6,13 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/17 16:24:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:36:41 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-
 
 int	print_buff(char *buffer, int filenum)
 {
@@ -29,10 +27,8 @@ int put_heredoc(char *buffer, char *end_str, t_file **file, FILE *temp)
 	while (1)
 	{
 		buffer = readline(">");
-		if (g_exit_code == -3 || buffer == NULL)
+		if (!buffer)
 		{
-			if (g_exit_code == -3)
-			exit (-1);
 			ft_putchar_fd('\n', 1);
 			ft_putstr_fd("MINI:  warning: here-document delimited by end-of-file (wanted `", 2);
 			ft_putstr_fd(end_str, 2);
@@ -53,6 +49,8 @@ int	read_heredoc(char *end_str, t_file **file, int flag)
 	int		pid;
 	int		status;
 
+	if (access(TEMP, F_OK) == 0)
+		remove(TEMP);
 	temp = f_open2(TEMP, file, flag);
 	pid = fork();
 	if (pid == -1)
