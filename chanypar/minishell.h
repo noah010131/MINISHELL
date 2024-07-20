@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/17 17:05:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:54:09 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/wait.h>
-# include <unistd.h>
-# include <termcap.h>
-# include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <termcap.h>
+# include <unistd.h>
 
 # define WORD 9
 # define PIPE_N 10
@@ -95,6 +95,13 @@ typedef struct s_status
 	int				isexit;
 }					t_status;
 
+typedef struct s_exptr
+{
+	struct s_cmds	**cmds;
+	struct s_envp	**env;
+	int				num;
+}					t_exptr;
+
 t_cmds				*ft_new_tcmd(char *str, int code);
 int					code_attr(t_cmds **cmds);
 int					ft_occur(char *str, char c);
@@ -157,7 +164,7 @@ int					oper_redir_in(t_cmds *current, t_file **file,
 int					oper_redir_out(t_cmds *current, t_file **file,
 						int stdout_save, t_status *stat);
 int					oper_heredoc_in(t_cmds *current, t_file **file,
-						int stdin_save, t_status *stat);
+						t_exptr *temp, t_status *stat);
 int					oper_redir_app(t_cmds *current, t_file **file,
 						int stdout_save, t_status *stat);
 int					f_open(char *str, t_file **file);
@@ -168,27 +175,33 @@ int					close_file(t_file **file, int rv);
 int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
 int					time_w(void);
-int					read_heredoc(char *end_str, t_file **file, int flag);
+int					read_heredoc(char *end_str, t_file **file, int flag,
+						t_envp **env);
 int					exec_heredoc(t_file **file, int flag);
 int					*set_posit(t_cmds **ret, int num);
 int					count_pipes(t_cmds **ret);
 int					set_command(t_cmds **ret, t_cmds ***new_ret, int i,
 						int num);
-void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe, char **env);
+void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe,
+						char **env);
 int					pipe_main(t_cmds **ret, t_envp **list, char **env);
-void				check_exit_code(t_status *status,
-						int exit_code, char *string);
+void				check_exit_code(t_status *status, int exit_code,
+						char *string);
 int					check_flag(int flag, int res);
 void				set_redir_parsing_param(int cpy_stdin_out[]);
 int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
-int					check_exec(char *command, int status, char *check, int o_status);
+int					check_exec(char *command, int status, char *check,
+						int o_status);
 void				sigint_handler(int sig);
 int					exec_command(t_cmds *cmds, t_cmds **ret);
-void				ft_free_all(t_cmds **ret,
-						t_envp **lst, t_status *status, int flag);
+void				ft_free_all(t_cmds **ret, t_envp **lst, t_status *status,
+						int flag);
 char				*put_path(t_cmds *c, t_cmds **ret);
-extern int	g_exit_code;
+char					*expanding_hd(char *str, t_envp **envp);
+char				*free_ret_nul(char *str);
+
+extern int			g_exit_code;
 
 #endif

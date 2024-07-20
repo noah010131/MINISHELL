@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirec_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 20:26:16 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:01:01 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,13 @@ int	reset_stdin_out(int copy_stdin_out[])
 }
 
 int	execute_parsing(t_cmds *current,
-t_file **file, int cpy_stdin_out[], t_cmds **ret)
+t_file **file, int cpy_stdin_out[], t_exptr *temp)
 {
 	t_status	*stat;
+    t_cmds **ret;
 
+    ret = temp->cmds;
+    temp->num = cpy_stdin_out[0];
 	stat = (*ret)->status;
 	(*ret)->file = file;
 	if (current->code_id == 11)
@@ -67,7 +70,7 @@ t_file **file, int cpy_stdin_out[], t_cmds **ret)
 	else if (current->code_id == 13)
 		cpy_stdin_out[0]
 			= ch_err(oper_heredoc_in
-				(current, file, cpy_stdin_out[0], stat), cpy_stdin_out);
+				(current, file, temp, stat), cpy_stdin_out);
 	else if (current->code_id == 14)
 		cpy_stdin_out[1]
 			= ch_err(oper_redir_app
@@ -83,13 +86,16 @@ int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 	int	res;
 	int	flag;
 	int	rv;
+    t_exptr temp;
 
 	set_redir_parsing_param(cpy_stdin_out);
 	res = 0;
 	flag = 0;
+    temp.cmds = ret;
+    temp.env = lst;
 	while (current && current->name)
 	{
-		if (execute_parsing(current, file, cpy_stdin_out, ret) == -1)
+		if (execute_parsing(current, file, cpy_stdin_out, &temp) == -1)
 			return (close_file(file, -1));
 		current = find_name(current->next, 'r');
 		if (res == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 20:25:10 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:03:34 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ int	oper_redir_out(t_cmds *current,
 }
 
 int	oper_heredoc_in(t_cmds *current,
-	t_file **file, int stdin_save, t_status *stat)
+	t_file **file, t_exptr *temp, t_status *stat)
 {
 	int	flag;
+    int stdin_save;
 
+    stdin_save = temp->num;
 	flag = 12;
 	(void)stat;
 	if (stdin_save != 0)
@@ -81,7 +83,7 @@ int	oper_heredoc_in(t_cmds *current,
 		stdin_save = 0;
 		flag = 14;
 	}
-	if (read_heredoc(current->next->name, file, flag) == -1)
+	if (read_heredoc(current->next->name, file, flag,temp->env) == -1)
 		return (-1);
 	stdin_save = exec_heredoc(file, stdin_save);
 	return (stdin_save);

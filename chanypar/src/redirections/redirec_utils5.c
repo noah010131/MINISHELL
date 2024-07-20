@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/17 18:09:56 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:35:10 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	print_buff(char *buffer, int filenum)
 	ft_putstr_fd(buffer, filenum);
 	ft_putchar_fd('\n', filenum);
 	free(buffer);
-	buffer = NULL;
 	return (0);
 }
-
-int	put_heredoc(char *buffer, char *end_str, t_file **file, FILE *temp)
+int	put_heredoc(t_envp **env, char *end_str, t_file **file, FILE *temp)
 {
+	char	*buffer;
+
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
@@ -32,23 +32,23 @@ int	put_heredoc(char *buffer, char *end_str, t_file **file, FILE *temp)
 		if (!buffer)
 		{
 			ft_putchar_fd('\n', 1);
-			ft_putstr_fd("MINI:  warning:here-document delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd("MINI:  warning: here-document delimited by end-of-file (wanted `",
+				2);
 			ft_putstr_fd(end_str, 2);
 			ft_putstr_fd("')\n", 2);
 			exit(f_close2(fileno(temp), file, temp));
 		}
+		buffer = expanding_hd(buffer, env);
 		if (ft_strncmp(buffer, end_str, ft_strlen(end_str)) == 0)
 			break ;
 		if (print_buff(buffer, fileno(temp)) == -1)
-			exit (-1);
+			exit(-1);
 	}
-	exit (f_close2(fileno(temp), file, temp));
+	exit(f_close2(fileno(temp), file, temp));
 }
-
-int	read_heredoc(char *end_str, t_file **file, int flag)
+int	read_heredoc(char *end_str, t_file **file, int flag, t_envp **env)
 {
 	FILE	*temp;
-	char	*buffer;
 	int		pid;
 	int		status;
 
@@ -60,7 +60,7 @@ int	read_heredoc(char *end_str, t_file **file, int flag)
 	if (pid == 0)
 	{
 		temp = f_open2(TEMP, file, flag);
-		put_heredoc(buffer, end_str, file, temp);
+		put_heredoc(env, end_str, file, temp);
 	}
 	else
 	{
