@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/10/17 14:29:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:17:38 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int		g_exit_code = 0;
 
 void	sigint_handler(int sig)
 {
-	char	*cwd;
-
 	(void)sig;
 	if (g_exit_code != -2)
 		printf("\n%s", "MINI:");
@@ -90,7 +88,6 @@ void	init_ori(t_ori *ori)
 int	main(int ac, char **av, char **env)
 {
 	t_ori		ori;
-	int			i;
 
 	set_param(ac, av);
 	init_ori(&ori);

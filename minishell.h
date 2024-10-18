@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/10/17 14:31:01 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:10:51 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,7 @@ char				*rep_ex_sig(char *str, char *ptr);
 int					all_toge(t_ori *ori);
 
 int					parsing_command(t_pars *c, t_envp **lst, t_ori *ori);
-int					check_exec_status(char *command,
-						int status, char *check, int o_status);
+int					check_error(char *command, char **arguments, int status);
 int					oper_redir_in(t_pars *c, int stdin_save);
 int					oper_redir_out(t_pars *c, int stdout_save);
 int					oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst);

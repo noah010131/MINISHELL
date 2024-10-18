@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2024/10/17 14:28:02 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:11:22 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int	exec(char *command, t_pars *c)
 		waitpid(pid, &status, 0);
 		if (!ft_strcmp(c->command, "cat"))
 			return (free(command), status);
-		status = check_exec_status(command,
-				WEXITSTATUS(status), c->command, status);
+		// status = check_exec_status(command,
+		// 		WEXITSTATUS(status), c->command, status);
+		check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
 		return (status);
 	}
@@ -104,8 +105,11 @@ int	exec_command(t_pars *c, t_envp **lst)
 	temp = *lst;
 	command = put_path(c->command, lst);
 	if (!command)
-		command = ft_strdup(c->command);
-	*lst = temp;
+	{
+		*lst = temp;
+		return (check_error(command, c->arguments, 1));
+	}
+		// command = ft_strdup(c->command);
 	return (exec(command, c));
 }
 
