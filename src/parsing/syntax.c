@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 16:16:35 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:30:30 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	non_print(char *str)
 				return (0);
 			if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 				return (0);
-			if (str[i] == '-' || str[i] == '.' || str[i] == '/')
+			if (str[i] == '-' || (str[i] == '.' && str[i + 1]) || str[i] == '/')
 				return (0);
 			return (1);
 		}
