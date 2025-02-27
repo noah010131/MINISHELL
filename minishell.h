@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/10/18 11:10:51 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:32:42 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_cmds
 	char			**env;
 }					t_cmds;
 
+// 실행을 위한 링크드 리스트 전부 저장하는 최고차원 리스트 (실행)
+
 typedef struct s_file
 {
 	int				fd;
@@ -58,12 +60,14 @@ typedef struct s_file
 	struct s_file	*prev;
 }					t_file;
 
-typedef struct s_exptr
-{
-	struct s_cmds	**cmds;
-	struct s_envp	**env;
-	int				num;
-}					t_exptr;
+// 파일 디스크립터 관련 정보 저장 (실행)
+
+// typedef struct s_exptr
+// {
+// 	struct s_cmds	**cmds;
+// 	struct s_envp	**env;
+// 	int				num;
+// }					t_exptr;
 
 typedef enum s_type_redir
 {
@@ -82,6 +86,8 @@ typedef struct s_redir
 	struct s_redir				*next;
 }	t_redir;
 
+// 리다이랙션과 파일 디스크립터 저장 (실행)
+
 typedef struct s_pars
 {
 	char					*command;
@@ -89,6 +95,8 @@ typedef struct s_pars
 	t_redir					*redirections;
 	struct s_pars			*next;
 }	t_pars;
+
+	// ori 의 값을 실행하기 편하도록 분할 (실행)
 
 typedef struct s_envp
 {
@@ -100,12 +108,16 @@ typedef struct s_envp
 	int				unset;
 }					t_envp;
 
+// 환경변수의 값을 링크드 리스트로 이름과 값으로 저장 (파싱)
+
 typedef struct s_pipe
 {
 	int				num_pipes;
 	int				**fds;
 	int				*pids;
 }					t_pipe;
+
+// 파이프의 갯수를 저장하는 리스트 (실행)
 
 typedef struct s_ori
 {
@@ -114,6 +126,8 @@ typedef struct s_ori
 	t_pars			**parsee;
 	char			*request;
 }					t_ori;
+
+// 모든 링크드 리스트의 주소를 가지고 있는 최고 차원의 리스트 (파싱)
 
 int					keep_pars(t_pars *new, t_cmds *cmd);
 t_pars				**parser(t_cmds **cmds);
