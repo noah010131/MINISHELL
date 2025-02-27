@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/02/27 21:32:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/02/27 22:47:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,20 @@ typedef struct s_cmds
 	char			*name;
 	struct s_cmds	*prev;
 	struct s_cmds	*next;
-	struct s_file	**file;
+	// struct s_file	**file;
 	char			**env;
 }					t_cmds;
 
-// 실행을 위한 링크드 리스트 전부 저장하는 최고차원 리스트 (실행)
+// s_pars 를 만들기 위한 1차로 들어온 변수를 파싱하는 리스트 (파싱)
 
-typedef struct s_file
-{
-	int				fd;
-	FILE			*f;
-	char			*file_name;
-	struct s_file	*next;
-	struct s_file	*prev;
-}					t_file;
-
-// 파일 디스크립터 관련 정보 저장 (실행)
+// typedef struct s_file
+// {
+// 	int				fd;
+// 	FILE			*f;
+// 	char			*file_name;
+// 	struct s_file	*next;
+// 	struct s_file	*prev;
+// }					t_file;
 
 // typedef struct s_exptr
 // {
@@ -86,7 +84,7 @@ typedef struct s_redir
 	struct s_redir				*next;
 }	t_redir;
 
-// 리다이랙션과 파일 디스크립터 저장 (실행)
+// 리다이랙션과 파일 디스크립터 저장 (파싱 & 실행)
 
 typedef struct s_pars
 {
@@ -96,7 +94,7 @@ typedef struct s_pars
 	struct s_pars			*next;
 }	t_pars;
 
-	// ori 의 값을 실행하기 편하도록 분할 (실행)
+// ori 의 값을 실행하기 편하도록 분할 (파싱 & 실행)
 
 typedef struct s_envp
 {
