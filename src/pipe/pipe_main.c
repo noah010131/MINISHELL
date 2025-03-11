@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2024/10/17 14:31:16 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:40:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,20 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 	int	status;
 
 	i = -1;
-	while (++i <= num_pipes)
-		waitpid(pids[i], &status, 0);
+while (waitpid(-1, &status, 0) > 0) {
+        if (WIFEXITED(status)) {
+            printf("Child exited with status %d\n", WEXITSTATUS(status));
+        }
+    }
+	// while (++i <= num_pipes)
+	// 	waitpid(pids[i], &status, 0);
 	free(pids);
 	i = -1;
 	while (++i < num_pipes)
 		free(fds[i]);
 	free(fds);
 	return (WEXITSTATUS(status));
-	return (0);
+	// return (0);
 }
 
 int	execute_pipe(t_pars *c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
@@ -120,7 +125,7 @@ int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
 			pipe.num_pipes -= 1;
 		}
 		else if (check_place(commands, checker))
-			return(free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
+			return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
 		else
 		{
 			while (checker > 1)

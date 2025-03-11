@@ -6,13 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/11 18:30:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:11:36 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	exec(char *command, t_pars *c)
+int	exec(char *command, t_pars *c, char **env)
 {
 	int	pid;
 	int	status;
@@ -23,9 +23,9 @@ int	exec(char *command, t_pars *c)
 		return (-1);
 	if (pid == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGTSTP, SIG_DFL);
-		execve(command, c->arguments, NULL);
+		// signal(SIGQUIT, SIG_DFL);
+		// signal(SIGTSTP, SIG_DFL);
+		execve(command, c->arguments, env);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -35,7 +35,7 @@ int	exec(char *command, t_pars *c)
 			return (free(command), status);
 		// status = check_exec_status(command,
 		// 		WEXITSTATUS(status), c->command, status);
-		check_error(command, c->arguments, WEXITSTATUS(status));
+		status = check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
 		return (status);
 	}
@@ -94,42 +94,64 @@ char	*put_path(char *command, t_envp **lst)
 			free(temp_path[i]);
 		free(temp_path);
 	}
-	
 	return (path);
 }
+// int	make_envp(t_envp **lst)
+// {
+// 	char	**envp;
+// 	t_envp	*temp;
+// 	int		i;
 
-int	exec_command(t_pars *c, t_envp **lst)
+// 	temp = *lst;
+// 	i = 0;
+// 	while (*lst)
+// 	{
+// 		(*lst) = (*lst)->next;
+// 		i++;
+// 	}
+// 	envp = malloc(i + 1);
+// 	if (envp = NULL)
+// 		return (NULL);
+// 	while (*lst)
+// 	{
+// 		*envp
+// 	}
+	
+// }
+int	exec_command(t_pars *c, t_envp **lst, char **env)
 {
 	char	*command;
+	// char 	**envp;
 	t_envp	*temp;
 
 	temp = *lst;
 	command = put_path(c->command, lst);
+	// envp = make_envp(lst);
 	*lst = temp;
 	if (!command)
 		return (check_error(command, c->arguments, 1));
 		// command = ft_strdup(c->command);
-	return (exec(command, c));
+	return (exec(command, c, env));
 }
 
 int	parsing_command(t_pars *c, t_envp **lst, t_ori *ori)
 {
 	if (c->command && ft_strcmp(c->command, "echo") == 0)
-		return (ft_echo(c));
+		return (g_exit_code = ft_echo(c));
 	else if (c->command && ft_strcmp(c->command, "cd") == 0)
-		return (ft_cd(ori, c));
+		return (g_exit_code =  ft_cd(ori, c));
 	else if (c->command && ft_strcmp(c->command, "pwd") == 0)
-		return (ft_pwd());
+		return (g_exit_code = ft_pwd());
 	else if (c->command && ft_strcmp(c->command, "export") == 0)
-		return (ft_export(c, lst));
+		return (g_exit_code = ft_export(c, lst));
 	else if (c->command && ft_strcmp(c->command, "unset") == 0)
-		return (ft_unset(lst, c));
+		return (g_exit_code = ft_unset(lst, c));
 	else if (c->command && ft_strcmp(c->command, "env") == 0)
-		return (ft_env(lst));
+		return (g_exit_code = ft_env(lst));
 	else if (c->command && ft_strcmp(c->command, "exit") == 0)
-		return (ft_exit(c));
+		return (g_exit_code = ft_exit(c));
 	else if (c->command)
-		return (exec_command(c, lst));
+		return (g_exit_code = exec_command(c, lst, ori->env));
 	else
 		return (0);
 	return (0);

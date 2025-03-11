@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:13:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/10/18 11:09:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:12:33 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,47 @@ int	check_direc(char *cmd)
 		return (0);
 	return (S_ISDIR(statbuf.st_mode));
 }
+void	print_message(char *argument, int num)
+{
+	ft_putstr_fd(argument, 2);
+	if (num == 1)
+		ft_putendl_fd(": Is a directory", 2);
+	else if (num == 2)
+		ft_putendl_fd(": No such file or directory", 2);
+	else if (num == 3)
+		ft_putendl_fd(": Permission denied", 2);
+	else if (num == 4)
+		ft_putendl_fd(": command not found", 2);
+}
 
 int	check_error(char *command, char **arguments, int status)
 {
+	struct stat statbuf;
+
+	// ft_memset(&statbuf, 0, sizeof(struct stat));
+	stat(command, &statbuf);
 	if (!status)
 		return (status);
-	ft_putstr_fd(arguments[0], 2);
+	// ft_putstr_fd(arguments[0], 2);
 	if (ft_strchr(arguments[0], '/'))
 	{
 		if (check_direc(arguments[0]))
-			(ft_putendl_fd(": Is a directory", 2), status = 126);
+			(print_message(arguments[0], 1), status = 126);
 		else if (access(arguments[0], F_OK) == -1)
-			(ft_putendl_fd(": No such file or directory", 2), status = 127);
+			(print_message(arguments[0], 2), status = 127);
 		else if (access(arguments[0], X_OK | R_OK) == -1)
-			(ft_putendl_fd(": Permission denied", 2), status = 126);
+			(print_message(arguments[0], 3), status = 126);
 	}
 	else
 	{
-		if (!command)
-			(ft_putendl_fd(": command not found", 2), status = 127);
+		if (!command || S_ISDIR(statbuf.st_mode) || !(statbuf.st_mode & S_IXUSR))
+			(print_message(arguments[0], 4), status = 127);
 		else if (ft_strcmp(command, "NULL") == 0)
-			(ft_putendl_fd(": No such file or directory", 2), status = 127);
+			(print_message(arguments[0], 2), status = 127);
 		else if (access(command, X_OK) == -1)
-			(ft_putendl_fd(": Permission denied", 2), status = 126);
+			(print_message(arguments[0], 3), status = 126);
 	}
+	// printf("status : %d" ,status);
+	// g_exit_code = status;
 	return (status);
 }

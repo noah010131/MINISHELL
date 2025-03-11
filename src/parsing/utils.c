@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/29 15:23:01 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:44:22 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_occur(char *str, char c)
 	return (count);
 }
 
-// ebauche d une fonction qui retorune la fin d une
+// ebauche d une fonction qui retourne la fin d une
 // quote mais a revoir
 
 char	*quote_tok(char *str, int *ind, char quote)

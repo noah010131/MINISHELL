@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/09 12:29:10 by ihibti           ###   ########.fr       */
+/*   Updated: 2025/03/12 00:08:33 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	read_heredoc(char *end_str, char *flag, t_envp **lst)
 		waitpid(pid, &status, 0);
 		if (status == 2)
 			printf("\n");
+		g_exit_code = status;
 		return (status);
 	}
 	return (0);
@@ -112,7 +113,18 @@ int	execute_parsing(t_pars *c, int std_s[], t_envp **lst)
 		std_s[0] = ch_err(oper_heredoc_in(c, std_s[0], lst), std_s);
 	else if (c->redirections->type == REDIR_OUT_D)
 		std_s[1] = ch_err(oper_redir_app(c, std_s[1]), std_s);
-	if (std_s[0] == -1 || std_s[1] == -1)
-		return (-1);
+	if (std_s[0] < 0)
+	{
+		g_exit_code = std_s[0]; 
+	printf("exitcode : %d\n", g_exit_code);
+		return (std_s[0]);
+	}
+	if (std_s[1] < 0)
+	{
+		g_exit_code = std_s[1]; 
+	printf("exitcode : %d\n", g_exit_code);
+
+		return (std_s[1]);
+	}
 	return (0);
 }

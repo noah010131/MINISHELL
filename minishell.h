@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/02/27 22:47:56 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/11 22:16:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_ori
 	t_envp			**envs;
 	t_pars			**parsee;
 	char			*request;
+	char			**env;
 }					t_ori;
 
 // 모든 링크드 리스트의 주소를 가지고 있는 최고 차원의 리스트 (파싱)

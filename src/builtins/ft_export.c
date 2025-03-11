@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/06 16:51:46 by ihibti           ###   ########.fr       */
+/*   Updated: 2025/03/11 19:13:19 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	check_hypen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+	{
+		if (str[i] == '-')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	bad_id(char *str)
 {
@@ -25,8 +39,8 @@ int	bad_id(char *str)
 		return (1);
 	while (str[i])
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '='
-			&& str[i] != ' ')
+		if ((!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '='
+				&& str[i] != ' ') && check_hypen(str))
 			return (1);
 		if (str[i] == ' ')
 			count++;
