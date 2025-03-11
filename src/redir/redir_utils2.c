@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 20:45:00 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:25:47 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	close_file(t_redir *redirections)
 			if (fclose(redirections->f) == -1)
 				return (-1);
 		}
-		else
+		else if (redirections->fd)
 		{
 			if (close(redirections->fd) == -1)
 				return (-1);

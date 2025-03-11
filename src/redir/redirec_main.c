@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 00:06:03 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:19:52 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	check_error_code(char *name)
 	if (errno == ENOENT)
 	{
 		ft_putstr_fd("no such file or directory: ", 2);
-		status = 127;
+		status = -127;
 	}
 	else if (errno == EACCES)
 	{
 		ft_putstr_fd("Permission denied: ", 2);
-		status = 126;
+		status = -126;
 	}
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("\n", 2);
