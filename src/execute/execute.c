@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2024/10/18 11:11:22 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:30:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char	*put_path(char *command, t_envp **lst)
 			free(temp_path[i]);
 		free(temp_path);
 	}
+	
 	return (path);
 }
 
@@ -104,11 +105,9 @@ int	exec_command(t_pars *c, t_envp **lst)
 
 	temp = *lst;
 	command = put_path(c->command, lst);
+	*lst = temp;
 	if (!command)
-	{
-		*lst = temp;
 		return (check_error(command, c->arguments, 1));
-	}
 		// command = ft_strdup(c->command);
 	return (exec(command, c));
 }
