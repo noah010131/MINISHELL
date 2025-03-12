@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 00:27:04 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:46:34 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,17 +114,8 @@ int	execute_parsing(t_pars *c, int std_s[], t_envp **lst)
 	else if (c->redirections->type == REDIR_OUT_D)
 		std_s[1] = ch_err(oper_redir_app(c, std_s[1]), std_s);
 	if (std_s[0] < 0)
-	{
-		g_exit_code = -1 *std_s[0]; 
-	// printf("exitcode : %d\n", g_exit_code);
 		return (std_s[0]);
-	}
 	if (std_s[1] < 0)
-	{
-		g_exit_code = -1 * std_s[1]; 
-	// printf("exitcode : %d\n", g_exit_code);
-
 		return (std_s[1]);
-	}
 	return (0);
 }
