@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 00:51:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:11:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,34 @@ int	execute_pipe(t_pars *c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
 	return (0);
 }
 
+int	pipe_helper(int checker, t_pars	**commands, t_envp	**lst, t_pipe	*pipe, int i)
+{
+	checker = check_heredoc(commands);
+	if (checker == -1)
+		return (0);
+	while (++i < checker)
+		(*commands) = (*commands)->next;
+	read_heredoc((*commands)->redirections->filename, "wr", lst);
+	if (checker == 0) //  first is heredoc
+	{
+		(*commands) = (*commands)->next;
+		pipe->num_pipes -= 1;
+	}
+	else if (check_place(commands, checker))
+		return (-1);
+	else
+	{
+		while (checker > 1)
+		{
+			*commands = (*commands)->next;
+			checker--;
+		}
+		pipe->num_pipes -= checker;
+		(*commands)->redirections->type = 0;
+	}
+	return (0);
+}
+
 int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
 {
 	t_pipe		pipe;
@@ -109,35 +137,10 @@ int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
 		return (redirec_main(*commands, lst, ori));
 	if (malloc_pipe(&pipe) == -1)
 		return (-1);
-	i = 0;
-	checker = check_heredoc(commands);
-	if (checker != -1)
-	{
-		while (i < checker)
-		{
-			(*commands) = (*commands)->next;
-			i++;
-		}
-		read_heredoc((*commands)->redirections->filename, "wr", lst);
-		if (checker == 0) //  first is heredoc
-		{
-			(*commands) = (*commands)->next;
-			pipe.num_pipes -= 1;
-		}
-		else if (check_place(commands, checker))
-			return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
-		else
-		{
-			while (checker > 1)
-			{
-				*commands = (*commands)->next;
-				checker--;
-			}
-			pipe.num_pipes -= checker;
-			(*commands)->redirections->type = 0;
-		}
-	}
+	checker = 0;
 	i = -1;
+	if (pipe_helper(checker, commands, lst, &pipe, i) == -1)
+		return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
 	while (*commands && ++i <= pipe.num_pipes)
 	{
 		if (execute_pipe(*commands, i, &pipe, lst, ori) == -1)
@@ -153,3 +156,34 @@ int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
 	*commands = save;
 	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
 }
+
+	// i = 0;
+	// checker = check_heredoc(commands);
+	// if (checker != -1)
+	// {
+	// 	while (i < checker)
+	// 	{
+	// 		(*commands) = (*commands)->next;
+	// 		i++;
+	// 	}
+	// 	read_heredoc((*commands)->redirections->filename, "wr", lst);
+	// 	if (checker == 0) //  first is heredoc
+	// 	{
+	// 		(*commands) = (*commands)->next;
+	// 		pipe.num_pipes -= 1;
+	// 	}
+	// 	else if (check_place(commands, checker))
+	// 		return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
+	// 	else
+	// 	{
+	// 		while (checker > 1)
+	// 		{
+	// 			*commands = (*commands)->next;
+	// 			checker--;
+	// 		}
+	// 		pipe.num_pipes -= checker;
+	// 		(*commands)->redirections->type = 0;
+	// 	}
+	// }
+
+	// line 143
