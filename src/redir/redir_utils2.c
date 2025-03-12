@@ -6,22 +6,37 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 00:25:47 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 10:20:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int	check_error_code(char *name)
+{
+	int	status;
+
+	status = -1;
+	ft_putstr_fd("minishell: ", 2);
+	if (errno == ENOENT)
+		ft_putstr_fd("no such file or directory: ", 2);
+	else if (errno == EACCES)
+		ft_putstr_fd("Permission denied: ", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("\n", 2);
+	return (status);
+}
+
 int	close_file(t_redir *redirections)
 {
 	while (redirections)
 	{
-		if (redirections->f)
+		if (redirections->f && !redirections->fd)
 		{
 			if (fclose(redirections->f) == -1)
 				return (-1);
 		}
-		else if (redirections->fd)
+		else if (redirections->fd != -1)
 		{
 			if (close(redirections->fd) == -1)
 				return (-1);

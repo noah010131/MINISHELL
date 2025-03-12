@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/11 22:16:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 08:37:54 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ int					print_buff(char *buffer, int filenum);
 int					check_heredoc(t_pars **commands);
 int					check_place(t_pars **commands, int place);
 int					ft_cd(t_ori *ori, t_pars *pars);
+int					check_error_code(char *name);
 
 
 extern int			g_exit_code;

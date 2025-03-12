@@ -6,32 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 01:01:55 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 09:44:55 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	check_error_code(char *name)
-{
-	int	status;
-
-	status = -1;
-	ft_putstr_fd("minishell: ", 2);
-	if (errno == ENOENT)
-	{
-		ft_putstr_fd("no such file or directory: ", 2);
-		status = -127;
-	}
-	else if (errno == EACCES)
-	{
-		ft_putstr_fd("Permission denied: ", 2);
-		status = -126;
-	}
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd("\n", 2);
-	return (status);
-}
 
 int	oper_redir_in(t_pars *c, int stdin_save)
 {
