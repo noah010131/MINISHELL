@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 12:01:35 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:38:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,16 @@ int	ch_err(int num, int cpy_stdin_out[])
 		return (-1);
 	}
 	return (num);
+}
+
+void	free_redirections(t_redir *redirections)
+{
+	t_redir	*current;
+
+	while (redirections)
+	{
+		current = redirections;
+		redirections = redirections -> next;
+		free(current);
+	}
 }

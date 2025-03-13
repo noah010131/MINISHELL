@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 09:44:55 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/12 22:48:25 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,10 @@ int	redirec_main(t_pars	*command, t_envp **lst, t_ori *ori)
 	int			cpy_stdin_out[2];
 	t_redir		*save;
 
+	// create_redir_in_order(command);
 	save = command->redirections;
 	if (!command->redirections)
 		return (parsing_command(command, lst, ori));
-	cpy_stdin_out[0] = 0;
-	cpy_stdin_out[1] = 0;
 	while (command && command->redirections)
 	{
 		return_value = execute_parsing(command, cpy_stdin_out, lst);
