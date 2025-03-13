@@ -6,44 +6,31 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 23:11:53 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:32:52 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-void	sigquit_handler(int sig)
-{
-	(void)sig;
-	exit(0);
-}
+
 int	exec(char *command, t_pars *c, char **env)
 {
 	int	pid;
 	int	status;
+	int	status_save;
 
 	g_exit_code = -2;
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
-	{
-		signal(SIGQUIT, sigquit_handler);
-		// signal(SIGTSTP, SIG_DFL);
-		execve(command, c->arguments, env);
-		exit(EXIT_FAILURE);
-	}
+		exec_ve(command, c, env);
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (WTERMSIG(status) == SIGINT)
-			status = 130;
-		if (WTERMSIG(status) == SIGQUIT)
-		{
-			ft_putstr_fd("Quit (core dumped)\n", 2);
-			status = 131;
-		}
-		// if (!ft_strcmp(c->command, "cat"))
-		// 	return (free(command), status);
+		status_save = 0;
+		status = signal_exit_check(status, &status_save);
+		if (status != status_save)
+			return (status);
 		status = check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
 		return (status);
@@ -105,28 +92,7 @@ char	*put_path(char *command, t_envp **lst)
 	}
 	return (path);
 }
-// int	make_envp(t_envp **lst)
-// {
-// 	char	**envp;
-// 	t_envp	*temp;
-// 	int		i;
 
-// 	temp = *lst;
-// 	i = 0;
-// 	while (*lst)
-// 	{
-// 		(*lst) = (*lst)->next;
-// 		i++;
-// 	}
-// 	envp = malloc(i + 1);
-// 	if (envp = NULL)
-// 		return (NULL);
-// 	while (*lst)
-// 	{
-// 		*envp
-// 	}
-	
-// }
 int	exec_command(t_pars *c, t_envp **lst, char **env)
 {
 	char	*command;

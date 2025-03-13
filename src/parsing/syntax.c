@@ -6,27 +6,12 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/13 20:43:13 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:43:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// retourne les erreurs de syntaxe
-// 1 pour une erreur 0 si tout va bien
-
-int	syn_err(char *str)
-{
-	if (!str)
-		return (1);
-	if (non_print(str) == 1)
-		return (1);
-	if (open_quote(str) == 1)
-		return (1);
-	if (tok_acc(str) == 1)
-		return (1);
-	return (0);
-}
 int	remove_isspace(char *str)
 {
 	int	i;

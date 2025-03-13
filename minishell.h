@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 22:57:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:46:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,13 @@ int					create_redir_in_order(t_pars	*command);
 void				free_redirections(t_redir *redirections);
 int					pipe_helper(t_pars	**commands, t_envp	**lst);
 void				print_no_command(char *argument);
-
+void				sigquit_handler(int sig);
+void				sigint_handler(int sig);
+int					signal_exit_check(int status, int *flag);
+void				exec_ve(char *command, t_pars *c, char **env);
+int					ft_stricmp(const char *first, const char *second, size_t length);
+t_redir				*new_redir(t_type_redir type, char *filename);\
+void				pers_free(void *ptr);
 
 extern int			g_exit_code;
 

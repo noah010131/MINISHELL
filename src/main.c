@@ -6,23 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/13 22:58:53 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:16:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 int		g_exit_code = 0;
-
-void	sigint_handler(int sig)
-{
-	(void)sig;
-	if (g_exit_code != -2)
-		printf("\n%s", "MINI:");
-	else
-		printf("\n");
-	g_exit_code = 130;
-}
 
 void	history(char *str)
 {
