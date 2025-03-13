@@ -6,53 +6,54 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 15:01:31 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:55:03 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	check_numeric(char	*arg)
+static int	atoi_for_exit(char *str, int *err)
 {
-	int i;
+	unsigned long long	ret;
+	int					i;
+	int					j;
+	int					pn;
 
 	i = 0;
-	while (arg[i])
-	{
-		if (i == 0 && (arg[i] == '+' || arg[i] == '-'))
-		{
-			i++;
-			continue ;
-		}
-		if (ft_isdigit(arg[i]) == 0)
-			return (1);
+	while ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
 		i++;
-	}
-	return (0);
+	pn = 1;
+	if (str[i] == '+' || str[i] == '-')
+		if (str[i++] == '-')
+			pn = -1;
+	j = i;
+	ret = 0;
+	while ('0' <= str[i] && str[i] <= '9')
+		ret = ret * 10 + (str[i++] - 48);
+	while ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] || i - j > 20 || ((pn == -1 && (ret - 1) > LONG_MAX) || \
+		(pn == 1 && (ret > LONG_MAX))))
+		*err = 1;
+	return ((int)((ret * pn) % 256));
 }
 
 int	check_arg(char *arg)
 {
-	int		i;
+	long long		number;
+	int				error;
 
-	i = 0;
-	if (ft_atoi(arg) == -1 || check_numeric(arg))
+	number = 0;
+	error = 0;
+	number = atoi_for_exit(arg, &error);
+	if (error)
 	{
-		ft_putstr_fd("exit: numeric argument required\n", 2);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(" numeric argument required\n", 2);
 		return (2);
 	}
-	while (arg[i] && ((arg[i] >= '0' && arg[i] <= '9')
-			|| (arg[0] == '+' || arg[0] == '-')))
-		i++;
-	if (!arg[i])
-	{
-		i = ft_atoi(arg);
-		if (i < 0)
-			i = 256 + i;
-		else if (i > 256)
-			i = i - 256;
-	}
-	return (i);
+	return (number);
 }
 
 int	ft_exit(t_pars *cmd)
@@ -70,8 +71,6 @@ int	ft_exit(t_pars *cmd)
 			return (-1);
 		}
 		rv = check_arg(cmd->arguments[1]);
-		if (rv)
-			return (rv);
 	}
-	return (0);
+	return (rv);
 }

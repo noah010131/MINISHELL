@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 00:46:34 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:55:16 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	read_heredoc(char *end_str, char *flag, t_envp **lst)
 	int		pid;
 	int		status;
 
-	// clear_stdin_buffer();
 	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
 		return (-1);
 	pid = fork();
@@ -76,7 +75,8 @@ int	read_heredoc(char *end_str, char *flag, t_envp **lst)
 		waitpid(pid, &status, 0);
 		if (status == 2)
 			printf("\n");
-		g_exit_code = status;
+		if (WTERMSIG(status) == SIGINT)
+			status = 130;
 		return (status);
 	}
 	return (0);

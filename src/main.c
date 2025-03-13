@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/12 12:47:45 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:07:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	sigint_handler(int sig)
 		printf("\n%s", "MINI:");
 	else
 		printf("\n");
+	g_exit_code = 130;
 }
 
 void	history(char *str)
@@ -100,10 +101,13 @@ int	main(int ac, char **av, char **env)
 		if (all_toge(&ori))
 			return (free_ori(&ori), 1);
 		if (!ori.parsee)
+		{
+			printf("syntax error\n");
 			continue ;
+		}
 		else
 		{
-			g_exit_code = convert_code(pipe_main(ori.parsee, ori.envs, &ori));
+			g_exit_code = pipe_main(ori.parsee, ori.envs, &ori);
 			// printf("exit_code %d\n", g_exit_code);
 			check_exit_code(ori.parsee, g_exit_code, ori.envs, &ori);
 		}

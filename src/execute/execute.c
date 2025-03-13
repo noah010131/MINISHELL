@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 00:11:36 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:16:02 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	exec(char *command, t_pars *c, char **env)
 	else
 	{
 		waitpid(pid, &status, 0);
+		if (WTERMSIG(status) == SIGINT)
+			status = 130;
 		if (!ft_strcmp(c->command, "cat"))
 			return (free(command), status);
-		// status = check_exec_status(command,
-		// 		WEXITSTATUS(status), c->command, status);
 		status = check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
 		return (status);

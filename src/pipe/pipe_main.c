@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 11:52:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:53:36 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 		free(fds[i]);
 	free(fds);
 	return (WEXITSTATUS(status));
-	// return (0);
 }
 
 int	execute_pipe(t_pars *c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
@@ -107,122 +106,30 @@ void	close_pipe(t_pipe	*pipe)
 		close(pipe->fds[i][1]);
 	}
 }
-// int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
-// {
-// 	t_pipe		pipe;
-// 	t_pars		*save;
-// 	int			i;
-// 	// int			checker;
-
-// 	save = *commands;
-// 	pipe.num_pipes = count_pipes(commands);
-// 	if (!pipe.num_pipes)
-// 		return (redirec_main(*commands, lst, ori));
-// 	if (malloc_pipe(&pipe) == -1)
-// 		return (-1);
-// 	i = 0;
-// 	// checker = check_heredoc(commands);
-// 	// if (checker != -1)
-// 	// {
-// 	// 	while (i < checker)
-// 	// 	{
-// 	// 		(*commands) = (*commands)->next;
-// 	// 		i++;
-// 	// 	}
-// 	// 	read_heredoc((*commands)->redirections->filename, "wr", lst);
-// 	// 	if (checker == 0) //  first is heredoc
-// 	// 	{
-// 	// 		(*commands) = (*commands)->next;
-// 	// 		pipe.num_pipes -= 1;
-// 	// 	}
-// 	// 	else if (check_place(commands, checker))
-// 	// 		return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
-// 	// 	else
-// 	// 	{
-// 	// 		while (checker > 1)
-// 	// 		{
-// 	// 			*commands = (*commands)->next;
-// 	// 			checker--;
-// 	// 		}
-// 	// 		pipe.num_pipes -= checker;
-// 	// 		(*commands)->redirections->type = 0;
-// 	// 	}
-// 	// }
-// 	i = -1;
-// 	while (*commands && ++i <= pipe.num_pipes)
-// 	{
-// 		if (execute_pipe(*commands, i, &pipe, lst, ori) == -1)
-// 			return (-1);
-// 		(*commands) = (*commands)->next;
-// 	}
-// 	i = -1;
-// 	while (++i < pipe.num_pipes)
-// 	{
-// 		close(pipe.fds[i][0]);
-// 		close(pipe.fds[i][1]);
-// 	}
-// 	*commands = save;
-// 	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
-// }
 
 int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
 {
 	t_pipe		pipe;
 	t_pars		*save;
 	int			i;
-	// int			checker;
 
-	pipe_helper(commands, lst);
-	// return (0);
+	i = pipe_helper(commands, lst);
+	if (i == -1 || i == -130)
+		return (i * -1);
 	save = *commands;
 	pipe.num_pipes = count_pipes(commands);
 	if (!pipe.num_pipes)
 		return (redirec_main(*commands, lst, ori));
 	if (malloc_pipe(&pipe) == -1)
 		return (-1);
-	// checker = 0;
 	i = -1;
-	// if (pipe_helper(checker, commands, lst, &pipe, ori) == -1)
-	// 	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
 	while (*commands && ++i <= pipe.num_pipes)
 	{
 		if (execute_pipe(*commands, i, &pipe, lst, ori) == -1)
 			return (-1);
 		(*commands) = (*commands)->next;
 	}
-	i = -1;
 	close_pipe(&pipe);
 	*commands = save;
 	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
 }
-
-	// i = 0;
-	// checker = check_heredoc(commands);
-	// if (checker != -1)
-	// {
-	// 	while (i < checker)
-	// 	{
-	// 		(*commands) = (*commands)->next;
-	// 		i++;
-	// 	}
-	// 	read_heredoc((*commands)->redirections->filename, "wr", lst);
-	// 	if (checker == 0) //  first is heredoc
-	// 	{
-	// 		(*commands) = (*commands)->next;
-	// 		pipe.num_pipes -= 1;
-	// 	}
-	// 	else if (check_place(commands, checker))
-	// 		return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
-	// 	else
-	// 	{
-	// 		while (checker > 1)
-	// 		{
-	// 			*commands = (*commands)->next;
-	// 			checker--;
-	// 		}
-	// 		pipe.num_pipes -= checker;
-	// 		(*commands)->redirections->type = 0;
-	// 	}
-	// }
-
-	// line 143

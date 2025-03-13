@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/11/11 16:30:30 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 20:43:13 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,47 @@ int	syn_err(char *str)
 		return (1);
 	return (0);
 }
+int	remove_isspace(char *str)
+{
+	int	i;
 
+	i = 0;
+	while (ft_isspace(str[i]))
+		i++;
+	return (i);
+}
 // idem a isprint mais pour un string entier
+int	non_print2(char *str)
+{
+	int	i;
 
+	i = 0;
+
+	i = remove_isspace(str);
+	while (str[i] && str[i] == '>')
+	{
+		if (ft_isspace(str[i + 1]))
+		{
+			i++;
+			while (str[i] && ft_isspace(str[i]))
+				i++;
+			if (str[i] == '>')
+				return (1);
+		}
+		i++;
+	}
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
 int	non_print(char *str)
 {
 	int	i;
 
 	i = 0;
 	if (!str)
+		return (1);
+	if (non_print2(str))
 		return (1);
 	while (str[i])
 	{

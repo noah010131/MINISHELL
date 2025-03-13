@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 09:23:19 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 19:27:54 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	check_error_code(char *name)
 		ft_putstr_fd("no such file or directory: ", 2);
 	else if (errno == EACCES)
 		ft_putstr_fd("Permission denied: ", 2);
+	else if (errno == EISDIR)
+		ft_putstr_fd("Is a directory: ", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("\n", 2);
 	return (status);
@@ -50,7 +52,7 @@ int	close_file(t_redir *redirections)
 
 int	reset_stdin_out(int copy_stdin_out[])
 {
-	if (copy_stdin_out[0])
+	if (copy_stdin_out[0] > 0)
 	{
 		if (dup2(copy_stdin_out[0], STDIN_FILENO) == -1)
 		{
@@ -58,7 +60,7 @@ int	reset_stdin_out(int copy_stdin_out[])
 			return (-1);
 		}
 	}
-	if (copy_stdin_out[1])
+	if (copy_stdin_out[1] > 0)
 	{
 		if (dup2(copy_stdin_out[1], STDOUT_FILENO) == -1)
 		{
@@ -71,10 +73,11 @@ int	reset_stdin_out(int copy_stdin_out[])
 
 int	ch_err(int num, int cpy_stdin_out[])
 {
-	if (num == -1)
+	if (num == -1 || num == 130)
 	{
+		if (num == 130)
+			num *= -1;
 		reset_stdin_out(cpy_stdin_out);
-		return (-1);
 	}
 	return (num);
 }

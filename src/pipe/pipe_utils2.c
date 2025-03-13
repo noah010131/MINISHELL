@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:33:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 12:18:35 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 18:58:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	close_file2(FILE	*files[])
 	}
 	if (access(TEMP, F_OK))
 		unlink(TEMP);
-	i = -1;
 	return (0);
 }
 
@@ -88,6 +87,7 @@ int	reset_process(FILE	*files[], int	c_stdout[])
 int	pipe_helper(t_pars	**commands, t_envp	**lst)
 {
 	int			c_stdout[2];
+	int			num;
 	t_pars		*current;
 	FILE		*files[100];
 
@@ -101,8 +101,9 @@ int	pipe_helper(t_pars	**commands, t_envp	**lst)
 		current = (current)->next;
 	}
 	current = *commands;
-	if (open_heredoc(current, lst, files, c_stdout) < 0)
-		return (-1);
+	num = open_heredoc(current, lst, files, c_stdout);
+	if (num)
+		return (num * -1);
 	else
 	{
 		if (reset_process(files, c_stdout) == -1)

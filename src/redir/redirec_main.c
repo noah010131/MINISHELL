@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 10:04:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 18:48:26 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ int	oper_redir_in(t_pars *c, int stdin_save)
 	c->redirections->fd = open(c->redirections->filename, O_RDONLY);
 	if (c->redirections->fd == -1)
 		return (check_error_code(c->redirections->filename));
-	// {
-	// 	ft_putstr_fd("minishell: ", 2);
-	// 	if (errno == ENOENT)
-	// 		ft_putstr_fd("no such file or directory: ", 2);
-	// 	else if (errno == EACCES)
-	// 		ft_putstr_fd("Permission denied: ", 2);
-	// 	ft_putstr_fd(c->redirections->filename, 2);
-	// 	ft_putstr_fd("\n", 2);
-	// 	return (-1);
-	// }
 	if (dup2(c->redirections->fd, STDIN_FILENO) == -1)
 		return (-1);
 	return (stdin_save);
@@ -41,17 +31,6 @@ int	oper_redir_out(t_pars *c, int stdout_save)
 	c->redirections->f = fopen(c->redirections->filename, "wr");
 	if (!c->redirections->f)
 		return (check_error_code(c->redirections->filename));
-
-	// {
-	// 	ft_putstr_fd("minishell: ", 2);
-	// 	if (errno == ENOENT)
-	// 		ft_putstr_fd("no such file or directory: ", 2);
-	// 	else if (errno == EACCES)
-	// 		ft_putstr_fd("Permission denied: ", 2);
-	// 	ft_putstr_fd(c->redirections->filename, 2);
-	// 	ft_putstr_fd("\n", 2);
-	// 	return (-1);
-	// }
 	c->redirections->fd = fileno(c->redirections->f);
 	if (c->redirections->fd == -1)
 		return (-1);
@@ -72,31 +51,18 @@ int	oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst)
 		stdin_save = 0;
 		flag = "a";
 	}
-	if (read_heredoc(c->redirections->filename, flag, lst) == -1)
-		return (-1);
+	if (read_heredoc(c->redirections->filename, flag, lst) == 130)
+		return (130);
 	return (exec_heredoc(stdin_save, c->redirections));
 }
 
 int	oper_redir_app(t_pars *c, int stdout_save)
 {
-	(void)stat;
 	if (!stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	c->redirections->f = fopen(c->redirections->filename, "a");
 	if (!c->redirections->f)
-				return (check_error_code(c->redirections->filename));
-
-	
-	// {
-	// 	ft_putstr_fd("minishell: ", 2);
-	// 	if (errno == ENOENT)
-	// 		ft_putstr_fd("no such file or directory: ", 2);
-	// 	else if (errno == EACCES)
-	// 		ft_putstr_fd("Permission denied: ", 2);
-	// 	ft_putstr_fd(c->redirections->filename, 2);
-	// 	ft_putstr_fd("\n", 2);
-	// 	return (-1);
-	// }
+		return (check_error_code(c->redirections->filename));
 	c->redirections->fd = fileno(c->redirections->f);
 	if (c->redirections->fd == -1)
 		return (-1);
@@ -111,7 +77,6 @@ int	redirec_main(t_pars	*command, t_envp **lst, t_ori *ori)
 	int			cpy_stdin_out[2];
 	t_redir		*save;
 
-	// create_redir_in_order(command);
 	save = command->redirections;
 	if (!command->redirections)
 		return (parsing_command(command, lst, ori));
@@ -120,7 +85,7 @@ int	redirec_main(t_pars	*command, t_envp **lst, t_ori *ori)
 	while (command && command->redirections)
 	{
 		return_value = execute_parsing(command, cpy_stdin_out, lst);
-		if (return_value  < 0)
+		if (return_value < 0)
 			return (close_file(command->redirections), return_value * -1);
 		command->redirections = command->redirections->next;
 	}
