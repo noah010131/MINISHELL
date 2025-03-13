@@ -6,11 +6,28 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/13 19:06:12 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:29:31 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	check_argument(char	*argument)
+{
+	int	i;
+
+	i = 0;
+	if (argument[i] != '-')
+		return (0);
+	if (!ft_strcmp(argument, "-n"))
+		return (1);
+	i++;
+	while (argument[i] && argument[i] == 'n')
+		i++;
+	if (argument[i] == '\0')
+		return (1);
+	return (0);
+}
 
 int	ft_echo(t_pars *cmd)
 {
@@ -21,7 +38,7 @@ int	ft_echo(t_pars *cmd)
 		return (1);
 	i = 1;
 	if (cmd->arguments && cmd->arguments[1]
-		&& !ft_strcmp(cmd->arguments[1], "-n"))
+		&& check_argument(cmd->arguments[1]))
 	{
 		flag = 0;
 		i++;
