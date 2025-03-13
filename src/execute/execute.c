@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 17:16:02 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:57:45 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,9 @@ int	parsing_command(t_pars *c, t_envp **lst, t_ori *ori)
 	else if (c->command)
 		return (g_exit_code = exec_command(c, lst, ori->env));
 	else
-		return (0);
+	{
+		print_no_command(c->command);
+		return (127);
+	}
 	return (0);
 }

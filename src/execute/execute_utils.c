@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:13:30 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/12 01:01:12 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:56:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@
 // 		(ft_putstr_fd("Quit (core dumped)\n", 2) , status = o_status);
 // 	return (status);
 // }
-
+void	print_no_command(char *argument)
+{
+	ft_putstr_fd(argument, 2);
+	ft_putendl_fd(": command not found", 2);
+}
 int	check_direc(char *cmd)
 {
 	struct stat	statbuf;

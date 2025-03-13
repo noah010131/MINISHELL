@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   post_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:39:20 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 17:16:30 by ihibti           ###   ########.fr       */
+/*   Updated: 2025/03/13 22:46:08 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	freeonetcmd(t_cmds *cmd, t_cmds **cmds)
 t_cmds	**pptreatment(t_cmds **cmds)
 {
 	t_cmds	*current;
-	t_cmds	*freeptr;
-	char	*str;
+	// t_cmds	*freeptr;
+	// char	*str;
 
 	if (!cmds)
 		return (NULL);
@@ -39,19 +39,19 @@ t_cmds	**pptreatment(t_cmds **cmds)
 	while (current)
 	{
 		replace_quote(current);
-		str = current->name;
-		if (str[0] == 0)
-		{
-			freeptr = current;
-			current = current->next;
-			freeonetcmd(freeptr, cmds);
-		}
-		else
-		{
+		// str = current->name;
+		// if (str[0] == 0)
+		// {
+		// 	freeptr = current;
+		// 	current = current->next;
+		// 	freeonetcmd(freeptr, cmds);
+		// }
+		// else
+		// {
 			if (current->code_id == SIN_QUOTE || current->code_id == DOUB_QUOTE)
 				current->code_id = WORD;
 			current = current->next;
-		}
+		// }
 	}
 	return (cmds);
 }
