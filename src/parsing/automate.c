@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   automate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:07:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/30 16:40:02 by ihibti           ###   ########.fr       */
+/*   Updated: 2025/03/13 21:34:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ bool	redir_state(t_cmds *token)
 	if (token->code_id == WORD)
 		return (word_state(token->next));
 	else
-    
 		return (printf("syntax error near redirection\n"),false);
 }
 
