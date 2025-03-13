@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_toge.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/04 19:06:32 by ihibti           ###   ########.fr       */
+/*   Updated: 2025/03/13 10:50:09 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_pars_ls(t_pars **parsee)
 	if (!parsee)
 		return ;
 	current_p = *parsee;
-	while (current_p)
+	while (current_p )
 	{
 		current_r = current_p->redirections;
 		cache_p = current_p->next;

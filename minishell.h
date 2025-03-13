@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 08:19:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:23:43 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,9 +225,7 @@ int					ft_cd(t_ori *ori, t_pars *pars);
 int					check_error_code(char *name);
 int					create_redir_in_order(t_pars	*command);
 void				free_redirections(t_redir *redirections);
-int					pipe_helper(t_pars	**commands,
-						t_envp	**lst, t_pipe	*pipe, t_ori *ori);
-t_pars				*create_redir_in_order1(t_pars	*command);
+int					pipe_helper(t_pars	**commands, t_envp	**lst);
 
 
 extern int			g_exit_code;
