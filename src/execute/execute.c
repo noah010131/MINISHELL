@@ -6,12 +6,16 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 22:57:45 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:11:53 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
+void	sigquit_handler(int sig)
+{
+	(void)sig;
+	exit(0);
+}
 int	exec(char *command, t_pars *c, char **env)
 {
 	int	pid;
@@ -23,7 +27,7 @@ int	exec(char *command, t_pars *c, char **env)
 		return (-1);
 	if (pid == 0)
 	{
-		// signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, sigquit_handler);
 		// signal(SIGTSTP, SIG_DFL);
 		execve(command, c->arguments, env);
 		exit(EXIT_FAILURE);
@@ -33,8 +37,13 @@ int	exec(char *command, t_pars *c, char **env)
 		waitpid(pid, &status, 0);
 		if (WTERMSIG(status) == SIGINT)
 			status = 130;
-		if (!ft_strcmp(c->command, "cat"))
-			return (free(command), status);
+		if (WTERMSIG(status) == SIGQUIT)
+		{
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+			status = 131;
+		}
+		// if (!ft_strcmp(c->command, "cat"))
+		// 	return (free(command), status);
 		status = check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
 		return (status);
