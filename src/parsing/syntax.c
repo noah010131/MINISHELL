@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/14 09:25:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:26:59 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	non_print(char *str)
 	i = 0;
 	if (!str)
 		return (1);
-	if (non_print2(str, '<') || non_print2(str, '>'))
+	if (non_print2(str, '<') && non_print2(str, '>'))
 		return (1);
 	while (str[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 17:53:36 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:18:04 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 {
 	int	i;
 	int	status;
+	int	exit_code;
 
 	i = -1;
 // while (waitpid(-1, &status, 0) > 0) {
@@ -60,13 +61,16 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 //         }
 //     }
 	while (++i <= num_pipes)
-		waitpid(pids[i], &status, 0);
+	{
+		if (waitpid(pids[i], &status, 0) > 0)
+			exit_code = WEXITSTATUS(status);
+	}
 	free(pids);
 	i = -1;
 	while (++i < num_pipes)
 		free(fds[i]);
 	free(fds);
-	return (WEXITSTATUS(status));
+	return (exit_code);
 }
 
 int	execute_pipe(t_pars *c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 18:48:26 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:49:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	oper_redir_in(t_pars *c, int stdin_save)
 		stdin_save = dup(STDIN_FILENO);
 	c->redirections->fd = open(c->redirections->filename, O_RDONLY);
 	if (c->redirections->fd == -1)
-		return (check_error_code(c->redirections->filename));
+		return (check_error_code(c->redirections->filename), -1);
 	if (dup2(c->redirections->fd, STDIN_FILENO) == -1)
 		return (-1);
 	return (stdin_save);
@@ -30,7 +30,7 @@ int	oper_redir_out(t_pars *c, int stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	c->redirections->f = fopen(c->redirections->filename, "wr");
 	if (!c->redirections->f)
-		return (check_error_code(c->redirections->filename));
+		return (check_error_code(c->redirections->filename), -1);
 	c->redirections->fd = fileno(c->redirections->f);
 	if (c->redirections->fd == -1)
 		return (-1);
@@ -62,7 +62,7 @@ int	oper_redir_app(t_pars *c, int stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	c->redirections->f = fopen(c->redirections->filename, "a");
 	if (!c->redirections->f)
-		return (check_error_code(c->redirections->filename));
+		return (check_error_code(c->redirections->filename), -1);
 	c->redirections->fd = fileno(c->redirections->f);
 	if (c->redirections->fd == -1)
 		return (-1);

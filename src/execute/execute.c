@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 00:03:00 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:35:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	exec(char *command, t_pars *c, char **env)
 	int	status;
 	int	status_save;
 
+	printf("here\n");
 	g_exit_code = -2;
 	pid = fork();
 	if (pid < 0)
@@ -31,6 +32,7 @@ int	exec(char *command, t_pars *c, char **env)
 		status = signal_exit_check(status, &status_save);
 		if (status != status_save)
 			return (status);
+		printf("here\n");
 		status = check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
 		return (status);
@@ -127,10 +129,10 @@ int	parsing_command(t_pars *c, t_envp **lst, t_ori *ori)
 		return (g_exit_code = ft_exit(c));
 	else if (c->command)
 		return (g_exit_code = exec_command(c, lst, ori->env));
-	// else if (!c->redirections->filename)
-	// {
-	// 	print_no_command(c->command);
-	// 	return (127);
-	// }
+	else if (!c->command && c->arguments && !c->arguments[0])
+	{
+		print_no_command(c->command);
+		return (127);
+	}
 	return (0);
 }

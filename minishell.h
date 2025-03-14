@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 09:24:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:47:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ int					print_buff(char *buffer, int filenum);
 int					check_heredoc(t_pars **commands);
 int					check_place(t_pars **commands, int place);
 int					ft_cd(t_ori *ori, t_pars *pars);
-int					check_error_code(char *name);
+void					check_error_code(char *name);
 int					create_redir_in_order(t_pars	*command);
 void				free_redirections(t_redir *redirections);
 int					pipe_helper(t_pars	**commands, t_envp	**lst);
@@ -235,6 +235,7 @@ int					ft_stricmp(const char *first, const char *second, size_t length);
 t_redir				*new_redir(t_type_redir type, char *filename);\
 void				pers_free(void *ptr);
 int					check_ch(char *str, char checker, int i);
+bool				print_error(char *str);
 
 extern int			g_exit_code;
 

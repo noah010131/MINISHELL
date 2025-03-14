@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:13:30 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 22:56:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:58:44 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,16 @@
 // 		(ft_putstr_fd("Quit (core dumped)\n", 2) , status = o_status);
 // 	return (status);
 // }
+bool	print_error(char *str)
+{
+	if (str)
+		write(2, str, ft_strlen(str));
+	return (true);
+}
 void	print_no_command(char *argument)
 {
-	ft_putstr_fd(argument, 2);
-	ft_putendl_fd(": command not found", 2);
+	(void)argument;
+	print_error("minishell: : command not found\n");
 }
 int	check_direc(char *cmd)
 {
@@ -46,15 +52,21 @@ int	check_direc(char *cmd)
 }
 void	print_message(char *argument, int num)
 {
-	ft_putstr_fd(argument, 2);
+	char	*str;
+
+	str = NULL;
 	if (num == 1)
-		ft_putendl_fd(": Is a directory", 2);
+		str = ft_strjoin(argument, ": Is a directory\n");
 	else if (num == 2)
-		ft_putendl_fd(": No such file or directory", 2);
+		str = ft_strjoin(argument, ": No such file or directory\n");
 	else if (num == 3)
-		ft_putendl_fd(": Permission denied", 2);
+		str = ft_strjoin(argument, ": Permission denied\n");
 	else if (num == 4)
-		ft_putendl_fd(": command not found", 2);
+		str = ft_strjoin(argument, ": command not found\n");
+	if (!str)
+		return ;
+	print_error(str);
+	free(str);
 }
 
 int	check_error(char *command, char **arguments, int status)

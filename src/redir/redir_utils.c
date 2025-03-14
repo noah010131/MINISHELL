@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 17:55:16 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:06:52 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ int	put_heredoc(t_envp **env, char *end_str, FILE *temp)
 		buffer = readline(">");
 		if (!buffer)
 		{
-			ft_putchar_fd('\n', 1);
-			ft_putstr_fd("MINI: warning: ", 2);
-			ft_putstr_fd("heredoc delimited by end-of-file (wanted `end')", 2);
-			ft_putstr_fd("\n", 2);
+			print_error("MINI: warning: heredoc delimited by end-of-file (wanted `end')\n");
 			exit(fclose(temp));
 		}
 		buffer = expanding_hd(buffer, env);
@@ -74,7 +71,7 @@ int	read_heredoc(char *end_str, char *flag, t_envp **lst)
 		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
 		if (status == 2)
-			printf("\n");
+			write(1, "\n", 1);
 		if (WTERMSIG(status) == SIGINT)
 			status = 130;
 		return (status);
