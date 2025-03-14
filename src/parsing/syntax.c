@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/14 14:22:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:47:36 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	non_print2(char *str, char c)
 	i = 0;
 
 	i = remove_isspace(str);
-	i = check_ch(str, c, i);
-	while (str[i] && str[i] == c)
+	i += check_ch(str, c, i);
+	while (str && str[i] && (str[i] == c))
 	{
-		if (ft_isspace(str[i + 1]))
+		if (str[i + 1] && ft_isspace(str[i + 1]))
 		{
 			i++;
 			while (str[i] && ft_isspace(str[i]))
@@ -40,11 +40,11 @@ int	non_print2(char *str, char c)
 			if (str[i] == c)
 				return (1);
 		}
-		if (str[i] != c)
+		if (str[i] && str[i] != c && !ft_isspace(str[i]))
 			return (0);
 		i++;
 	}
-	if (str[i] == '\0')
+	if (str && (str[i] == '\0'))
 		return (1);
 	return (0);
 }

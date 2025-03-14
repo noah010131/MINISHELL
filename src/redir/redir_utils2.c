@@ -6,56 +6,56 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 14:28:27 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 22:02:42 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// void	check_error_code(char *name)
-// {
-// 	char	*str;
-// 	char	*str2;
-
-// 	str = NULL;
-// 	str2 = NULL;
-// 	str = ft_strjoin("minishell: ", name);
-// 	if (errno == ENOENT)
-// 		str2 = ft_strjoin(str, ": no such file or directory\n");
-// 	else if (errno == EACCES)
-// 		str2 = ft_strjoin(str, ": Permission denied\n");
-// 	else if (errno == EISDIR)
-// 		str2 = ft_strjoin(str, ": Is a directory\n");
-// 	else
-// 		str2 = ft_strjoin(str, ": ambiguous redirect\n");
-// 	if (!str2)
-// 	{
-// 		free(str2);
-// 		return ;
-// 	}
-// 	print_error(str2);
-// 	if (!str)
-// 		free(str);
-// }
-
-int	check_error_code(char *name)
+void	check_error_code(char *name)
 {
-	int	status;
+	char	*str;
+	char	*str2;
 
-	status = -1;
-	ft_putstr_fd("minishell: ", 2);
+	str = NULL;
+	str2 = NULL;
+	str = ft_strjoin("minishell: ", name);
 	if (errno == ENOENT)
-		ft_putstr_fd("no such file or directory: ", 2);
+		str2 = ft_strjoin(str, ": no such file or directory\n");
 	else if (errno == EACCES)
-		ft_putstr_fd("Permission denied: ", 2);
+		str2 = ft_strjoin(str, ": Permission denied\n");
 	else if (errno == EISDIR)
-		ft_putstr_fd("Is a directory: ", 2);
+		str2 = ft_strjoin(str, ": Is a directory\n");
 	else
-		ft_putstr_fd("ambiguous redirect", 2);
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd("\n", 2);
-	return (status);
+		str2 = ft_strjoin(str, ": ambiguous redirect\n");
+	if (!str2)
+	{
+		free(str2);
+		return ;
+	}
+	print_error(str2);
+	if (!str)
+		free(str);
 }
+
+// int	check_error_code(char *name)
+// {
+// 	int	status;
+
+// 	status = -1;
+// 	ft_putstr_fd("minishell: ", 2);
+// 	if (errno == ENOENT)
+// 		ft_putstr_fd("no such file or directory: ", 2);
+// 	else if (errno == EACCES)
+// 		ft_putstr_fd("Permission denied: ", 2);
+// 	else if (errno == EISDIR)
+// 		ft_putstr_fd("Is a directory: ", 2);
+// 	else
+// 		ft_putstr_fd("ambiguous redirect", 2);
+// 	ft_putstr_fd(name, 2);
+// 	ft_putstr_fd("\n", 2);
+// 	return (status);
+// }
 
 // if error do not close file in error
 int	close_file(t_redir *redirections)

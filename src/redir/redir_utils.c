@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 11:09:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:09:12 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	put_heredoc(t_envp **env, char *end_str, FILE *temp)
 			exit(fclose(temp));
 		}
 		buffer = expanding_hd(buffer, env);
+		if (!end_str || !buffer)
+			break;
 		if (ft_strcmp(buffer, end_str) == 0)
 			break ;
 		if (print_buff(buffer, fileno(temp)) == -1)
@@ -91,6 +93,7 @@ int	exec_heredoc(int flag, t_redir	*redirections)
 		return (-1);
 	redirections->f = temp;
 	fd = fileno(temp);
+	redirections->fd =fd;
 	if (fd == -1)
 		return (-1);
 	if (!flag)

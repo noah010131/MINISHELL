@@ -6,11 +6,12 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 13:09:37 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 21:19:42 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 
 int	exec(char *command, t_pars *c, char **env)
 {
@@ -19,18 +20,25 @@ int	exec(char *command, t_pars *c, char **env)
 	int	status_save;
 
 	g_exit_code = -2;
+	// write(1, ft_itoa(g_exit_code), strlen(ft_itoa(g_exit_code)));
+	// signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
+	{
 		exec_ve(command, c, env);
+	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		status_save = 0;
 		status = signal_exit_check(status, &status_save);
 		if (status_save)
+		{
+			free(command);
 			return (status);
+		}
 		status = check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
 		return (status);
@@ -64,6 +72,35 @@ char	*pathfinder(char *cmd, char **path_t)
 	return (NULL);
 }
 
+// char	*put_path(char *command, t_envp **lst)
+// {
+// 	int		i;
+// 	char	**temp_path;
+// 	char	*path;
+
+// 	i = 0;
+// 	if (access(command, F_OK) == 0)
+// 		return (ft_strdup(command));
+// 	else
+// 	{
+// 		while (*lst)
+// 		{
+// 			if (ft_strcmp((*lst)->name, "PATH") == 0)
+// 				break ;
+// 			(*lst) = (*lst)->next;
+// 		}
+// 		if (!*lst)
+// 			return (NULL);
+// 		temp_path = ft_split((*lst)->value, ':');
+// 		path = pathfinder(command, temp_path);
+// 		i = -1;
+// 		while (temp_path[++i])
+// 			free(temp_path[i]);
+// 		free(temp_path);
+// 	}
+// 	return (path);
+// }
+
 char	*put_path(char *command, t_envp **lst)
 {
 	int		i;
@@ -71,25 +108,22 @@ char	*put_path(char *command, t_envp **lst)
 	char	*path;
 
 	i = 0;
-	if (access(command, F_OK) == 0)
-		return (ft_strdup(command));
-	else
+	while (*lst)
 	{
-		while (*lst)
-		{
-			if (ft_strcmp((*lst)->name, "PATH") == 0)
-				break ;
-			(*lst) = (*lst)->next;
-		}
-		if (!*lst)
-			return (NULL);
-		temp_path = ft_split((*lst)->value, ':');
-		path = pathfinder(command, temp_path);
-		i = -1;
-		while (temp_path[++i])
-			free(temp_path[i]);
-		free(temp_path);
+		if (ft_strcmp((*lst)->name, "PATH") == 0)
+			break ;
+		(*lst) = (*lst)->next;
 	}
+	if (!*lst && access(command, F_OK) != 0)
+		return (NULL);
+	else if (!*lst && access(command, F_OK) == 0)
+		return (ft_strdup(command));
+	temp_path = ft_split((*lst)->value, ':');
+	path = pathfinder(command, temp_path);
+	i = -1;
+	while (temp_path[++i])
+		free(temp_path[i]);
+	free(temp_path);
 	return (path);
 }
 

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 14:29:43 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 22:03:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define SIN_QUOTE 20
 # define DOUB_QUOTE 21
 # define TOKEN_EX_STT 22
+
 
 typedef struct s_cmds
 {
@@ -236,7 +237,7 @@ t_redir				*new_redir(t_type_redir type, char *filename);\
 void				pers_free(void *ptr);
 int					check_ch(char *str, char checker, int i);
 bool				print_error(char *str);
-int					check_error_code(char *name);
+void				check_error_code(char *name);
 
 extern int			g_exit_code;
 
