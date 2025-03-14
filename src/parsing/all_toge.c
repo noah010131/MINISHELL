@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/13 10:50:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 09:14:41 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	all_toge(t_ori *ori)
 	if (!ori->cmds)
 		return (free_ori(ori), 1);
 	if (!*(ori->cmds))
-		return (free_tcmd(ori->cmds), printf("syntax error\n"), 0);
+		return (free_tcmd(ori->cmds), ft_putstr_fd("syntax error\n", 2), 0);
 	code_attr(ori->cmds);
 	expanding(ori->cmds, ori->envs);
 	if (!ori->cmds)

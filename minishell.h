@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 23:46:46 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 09:24:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,7 @@ void				exec_ve(char *command, t_pars *c, char **env);
 int					ft_stricmp(const char *first, const char *second, size_t length);
 t_redir				*new_redir(t_type_redir type, char *filename);\
 void				pers_free(void *ptr);
+int					check_ch(char *str, char checker, int i);
 
 extern int			g_exit_code;
 

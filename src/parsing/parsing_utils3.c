@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:39:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 23:44:03 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 09:26:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,18 @@ int	syn_err(char *str)
 	if (tok_acc(str) == 1)
 		return (1);
 	return (0);
+}
+
+int	check_ch(char *str, char checker, int i)
+{
+	int	save_i;
+
+	save_i = i;
+	while (str[i])
+	{
+		if (str[i] == checker)
+			return (i);
+		i++;
+	}
+	return (save_i);
 }
