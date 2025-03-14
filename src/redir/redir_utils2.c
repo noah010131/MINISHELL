@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 22:02:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 22:18:27 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@ void	check_error_code(char *name)
 		str2 = ft_strjoin(str, ": ambiguous redirect\n");
 	if (!str2)
 	{
-		free(str2);
+		if (!str)
+			print_error("minishell: : ambiguous redirect\n");
+		else
+			free(str);
 		return ;
 	}
 	print_error(str2);
-	if (!str)
-		free(str);
+	free(str);
+	free(str2);
 }
 
 // int	check_error_code(char *name)
