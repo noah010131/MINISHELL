@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/14 09:14:41 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:13:30 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,32 @@ int	free_ori(t_ori *ori)
 	return (0);
 }
 
+// int	check_pid(t_pars **parsee)
+// {
+// 	pid_t	pid;
+// 	// char	*temp;
+
+// 	if (!ft_strcmp((*parsee)->command, "$$"))
+// 	{
+// 		pid = getpid();
+// 		if ((*parsee)->command)
+// 			free((*parsee)->command);
+// 		(*parsee)->command = ft_itoa((int)pid);
+// 		if (!(*parsee)->command)
+// 			return (1);
+// 		// temp = NULL;
+// 		if ((*parsee)->arguments)
+// 		{
+// 			if ((*parsee)->arguments[0])
+// 				free((*parsee)->arguments[0]);
+// 			(*parsee)->arguments[0] = ft_itoa((int)pid);
+// 			if (!(*parsee)->arguments[0])
+// 				return (1);
+// 		}
+// 	}
+// 	return (0);
+// }
+
 int	all_toge(t_ori *ori)
 {
 	ori->parsee = NULL;
@@ -99,7 +125,7 @@ int	all_toge(t_ori *ori)
 		return (0);
 	}
 	ori->parsee = parser(ori->cmds);
-	if (!ori->parsee)
+	if (!ori->parsee) //check_pid;
 		return (free_ori(ori), 1);
 	return (0);
 }

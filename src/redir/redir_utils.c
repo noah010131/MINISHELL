@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 11:06:52 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:09:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	put_heredoc(t_envp **env, char *end_str, FILE *temp)
 		buffer = readline(">");
 		if (!buffer)
 		{
-			print_error("MINI: warning: heredoc delimited by end-of-file (wanted `end')\n");
+			print_error ("MINI: warning: heredoc delimited by end-of-file (wanted `end')\n");
 			exit(fclose(temp));
 		}
 		buffer = expanding_hd(buffer, env);

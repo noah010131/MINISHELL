@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 10:35:46 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:13:06 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	exec(char *command, t_pars *c, char **env)
 	int	status;
 	int	status_save;
 
-	printf("here\n");
 	g_exit_code = -2;
 	pid = fork();
 	if (pid < 0)
@@ -32,7 +31,6 @@ int	exec(char *command, t_pars *c, char **env)
 		status = signal_exit_check(status, &status_save);
 		if (status != status_save)
 			return (status);
-		printf("here\n");
 		status = check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
 		return (status);
