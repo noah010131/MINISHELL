@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:33:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 18:58:37 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:51:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int	pipe_helper(t_pars	**commands, t_envp	**lst)
 		create_redir_in_order(current);
 		current = (current)->next;
 	}
+	if (!count_pipes(commands))
+		return (0);
 	current = *commands;
 	num = open_heredoc(current, lst, files, c_stdout);
 	if (num)
