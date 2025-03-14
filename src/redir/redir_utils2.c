@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 19:27:54 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 09:41:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	check_error_code(char *name)
 		ft_putstr_fd("Permission denied: ", 2);
 	else if (errno == EISDIR)
 		ft_putstr_fd("Is a directory: ", 2);
+	else
+		ft_putstr_fd("ambiguous redirect", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("\n", 2);
 	return (status);
