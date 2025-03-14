@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 21:19:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 23:48:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,12 @@ char	*put_path(char *command, t_envp **lst)
 	else if (!*lst && access(command, F_OK) == 0)
 		return (ft_strdup(command));
 	temp_path = ft_split((*lst)->value, ':');
-	path = pathfinder(command, temp_path);
+	path = pathfinder(*&command, temp_path);
+	if (!path)
+	{
+		if (access(command, F_OK) == 0)
+			return (ft_strdup(command));
+	}
 	i = -1;
 	while (temp_path[++i])
 		free(temp_path[i]);
@@ -135,6 +140,7 @@ int	exec_command(t_pars *c, t_envp **lst, char **env)
 
 	temp = *lst;
 	command = put_path(c->command, lst);
+	// command = c->command;
 	// envp = make_envp(lst);
 	*lst = temp;
 	if (!command)
