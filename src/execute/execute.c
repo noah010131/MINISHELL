@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 11:13:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:09:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	exec(char *command, t_pars *c, char **env)
 		waitpid(pid, &status, 0);
 		status_save = 0;
 		status = signal_exit_check(status, &status_save);
-		if (status != status_save)
+		if (status_save)
 			return (status);
 		status = check_error(command, c->arguments, WEXITSTATUS(status));
 		free(command);
@@ -82,7 +82,7 @@ char	*put_path(char *command, t_envp **lst)
 			(*lst) = (*lst)->next;
 		}
 		if (!*lst)
-			exit(1);
+			return (NULL);
 		temp_path = ft_split((*lst)->value, ':');
 		path = pathfinder(command, temp_path);
 		i = -1;
