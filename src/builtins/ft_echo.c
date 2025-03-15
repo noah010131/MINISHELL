@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/13 21:29:31 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/15 09:03:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	ft_echo(t_pars *cmd)
 		&& check_argument(cmd->arguments[1]))
 	{
 		flag = 0;
-		i++;
+		while (check_argument(cmd->arguments[i]))
+			i++;
 	}
 	else
 		flag = 1;
