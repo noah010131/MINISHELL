@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/15 09:58:13 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/15 10:04:08 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,14 @@ void	print_export(t_envp *envp)
 	{
 		if (envp->name && envp->value)
 		{
-			printf("declare -x %s=", envp->name);
+			// printf("declare -x %s=", envp->name);
+			// printf("\"%s\"\n", envp->value);
+			printf("export %s=", envp->name);
 			printf("\"%s\"\n", envp->value);
 		}
 		else
-			printf("declare -x %s\n", envp->name);
+			printf("export %s\n", envp->name);
+			// printf("declare -x %s=", envp->name);
 		envp = envp->next;
 	}
 }
