@@ -6,12 +6,33 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 21:54:40 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:31:25 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+t_pars		*put_command(t_pars	**c, int i)
+{
+	int		num;
+	t_pars	*tmp;
+	t_pars	*current;
+
+	num = 0;
+	current = (*c);
+	// (void)i;
+	while (current && num < i)
+	{
+		if (current->next)
+			tmp = current->next;
+		// free(current);
+		current = tmp;
+		num++;
+	}
+	if (!current)
+		write(2, "NULL\n", 5);
+	return (current);
+}
 void	free_fds(int **fds, int end)
 {
 	int	i;
@@ -73,7 +94,7 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 	return (exit_code);
 }
 
-int	execute_pipe(t_pars *c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
+int	execute_pipe(t_pars **c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
 {
 	int	n;
 
@@ -93,7 +114,7 @@ int	execute_pipe(t_pars *c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
 			close(pipe->fds[n][0]);
 			close(pipe->fds[n][1]);
 		}
-		exit (redirec_main(c, lst, ori));
+		exit (redirec_main(put_command(c, i), lst, ori, pipe));
 	}
 	return (0);
 }
@@ -117,21 +138,20 @@ int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
 	int			i;
 
 	i = 0;
-	i = pipe_helper(commands, lst);
-	if (i == -1 || i == -130)
-		return (i * -1);
 	pipe.num_pipes = count_pipes(commands);
-	save = *commands;
-	if (!pipe.num_pipes)
-		return (redirec_main(*commands, lst, ori));
 	if (malloc_pipe(&pipe) == -1)
 		return (-1);
+	i = pipe_helper(commands, ori, &pipe);
+	if (i == -1 || i == -130)
+		return (i * -1);
+	save = *commands;
+	if (!pipe.num_pipes)
+		return (redirec_main(*commands, lst, ori, &pipe));
 	i = -1;
-	while (*commands && ++i <= pipe.num_pipes)
+	while (++i <= pipe.num_pipes)
 	{
-		if (execute_pipe(*commands, i, &pipe, lst, ori) == -1)
+		if (execute_pipe(commands, i, &pipe, lst, ori) == -1)
 			return (-1);
-		(*commands) = (*commands)->next;
 	}
 	close_pipe(&pipe);
 	*commands = save;

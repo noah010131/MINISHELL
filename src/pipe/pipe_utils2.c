@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:33:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 14:51:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:25:00 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,22 @@ int	close_file2(FILE	*files[])
 	return (0);
 }
 
-int	open_heredoc(t_pars	*current, t_envp	**lst, FILE	*files[], int	c_stdout[])
+int	open_heredoc(t_ori *ori, FILE	*files[], int	c_stdout[], t_pipe *pipe)
 {
 	t_redir		*temp;
+	t_pars		*current;
 	int			i;
 
 	temp = NULL;
 	i = 0;
+	current = *ori->parsee;
 	while (current)
 	{
 		while (current && current->redirections
 			&& current->redirections->type == HEREDOC)
 		{
 			c_stdout[0] =
-				ch_err(oper_heredoc_in(current, c_stdout[0], lst), c_stdout);
+				ch_err(oper_heredoc_in(current, c_stdout[0], ori, pipe), c_stdout);
 			files[i++] = current->redirections->f;
 			if (c_stdout[0] < 0)
 				return (close_file(current->redirections), c_stdout[0] * -1);
@@ -84,7 +86,7 @@ int	reset_process(FILE	*files[], int	c_stdout[])
 	return (0);
 }
 
-int	pipe_helper(t_pars	**commands, t_envp	**lst)
+int	pipe_helper(t_pars	**commands, t_ori *ori, t_pipe *pipe)
 {
 	int			c_stdout[2];
 	int			num;
@@ -103,7 +105,7 @@ int	pipe_helper(t_pars	**commands, t_envp	**lst)
 	if (!count_pipes(commands))
 		return (0);
 	current = *commands;
-	num = open_heredoc(current, lst, files, c_stdout);
+	num = open_heredoc(ori, files, c_stdout, pipe);
 	if (num)
 		return (num * -1);
 	else

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 22:03:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:24:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,12 +208,12 @@ int					parsing_command(t_pars *c, t_envp **lst, t_ori *ori);
 int					check_error(char *command, char **arguments, int status);
 int					oper_redir_in(t_pars *c, int stdin_save);
 int					oper_redir_out(t_pars *c, int stdout_save);
-int					oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst);
-int					read_heredoc(char *end_str, char *flag, t_envp **lst);
+int					oper_heredoc_in(t_pars *c, int stdin_save, t_ori *ori, t_pipe *pipe);
+int					read_heredoc(char *end_str, char *flag, t_ori *ori, t_pipe *pipe);
 int					exec_heredoc(int flag, t_redir *redirections);
 int					oper_redir_app(t_pars *c, int stdout_save);
-int					redirec_main(t_pars	*command, t_envp **lst, t_ori *ori);
-int					execute_parsing(t_pars *c, int std_s[], t_envp **lst);
+int					redirec_main(t_pars	*command, t_envp **lst, t_ori *ori, t_pipe *pipe);
+int					execute_parsing(t_pars *c, int std_s[], t_ori *ori, t_pipe *pipe);
 int					close_file(t_redir *redirections);
 int					reset_stdin_out(int copy_stdin_out[]);
 int					pipe_main(t_pars	**commands, t_envp **list, t_ori *ori);
@@ -226,7 +226,7 @@ int					ft_cd(t_ori *ori, t_pars *pars);
 // void					check_error_code(char *name);
 int					create_redir_in_order(t_pars	*command);
 void				free_redirections(t_redir *redirections);
-int					pipe_helper(t_pars	**commands, t_envp	**lst);
+int					pipe_helper(t_pars	**commands, t_ori *ori, t_pipe *pipe);
 void				print_no_command(char *argument);
 void				sigquit_handler(int sig);
 void				sigint_handler(int sig);
@@ -238,6 +238,7 @@ void				pers_free(void *ptr);
 int					check_ch(char *str, char checker, int i);
 bool				print_error(char *str);
 void				check_error_code(char *name);
+void				free_child(t_envp **lst, t_ori *ori, int free_flag, t_pipe *pipe);
 
 extern int			g_exit_code;
 

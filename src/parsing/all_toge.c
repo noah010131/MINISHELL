@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/14 12:13:30 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:39:36 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_pars_ls(t_pars **parsee)
 	if (!parsee)
 		return ;
 	current_p = *parsee;
-	while (current_p )
+	while (current_p)
 	{
 		current_r = current_p->redirections;
 		cache_p = current_p->next;
