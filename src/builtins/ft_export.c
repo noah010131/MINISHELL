@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/13 22:32:02 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/15 09:58:13 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,20 @@ int	check_exist(char *str, t_envp	**env)
 	return (1);
 }
 
+int	check_no_value(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	ft_export(t_pars *pars, t_envp **env)
 {
 	char	**str;
@@ -110,6 +124,8 @@ int	ft_export(t_pars *pars, t_envp **env)
 	{
 		if (!str[i] || !str[i][0] || export_error(str[i]))
 			return (ft_putstr_fd("mkshell export bad assignment\n", 2), 1);
+		if (check_no_value(str[i]))
+			return (0);
 		if (ft_occur(str[i], '=') > 0 && !check_exist(str[i], env))
 			if (!add_envplast(env, str[i]))
 				return (-1);
