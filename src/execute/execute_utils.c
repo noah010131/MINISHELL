@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:13:30 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 10:58:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/15 08:31:49 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ int	check_error(char *command, char **arguments, int status)
 	struct stat statbuf;
 
 	// ft_memset(&statbuf, 0, sizeof(struct stat));
-	stat(command, &statbuf);
 	if (!status)
 		return (status);
+	if (command)
+		stat(command, &statbuf);
 	// ft_putstr_fd(arguments[0], 2);
 	if (ft_strchr(arguments[0], '/'))
 	{
