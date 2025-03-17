@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/17 22:09:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:54:48 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_export(t_pars *pars, t_envp **env)
 	while (str[i])
 	{
 		if (!str[i] || !str[i][0] || export_error(str[i]))
-			return (ft_putstr_fd("mkshell export bad assignment\n", 2), 1);
+			return (write(2, "export: not a valid identifier\n", 31), 1);
 		if (check_no_value(str[i]))
 			return (0);
 		if (ft_occur(str[i], '=') > 0 && !check_exist(str[i], env))
