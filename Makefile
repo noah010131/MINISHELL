@@ -13,7 +13,8 @@ SRC = src/parsing/env.c src/parsing/expands.c src/parsing/expands_utils.c src/pa
 	src/redir/expand_hd.c\
 	src/main.c src/main_utils.c src/execute/execute.c src/execute/execute_utils.c\
 	src/pipe/pipe_utils.c src/pipe/pipe_utils2.c src/pipe/pipe_main.c src/parsing/pro_pars.c\
-	src/signals/signal_main.c
+	src/signals/signal_main.c\
+	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,13 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:44:10 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 07:34:59 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 10:32:42 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	free_child1(t_envp **lst, t_ori *ori, int free_flag, FILE *files[])
+void	free_child1(t_envp **lst, t_ori *ori, int free_flag, int files[])
 {
 	int	i;
 
@@ -23,7 +23,7 @@ void	free_child1(t_envp **lst, t_ori *ori, int free_flag, FILE *files[])
 	// free(pipe->fds);
 	while (files && files[i])
 	{
-		fclose(files[i]);
+		close(files[i]);
 		i++;
 	}
 	if (free_flag)
@@ -53,7 +53,7 @@ void	free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save)
 		(*ori->parsee)->redirections = save;
 		while (save && current != save)
 		{
-			fclose(save->f);
+			close(save->fd);
 			save = save->next;
 		}
 	}

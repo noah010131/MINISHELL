@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 07:42:18 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 10:30:25 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ int	oper_redir_out(t_pars *c, int stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	if (!c->redirections->filename)
 		return (check_error_code(c->redirections->filename), -1);
-	c->redirections->f = fopen(c->redirections->filename, "wr");
-	if (!c->redirections->f)
+	c->redirections->fd = open(c->redirections->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (!c->redirections->fd)
 		return (check_error_code(c->redirections->filename), -1);
-	c->redirections->fd = fileno(c->redirections->f);
 	if (c->redirections->fd == -1)
 		return (-1);
 	if (dup2(c->redirections->fd, STDOUT_FILENO) == -1)
@@ -45,19 +44,19 @@ int	oper_redir_out(t_pars *c, int stdout_save)
 
 int	oper_heredoc_in(int stdin_save, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
-	char	*flag;
+	int		flag;
 
-	flag = "wr";
+	flag = 1;
 	if (stdin_save != 0)
 	{
 		if (dup2(stdin_save, STDIN_FILENO) == -1)
 			return (-1);
 		stdin_save = 0;
-		flag = "a";
+		flag = 0;
 	}
 	if (read_heredoc(flag, ori, pipe, save) == 130)
 		return (130);
-	return (exec_heredoc(stdin_save, (*ori->parsee)->redirections));
+	return (exec_heredoc1(stdin_save, (*ori->parsee)->redirections, ori));
 }
 
 int	oper_redir_app(t_pars *c, int stdout_save)
@@ -66,10 +65,9 @@ int	oper_redir_app(t_pars *c, int stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
 	if (!c->redirections->filename)
 		return (check_error_code(c->redirections->filename), -1);
-	c->redirections->f = fopen(c->redirections->filename, "a");
-	if (!c->redirections->f)
+	c->redirections->fd = open(c->redirections->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (!c->redirections->fd)
 		return (check_error_code(c->redirections->filename), -1);
-	c->redirections->fd = fileno(c->redirections->f);
 	if (c->redirections->fd == -1)
 		return (-1);
 	if (dup2(c->redirections->fd, STDOUT_FILENO) == -1)
