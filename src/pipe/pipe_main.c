@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 19:52:37 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:17:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 	return (exit_code);
 }
 
-int	execute_pipe(t_pars **c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
+int	execute_pipe(t_pars **c, int i, t_pipe *pipe, t_ori *ori)
 {
 	int	n;
 
-		g_exit_code = -3;
 	pipe->pids[i] = fork();
 	if (pipe->pids[i] < 0)
 		return (-1);
@@ -78,7 +77,7 @@ int	execute_pipe(t_pars **c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
 			close(pipe->fds[n][0]);
 			close(pipe->fds[n][1]);
 		}
-		exit (redirec_main(put_command(c, i), lst, ori, pipe));
+		exit(redirec_main(put_command(c, i), ori->envs, ori, pipe));
 	}
 	return (0);
 }
@@ -114,7 +113,7 @@ int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
 	i = -1;
 	while (++i <= pipe.num_pipes)
 	{
-		if (execute_pipe(commands, i, &pipe, lst, ori) == -1)
+		if (execute_pipe(commands, i, &pipe, ori) == -1)
 			return (-1);
 	}
 	close_pipe(&pipe);

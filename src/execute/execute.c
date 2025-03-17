@@ -6,12 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 20:00:32 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:10:06 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 int	exec(char *command, t_pars *c, char **env)
 {
@@ -19,16 +18,11 @@ int	exec(char *command, t_pars *c, char **env)
 	int	status;
 	int	status_save;
 
-	g_exit_code = -2;
-	// signal(SIGINT, SIG_IGN);
-	// signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
-	{
 		exec_ve(command, c, env);
-	}
 	else
 	{
 		waitpid(pid, &status, 0);
@@ -135,17 +129,13 @@ char	*put_path(char *command, t_envp **lst)
 int	exec_command(t_pars *c, t_envp **lst, char **env)
 {
 	char	*command;
-	// char 	**envp;
 	t_envp	*temp;
 
 	temp = *lst;
 	command = put_path(c->command, lst);
-	// command = c->command;
-	// envp = make_envp(lst);
 	*lst = temp;
 	if (!command)
 		return (check_error(command, c->arguments, 1));
-		// command = ft_strdup(c->command);
 	return (exec(command, c, env));
 }
 
@@ -154,7 +144,7 @@ int	parsing_command(t_pars *c, t_envp **lst, t_ori *ori)
 	if (c->command && ft_strcmp(c->command, "echo") == 0)
 		return (g_exit_code = ft_echo(c));
 	else if (c->command && ft_strcmp(c->command, "cd") == 0)
-		return (g_exit_code =  ft_cd(ori, c));
+		return (g_exit_code = ft_cd(ori, c));
 	else if (c->command && ft_strcmp(c->command, "pwd") == 0)
 		return (g_exit_code = ft_pwd());
 	else if (c->command && ft_strcmp(c->command, "export") == 0)

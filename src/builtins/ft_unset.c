@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:14 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/15 08:46:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:02:48 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ int	ft_unset(t_envp **lst, t_pars *pars)
 	if (!lst || !pars)
 		return (1);
 	str = pars->arguments;
-	// if (!str[1])
-	// 	return (free_envp(lst), 0);
 	if (!str[1])
 		return (0);
 	i = 1;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_heper.c                                       :+:      :+:    :+:   */
+/*   pipe_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:43:11 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 14:44:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:13:07 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	open_heredoc(t_ori *ori, int files[], int c_stdout[], t_pars *current)
 		while (save && save->redirections
 			&& save->redirections->type == HEREDOC)
 		{
-			c_stdout[0] =
-				ch_err(oper_heredoc1(save, c_stdout[0], ori, files), c_stdout);
+			c_stdout[0] = ch_err(oper_heredoc1
+					(save, c_stdout[0], ori, files), c_stdout);
 			files[i++] = save->redirections->fd;
 			if (c_stdout[0] < 0)
 				return (close_file(save->redirections), c_stdout[0] * -1);

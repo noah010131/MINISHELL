@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 14:48:54 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:09:41 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,8 @@ int					read_heredoc1(char *end_str, int flag, t_ori *ori, int files[]);
 int					ft_strlen(const char *str);
 t_pars				*put_command(t_pars	**c, int i);
 void				free_fds(int **fds, int end);
+int					bad_id(char *str);
+int					check_hypen(char *str);
 extern int			g_exit_code;
 
 #endif

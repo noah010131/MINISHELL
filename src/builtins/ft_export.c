@@ -6,48 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/15 10:04:08 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:09:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	check_hypen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-	{
-		if (str[i] == '-')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	bad_id(char *str)
-{
-	int	i;
-	int	count;
-
-	count = 0;
-	i = 1;
-	if (!str)
-		return (1);
-	if (!(ft_isalpha(str[0]) || str[i] == '_'))
-		return (1);
-	while (str[i])
-	{
-		if ((!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '='
-				&& str[i] != ' ') && check_hypen(str))
-			return (1);
-		if (str[i] == ' ')
-			count++;
-		i++;
-	}
-	return (0);
-}
 
 int	export_error(char *str)
 {
@@ -64,14 +27,11 @@ void	print_export(t_envp *envp)
 	{
 		if (envp->name && envp->value)
 		{
-			// printf("declare -x %s=", envp->name);
-			// printf("\"%s\"\n", envp->value);
 			printf("export %s=", envp->name);
 			printf("\"%s\"\n", envp->value);
 		}
 		else
 			printf("export %s\n", envp->name);
-			// printf("declare -x %s=", envp->name);
 		envp = envp->next;
 	}
 }
