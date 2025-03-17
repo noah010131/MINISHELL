@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:33:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 01:07:08 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 07:27:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,31 +119,31 @@ int	close_file2(FILE	*files[])
 	return (0);
 }
 
-int	open_heredoc(t_ori *ori, FILE	*files[], int	c_stdout[], t_pipe *pipe)
+int	open_heredoc(t_ori *ori, FILE	*files[], int	c_stdout[], t_pars	*current)
 {
-	// t_redir		*temp;
-	t_pars		*current;
+	t_redir		*temp;
+	t_pars		*save;
 	int			i;
 
-	// temp = NULL;
+	temp = NULL;
 	i = 0;
-	current = *ori->parsee;
-	while (current)
+	save = current;
+	while (save)
 	{
-		while (current && current->redirections
-			&& current->redirections->type == HEREDOC)
+		while (save && save->redirections
+			&& save->redirections->type == HEREDOC)
 		{
 			c_stdout[0] =
-				ch_err(oper_heredoc_in1(current, c_stdout[0], ori, pipe), c_stdout);
-			files[i++] = current->redirections->f;
+				ch_err(oper_heredoc_in1(save, c_stdout[0], ori, NULL), c_stdout);
+			files[i++] = save->redirections->f;
 			if (c_stdout[0] < 0)
-				return (close_file(current->redirections), c_stdout[0] * -1);
-			// temp = current->redirections;
-			current->redirections = current->redirections->next;
-			// free(temp->filename);
-			// free(temp);
+				return (close_file(save->redirections), c_stdout[0] * -1);
+			temp = save->redirections;
+			save->redirections = save->redirections->next;
+			free(temp->filename);
+			free(temp);
 		}
-		current = current->next;
+		save = save->next;
 	}
 	return (0);
 }
@@ -157,7 +157,7 @@ int	reset_process(FILE	*files[], int	c_stdout[])
 	return (0);
 }
 
-int	pipe_helper(t_pars	**commands, t_ori *ori, t_pipe *pipe)
+int	pipe_helper(t_pars	**commands, t_ori *ori)
 {
 	int			c_stdout[2];
 	int			num;
@@ -176,7 +176,7 @@ int	pipe_helper(t_pars	**commands, t_ori *ori, t_pipe *pipe)
 	if (!count_pipes(commands))
 		return (0);
 	current = *commands;
-	num = open_heredoc(ori, files, c_stdout, pipe);
+	num = open_heredoc(ori, files, c_stdout, current);
 	if (num)
 		return (num * -1);
 	else

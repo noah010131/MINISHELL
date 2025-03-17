@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/15 16:31:25 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 07:13:54 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)
 	int			i;
 
 	i = 0;
+	i = pipe_helper(commands, ori);
+	if (i == -1 || i == -130)
+		return (i * -1);
 	pipe.num_pipes = count_pipes(commands);
 	if (malloc_pipe(&pipe) == -1)
 		return (-1);
-	i = pipe_helper(commands, ori, &pipe);
-	if (i == -1 || i == -130)
-		return (i * -1);
 	save = *commands;
 	if (!pipe.num_pipes)
 		return (redirec_main(*commands, lst, ori, &pipe));

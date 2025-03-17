@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:44:10 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 01:06:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 07:16:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 void	free_child1(t_envp **lst, t_ori *ori, int free_flag, t_pipe *pipe)
 {
-	int	i;
+	// int	i;
 
-	free(pipe->pids);
-	i = -1;
-	while (++i < pipe->num_pipes)
-		free(pipe->fds[i]);
-	free(pipe->fds);
+	(void)pipe;
+	// free(pipe->pids);
+	// i = -1;
+	// while (++i < pipe->num_pipes)
+	// 	free(pipe->fds[i]);
+	// free(pipe->fds);
 	if (free_flag)
 	{
 		free_envp(lst);
