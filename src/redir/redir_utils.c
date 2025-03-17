@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 10:42:03 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:10:30 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	read_heredoc(int flag, t_ori *ori, t_pipe *pipe, t_redir *save)
 	if (pid == 0)
 	{
 		if (flag)
-			fd = open(TEMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open(TEMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		else
-			fd = open(TEMP, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd = open(TEMP, O_RDWR | O_CREAT | O_APPEND, 0644);
 		// free_child(ori, 2, pipe, save);
 		put_heredoc(fd, ori, pipe, save);
 	}
@@ -102,7 +102,6 @@ void	expand_file(int fd, t_ori	*ori)
 	// (void)lst;
 	// (void)fd;
 	i = 0;
-	fd = fileno((*ori->parsee)->redirections->f);
 	buff[i] = get_next_line(fd);
 	buff[i] = expanding_hd(buff[i], ori->envs);
 	while (buff[i])
@@ -130,7 +129,7 @@ int	exec_heredoc(int flag, t_redir	*redirections)
 	int		stdin_save;
 
 	if (TEMP)
-		temp = open(TEMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		temp = open(TEMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (!temp)
 		return (-1);
 	redirections->fd =temp;
@@ -150,7 +149,7 @@ int	exec_heredoc1(int flag, t_redir	*redirections, t_ori *ori)
 
 	(void)ori;
 	if (TEMP)
-		temp = open(TEMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		temp = open(TEMP, O_RDONLY, 0644);
 	if (!temp)
 		return (-1);
 	redirections->fd =temp;
