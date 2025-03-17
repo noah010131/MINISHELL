@@ -6,13 +6,14 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/15 15:41:16 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:18:36 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_exit_code(t_pars **commands, int exit_code, t_envp **lst, t_ori *ori)
+void	check_exit_code(t_pars **commands,
+	int exit_code, t_envp **lst, t_ori *ori)
 {
 	int	is_exit;
 

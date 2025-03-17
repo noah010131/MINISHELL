@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:33:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 14:48:01 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:26:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,24 @@ int	put_heredoc1(char end_str[], int fd, t_ori *ori, int files[])
 	exit(close(fd));
 }
 
-int	read_heredoc1(char *end_str, int flag, t_ori *ori, int files[])
+void	child_heredoc1(char *end_str, int flag, t_ori *ori, int files[])
 {
 	int		fd;
+	char	filename[1024];
+
+	if (flag)
+		fd = open(TEMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else
+		fd = open(TEMP, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	ft_strlcpy(filename, end_str, 1024);
+	free_child1(ori->envs, ori, 1, files);
+	put_heredoc1(filename, fd, ori, files);
+}
+
+int	read_heredoc1(char *end_str, int flag, t_ori *ori, int files[])
+{
 	int		pid;
 	int		status;
-	char	filename[1024];
 
 	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
 		return (-1);
@@ -49,15 +61,7 @@ int	read_heredoc1(char *end_str, int flag, t_ori *ori, int files[])
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-	{
-		if (flag)
-			fd = open(TEMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else
-			fd = open(TEMP, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		ft_strlcpy(filename, end_str, 1024);
-		free_child1(ori->envs, ori, 1, files);
-		put_heredoc1(filename, fd, ori, files);
-	}
+		child_heredoc1(end_str, flag, ori, files);
 	else
 	{
 		signal(SIGINT, SIG_IGN);

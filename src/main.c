@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/15 14:28:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:18:24 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			g_exit_code = pipe_main(ori.parsee, ori.envs, &ori);
-			// printf("exit_code %d\n", g_exit_code);
 			check_exit_code(ori.parsee, g_exit_code, ori.envs, &ori);
 		}
 		free_tori(&ori);
