@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:44:10 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 15:15:53 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:51:13 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save)
 		free_tori(ori);
 	}
 }
+
 int	oper_redir_in(t_pars *c, int stdin_save)
 {
 	if (!stdin_save)
