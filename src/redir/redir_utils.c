@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/15 16:41:36 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 00:49:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void clear_stdin_buffer() {
 }
 
 // TODO: fonction interdite fclose
-int	put_heredoc(char *end_str, FILE *temp, t_ori *ori, t_pipe *pipe)
+int	put_heredoc(FILE *temp, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
 	char	*buffer;
 
@@ -39,24 +39,26 @@ int	put_heredoc(char *end_str, FILE *temp, t_ori *ori, t_pipe *pipe)
 		if (!buffer)
 		{
 			print_error
-			("MINI: warning: heredoc delimited by end-of-file (wanted `end')\n");
-			free_child(ori->envs, ori, 1, pipe);
+			("warning: heredoc delimited by end-of-file (wanted `end')\n");
+			free_child(ori, 2, pipe, save);
 			exit(fclose(temp));
 		}
 		buffer = expanding_hd(buffer, ori->envs);
-		if (!end_str || !buffer || ft_strcmp(buffer, end_str) == 0)
+		if (!((*ori->parsee)->redirections->filename) || !buffer||
+			ft_strcmp(buffer, ((*ori->parsee)->redirections->filename)) == 0)
 			break ;
 		if (print_buff(buffer, fileno(temp)) == -1)
 		{
-			free_child(ori->envs, ori, 1, pipe);
+			free_child(ori, 2, pipe, save);
 			exit(-1);
 		}
 	}
-	free_child(ori->envs, ori, 1, pipe);
+	free_child(ori, 2, pipe, save);
 	exit(fclose(temp));
 }
 
-int	read_heredoc(char *end_str, char *flag, t_ori *ori, t_pipe *pipe)
+
+int	read_heredoc(char *flag, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
 	FILE	*temp;
 	int		pid;
@@ -70,7 +72,7 @@ int	read_heredoc(char *end_str, char *flag, t_ori *ori, t_pipe *pipe)
 	if (pid == 0)
 	{
 		temp = fopen(TEMP, flag);
-		put_heredoc(end_str, temp, ori, pipe);
+		put_heredoc(temp, ori, pipe, save);
 	}
 	else
 	{
@@ -107,16 +109,16 @@ int	exec_heredoc(int flag, t_redir	*redirections)
 	return (stdin_save);
 }
 
-int	execute_parsing(t_pars *c, int std_s[], t_ori *ori, t_pipe *pipe)
+int	execute_parsing(int std_s[], t_ori *ori, t_pipe *pipe, t_redir *save)
 {
-	if (c->redirections->type == REDIR_IN_S)
-		std_s[0] = ch_err(oper_redir_in(c, std_s[0]), std_s);
-	else if (c->redirections->type == REDIR_OUT_S)
-		std_s[1] = ch_err(oper_redir_out(c, std_s[1]), std_s);
-	else if (c->redirections->type == HEREDOC)
-		std_s[0] = ch_err(oper_heredoc_in(c, std_s[0], ori, pipe), std_s);
-	else if (c->redirections->type == REDIR_OUT_D)
-		std_s[1] = ch_err(oper_redir_app(c, std_s[1]), std_s);
+	if ((*ori->parsee)->redirections->type == REDIR_IN_S)
+		std_s[0] = ch_err(oper_redir_in(*ori->parsee, std_s[0]), std_s);
+	else if ((*ori->parsee)->redirections->type == REDIR_OUT_S)
+		std_s[1] = ch_err(oper_redir_out(*ori->parsee, std_s[1]), std_s);
+	else if ((*ori->parsee)->redirections->type == HEREDOC)
+		std_s[0] = ch_err(oper_heredoc_in(std_s[0], ori, pipe, save), std_s);
+	else if ((*ori->parsee)->redirections->type == REDIR_OUT_D)
+		std_s[1] = ch_err(oper_redir_app(*ori->parsee, std_s[1]), std_s);
 	if (std_s[0] < 0)
 		return (std_s[0]);
 	if (std_s[1] < 0)

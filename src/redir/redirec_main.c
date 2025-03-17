@@ -6,28 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/15 16:50:59 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 00:54:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	free_child(t_envp **lst, t_ori *ori, int free_flag, t_pipe *pipe)
-{
-	int	i;
-
-	free(pipe->pids);
-	i = -1;
-	while (++i < pipe->num_pipes)
-		free(pipe->fds[i]);
-	free(pipe->fds);
-	if (free_flag)
-	{
-		free_envp(lst);
-		free(lst);
-		free_tori(ori);
-	}
-}
 
 int	oper_redir_in(t_pars *c, int stdin_save)
 {
@@ -60,7 +43,7 @@ int	oper_redir_out(t_pars *c, int stdout_save)
 	return (stdout_save);
 }
 
-int	oper_heredoc_in(t_pars *c, int stdin_save, t_ori *ori, t_pipe *pipe)
+int	oper_heredoc_in(int stdin_save, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
 	char	*flag;
 
@@ -72,9 +55,9 @@ int	oper_heredoc_in(t_pars *c, int stdin_save, t_ori *ori, t_pipe *pipe)
 		stdin_save = 0;
 		flag = "a";
 	}
-	if (read_heredoc(c->redirections->filename, flag, ori, pipe) == 130)
+	if (read_heredoc(flag, ori, pipe, save) == 130)
 		return (130);
-	return (exec_heredoc(stdin_save, c->redirections));
+	return (exec_heredoc(stdin_save, (*ori->parsee)->redirections));
 }
 
 int	oper_redir_app(t_pars *c, int stdout_save)
@@ -108,15 +91,15 @@ int	redirec_main(t_pars	*command, t_envp **lst, t_ori *ori, t_pipe *pipe)
 	if (!command->redirections)
 	{
 		return_value = parsing_command(command, lst, ori);
-		return (free_child(lst, ori, free_flag, pipe), return_value);
+		return (free_child(ori, free_flag, pipe, save), return_value);
 	}
 	cpy_stdin_out[0] = 0;
 	cpy_stdin_out[1] = 0;
 	while (command && command->redirections)
 	{
-		return_value = execute_parsing(command, cpy_stdin_out, ori, pipe);
+		return_value = execute_parsing(cpy_stdin_out, ori, pipe, save);
 		if (return_value < 0)
-			return (close_file(command->redirections), free_child(lst, ori, free_flag, pipe), return_value * -1);
+			return (close_file(command->redirections), free_child(ori, free_flag, pipe, save), return_value * -1);
 		command->redirections = command->redirections->next;
 	}
 	command->redirections = save;
@@ -124,6 +107,6 @@ int	redirec_main(t_pars	*command, t_envp **lst, t_ori *ori, t_pipe *pipe)
 	if (close_file(command->redirections) == -1)
 		return (reset_stdin_out(cpy_stdin_out), -1);
 	if (reset_stdin_out(cpy_stdin_out) == -1)
-		return (free_child(lst, ori, free_flag, pipe), -1);
-	return (free_child(lst, ori, free_flag, pipe), return_value);
+		return (free_child(ori, free_flag, pipe, save), -1);
+	return (free_child(ori, free_flag, pipe, save), return_value);
 }

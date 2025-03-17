@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:47:18 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/16 18:17:56 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 00:25:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ int	ft_env(t_envp **lst)
 	current = *lst;
 	while (current)
 	{
-		printf("%s=%s\n", current->name, current->value);
+		ft_putstr_fd(current->name, 1);
+		write(1, "=", 1);
+		if (current->value)
+			ft_putendl_fd(current->value, 1);
+		else
+			write(1, "\n", 1);
 		current = current->next;
 	}
 	return (0);
