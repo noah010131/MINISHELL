@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 07:17:32 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 07:32:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ int					check_ch(char *str, char checker, int i);
 bool				print_error(char *str);
 void				check_error_code(char *name);
 void				free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save);
-void				free_child1(t_envp **lst, t_ori *ori, int free_flag, t_pipe *pipe);
+void				free_child1(t_envp **lst, t_ori *ori, int free_flag, FILE *files[]);
 
 extern int			g_exit_code;
 

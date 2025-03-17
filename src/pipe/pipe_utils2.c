@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:33:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 07:27:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 07:31:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 // 		current = current->next;
 // 	}
 // }
-int	put_heredoc1(char *end_str, FILE *temp, t_ori *ori, t_pipe *pipe)
+int	put_heredoc1(char *end_str, FILE *temp, t_ori *ori, FILE *files[])
 {
 	char	*buffer;
 
@@ -42,7 +42,7 @@ int	put_heredoc1(char *end_str, FILE *temp, t_ori *ori, t_pipe *pipe)
 		{
 			print_error
 			("MINI: warning: heredoc delimited by end-of-file (wanted `end')\n");
-			free_child1(ori->envs, ori, 1, pipe);
+			free_child1(ori->envs, ori, 1, files);
 			exit(fclose(temp));
 		}
 		buffer = expanding_hd(buffer, ori->envs);
@@ -50,15 +50,15 @@ int	put_heredoc1(char *end_str, FILE *temp, t_ori *ori, t_pipe *pipe)
 			break ;
 		if (print_buff(buffer, fileno(temp)) == -1)
 		{
-			free_child1(ori->envs, ori, 1, pipe);
+			free_child1(ori->envs, ori, 1, files);
 			exit(-1);
 		}
 	}
-	free_child1(ori->envs, ori, 1, pipe);
+	free_child1(ori->envs, ori, 1, files);
 	exit(fclose(temp));
 }
 
-int	read_heredoc1(char *end_str, char *flag, t_ori *ori, t_pipe *pipe)
+int	read_heredoc1(char *end_str, char *flag, t_ori *ori, FILE *files[])
 {
 	FILE	*temp;
 	int		pid;
@@ -72,7 +72,7 @@ int	read_heredoc1(char *end_str, char *flag, t_ori *ori, t_pipe *pipe)
 	if (pid == 0)
 	{
 		temp = fopen(TEMP, flag);
-		put_heredoc1(end_str, temp, ori, pipe);
+		put_heredoc1(end_str, temp, ori, files);
 	}
 	else
 	{
@@ -86,7 +86,7 @@ int	read_heredoc1(char *end_str, char *flag, t_ori *ori, t_pipe *pipe)
 	}
 	return (0);
 }
-int	oper_heredoc_in1(t_pars *c, int stdin_save, t_ori *ori, t_pipe *pipe)
+int	oper_heredoc_in1(t_pars *c, int stdin_save, t_ori *ori, FILE *files[])
 {
 	char	*flag;
 
@@ -98,7 +98,7 @@ int	oper_heredoc_in1(t_pars *c, int stdin_save, t_ori *ori, t_pipe *pipe)
 		stdin_save = 0;
 		flag = "a";
 	}
-	if (read_heredoc1(c->redirections->filename, flag, ori, pipe) == 130)
+	if (read_heredoc1(c->redirections->filename, flag, ori, files) == 130)
 		return (130);
 	return (exec_heredoc(stdin_save, c->redirections));
 }
@@ -134,7 +134,7 @@ int	open_heredoc(t_ori *ori, FILE	*files[], int	c_stdout[], t_pars	*current)
 			&& save->redirections->type == HEREDOC)
 		{
 			c_stdout[0] =
-				ch_err(oper_heredoc_in1(save, c_stdout[0], ori, NULL), c_stdout);
+				ch_err(oper_heredoc_in1(save, c_stdout[0], ori, files), c_stdout);
 			files[i++] = save->redirections->f;
 			if (c_stdout[0] < 0)
 				return (close_file(save->redirections), c_stdout[0] * -1);

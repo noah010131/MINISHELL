@@ -6,22 +6,26 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:44:10 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 07:16:56 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 07:34:59 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	free_child1(t_envp **lst, t_ori *ori, int free_flag, t_pipe *pipe)
+void	free_child1(t_envp **lst, t_ori *ori, int free_flag, FILE *files[])
 {
-	// int	i;
+	int	i;
 
-	(void)pipe;
 	// free(pipe->pids);
-	// i = -1;
+	i = 0;
 	// while (++i < pipe->num_pipes)
 	// 	free(pipe->fds[i]);
 	// free(pipe->fds);
+	while (files && files[i])
+	{
+		fclose(files[i]);
+		i++;
+	}
 	if (free_flag)
 	{
 		free_envp(lst);
