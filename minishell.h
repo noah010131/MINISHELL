@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 10:33:16 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:56:28 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ int					oper_redir_in(t_pars *c, int stdin_save);
 int					oper_redir_out(t_pars *c, int stdout_save);
 int					oper_heredoc_in(int stdin_save, t_ori *ori, t_pipe *pipe, t_redir *save);
 int					read_heredoc(int flag, t_ori *ori, t_pipe *pipe, t_redir *save);
-int					exec_heredoc(int flag, t_redir *redirections);
+int					exec_heredoc(int flag, t_redir	*redirections, t_ori *ori);
 int					oper_redir_app(t_pars *c, int stdout_save);
 int					redirec_main(t_pars	*command, t_envp **lst, t_ori *ori, t_pipe *pipe);
 int					execute_parsing(int std_s[], t_ori *ori, t_pipe *pipe, t_redir *save);
@@ -241,7 +241,7 @@ void				check_error_code(char *name);
 void				free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save);
 void				free_child1(t_envp **lst, t_ori *ori, int free_flag, int files[]);
 char				*get_next_line(int fd);
-int					exec_heredoc1(int flag, t_redir	*redirections, t_ori *ori);
+// int					exec_heredoc1(int flag, t_redir	*redirections, t_ori *ori);
 int					ft_strlen(const char *str);
 
 extern int			g_exit_code;

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:33:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 10:37:14 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:56:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,23 @@ int	read_heredoc1(char *end_str, int flag, t_ori *ori, int files[])
 	}
 	return (0);
 }
+int	exec_heredoc1(int flag, t_redir	*redirections)
+{
+	int		temp;
+	int		stdin_save;
+
+	temp = open(TEMP, O_RDWR, 0644);
+	if (!temp)
+		return (-1);
+	redirections->fd =temp;
+	if (redirections->fd == -1)
+		return (-1);
+	if (!flag)
+		stdin_save = dup(STDIN_FILENO);
+	if (dup2(redirections->fd, STDIN_FILENO) == -1)
+		return (-1);
+	return (stdin_save);
+}
 int	oper_heredoc_in1(t_pars *c, int stdin_save, t_ori *ori, int files[])
 {
 	int		flag;
@@ -103,7 +120,7 @@ int	oper_heredoc_in1(t_pars *c, int stdin_save, t_ori *ori, int files[])
 	}
 	if (read_heredoc1(c->redirections->filename, flag, ori, files) == 130)
 		return (130);
-	return (exec_heredoc(stdin_save, c->redirections));
+	return (exec_heredoc1(stdin_save, c->redirections));
 }
 
 int	close_file2(int	files[])

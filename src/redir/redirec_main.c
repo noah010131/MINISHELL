@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 11:03:49 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:56:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	oper_heredoc_in(int stdin_save, t_ori *ori, t_pipe *pipe, t_redir *save)
 	}
 	if (read_heredoc(flag, ori, pipe, save) == 130)
 		return (130);
-	return (exec_heredoc1(stdin_save, (*ori->parsee)->redirections, ori));
+	return (exec_heredoc(stdin_save, (*ori->parsee)->redirections, ori));
 }
 
 int	oper_redir_app(t_pars *c, int stdout_save)
