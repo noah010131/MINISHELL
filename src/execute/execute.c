@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/15 10:24:33 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:00:32 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	exec(char *command, t_pars *c, char **env)
 	int	status_save;
 
 	g_exit_code = -2;
-	// write(1, ft_itoa(g_exit_code), strlen(ft_itoa(g_exit_code)));
 	// signal(SIGINT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 		return (-1);

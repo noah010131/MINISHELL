@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:15:34 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/14 22:00:45 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:43:34 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ void	sigint_handler(int sig)
 	clear_rl_line();
 	// if (g_exit_code == 1)
 	// 	write(1, "input : 1\n", 10);
-	// if (g_exit_code == -2)
+	// else if (g_exit_code == -2)
 	// 	write(1, "input : -2\n", 11);
-	// if (g_exit_code == 130)
+	// else if (g_exit_code == 130)
 	// 	write(1, "input : 130\n", 12);
 	// else
-	// 	printf("num : %d\n", g_exit_code);
-	// printf("input : %d\n", g_exit_code);
+	// 	printf("input : %d\n", g_exit_code);
 	// fflush(stdout);
 	if (g_exit_code != -2 && g_exit_code != -3)
 		rl_redisplay();
@@ -67,7 +66,8 @@ void	sigint_handler1(int sig)
 void	sigquit_handler(int sig)
 {
 	(void)sig;
-	exit(0);
+	// ft_putstr_fd("Quit (core dumped)\n", 2);
+	// exit(0);
 }
 
 int	signal_exit_check(int status, int	*flag)
@@ -80,7 +80,7 @@ int	signal_exit_check(int status, int	*flag)
 	if (WTERMSIG(status) == SIGQUIT)
 	{
 		*flag = 1;
-		ft_putstr_fd("Quit (core dumped)\n", 2);
+		write(1, "Quit (core dumped)\n", 19);
 		status = 131;
 	}
 	return (status);
@@ -88,7 +88,6 @@ int	signal_exit_check(int status, int	*flag)
 
 void	exec_ve(char *command, t_pars *c, char **env)
 {
-	// signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, sigquit_handler);
 	signal(SIGINT, sigint_handler1);
 	execve(command, c->arguments, env);

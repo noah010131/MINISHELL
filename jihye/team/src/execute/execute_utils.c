@@ -6,31 +6,12 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:13:30 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/15 08:31:49 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:34:15 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// int	check_exec_status(char *command, int status, char *check, int o_status)
-// {
-// 	struct stat	buff;
-
-// 	(void)command;
-// 	if (status == 1)
-// 	{
-// 		ft_putstr_fd("minishell: ", 2);
-// 		if (stat(check, &buff) == 0 && !(buff.st_mode & S_IRUSR))
-// 			(ft_putstr_fd(": Permission denied\n", 2), status = 126);
-// 		else if (errno == ENOENT)
-// 			ft_putstr_fd("No such file or directory\n", 2);
-// 		else
-// 			ft_putstr_fd("Command not found\n", 2), status = 127;
-// 	}
-// 	else if (o_status == 131)
-// 		(ft_putstr_fd("Quit (core dumped)\n", 2) , status = o_status);
-// 	return (status);
-// }
 bool	print_error(char *str)
 {
 	if (str)
