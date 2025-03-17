@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 13:54:23 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:41:25 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ int	print_buff(char *buffer, int filenum)
 	ft_putchar_fd('\n', filenum);
 	free(buffer);
 	return (0);
-}
-// TODO: fonction interdite : getchar
-void clear_stdin_buffer() {
-    int ch;
-    while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
 int	put_heredoc(int fd, t_ori *ori, t_pipe *pipe, char name[])
@@ -41,19 +36,15 @@ int	put_heredoc(int fd, t_ori *ori, t_pipe *pipe, char name[])
 		{
 			print_error
 			("warning: heredoc delimited by end-of-file (wanted `end')\n");
-			// free_child(ori, 2, pipe, save);
 			exit(close(fd));
 		}
-		// buffer = expanding_hd(buffer, ori->envs);
 		if (!(name) || !buffer || ft_strcmp(buffer, (name)) == 0)
 			break ;
 		if (print_buff(buffer, fd) == -1)
 		{
-			// free_child(ori, 2, pipe, save);
 			exit(-1);
 		}
 	}
-	// free_child(ori, 2, pipe, save);
 	exit(close(fd));
 }
 
@@ -101,7 +92,7 @@ int	expand_file(int src, t_ori *ori)
 	dest_fd = open(".temp.txt", O_RDWR | O_TRUNC, 0644);
 	while (1)
 	{
-		buffer = NULL;	
+		buffer = NULL;
 		buffer = get_next_line(src);
 		if (!buffer)
 			break ;
@@ -112,24 +103,6 @@ int	expand_file(int src, t_ori *ori)
 	close(dest_fd);
 	return (dest_fd);
 }
-
-// int	exec_heredoc(int flag, t_redir	*redirections)
-// {
-// 	int		temp;
-// 	int		stdin_save;
-
-// 	temp = open(TEMP, O_RDWR, 0644);
-// 	if (!temp)
-// 		return (-1);
-// 	redirections->fd =temp;
-// 	if (redirections->fd == -1)
-// 		return (-1);
-// 	if (!flag)
-// 		stdin_save = dup(STDIN_FILENO);
-// 	if (dup2(redirections->fd, STDIN_FILENO) == -1)
-// 		return (-1);
-// 	return (stdin_save);
-// }
 
 int	exec_heredoc(int flag, t_redir	*redirections, t_ori *ori)
 {

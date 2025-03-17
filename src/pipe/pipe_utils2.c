@@ -6,31 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 20:33:42 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 14:28:03 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:39:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// void	remove_heredoc(t_pars	**commands)
-// {
-// 	t_pars	*current;
-// 	t_redir	*temp;
-
-// 	current = *commands;
-// 	temp = NULL;
-// 	while (current)
-// 	{
-// 		while (current->redirections && current->redirections->type == HEREDOC)
-// 		{
-// 			temp = current->redirections;
-// 			current->redirections = current->redirections->next;
-// 			free(temp);
-// 		}
-// 		current = current->next;
-// 	}
-// }
-int	put_heredoc1(char end_str[], int	fd, t_ori *ori, int	files[])
+int	put_heredoc1(char end_str[], int fd, t_ori *ori, int files[])
 {
 	char	*buffer;
 
@@ -43,20 +25,14 @@ int	put_heredoc1(char end_str[], int	fd, t_ori *ori, int	files[])
 		if (!buffer)
 		{
 			print_error
-			("MINI: warning: heredoc delimited by end-of-file (wanted `end')\n");
-			// free_child1(ori->envs, ori, 1, files);
+			("warning: heredoc delimited by end-of-file (wanted `end')\n");
 			exit(close(fd));
 		}
-		// buffer = expanding_hd(buffer, ori->envs);
 		if (!end_str || !buffer || ft_strcmp(buffer, end_str) == 0)
 			break ;
 		if (print_buff(buffer, fd) == -1)
-		{
-			// free_child1(ori->envs, ori, 1, files);
 			exit(-1);
-		}
 	}
-	// free_child1(ori->envs, ori, 1, files);
 	exit(close(fd));
 }
 
@@ -67,7 +43,6 @@ int	read_heredoc1(char *end_str, int flag, t_ori *ori, int files[])
 	int		status;
 	char	filename[1024];
 
-	// (void)end_str;
 	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
 		return (-1);
 	pid = fork();
@@ -95,24 +70,8 @@ int	read_heredoc1(char *end_str, int flag, t_ori *ori, int files[])
 	}
 	return (0);
 }
-// int	exec_heredoc1(int flag, t_redir	*redirections)
-// {
-// 	int		temp;
-// 	int		stdin_save;
 
-// 	temp = open(TEMP, O_RDWR, 0644);
-// 	if (!temp)
-// 		return (-1);
-// 	redirections->fd =temp;
-// 	if (redirections->fd == -1)
-// 		return (-1);
-// 	if (!flag)
-// 		stdin_save = dup(STDIN_FILENO);
-// 	if (dup2(redirections->fd, STDIN_FILENO) == -1)
-// 		return (-1);
-// 	return (stdin_save);
-// }
-int	oper_heredoc_in1(t_pars *c, int stdin_save, t_ori *ori, int files[])
+int	oper_heredoc1(t_pars *c, int stdin_save, t_ori *ori, int files[])
 {
 	int		flag;
 
@@ -129,7 +88,7 @@ int	oper_heredoc_in1(t_pars *c, int stdin_save, t_ori *ori, int files[])
 	return (exec_heredoc(stdin_save, c->redirections, ori));
 }
 
-int	close_file2(int	files[])
+int	close_file2(int files[])
 {
 	int		i;
 
@@ -145,7 +104,7 @@ int	close_file2(int	files[])
 	return (0);
 }
 
-int	open_heredoc(t_ori *ori, int	files[], int	c_stdout[], t_pars	*current)
+int	open_heredoc(t_ori *ori, int files[], int c_stdout[], t_pars *current)
 {
 	t_redir		*temp;
 	t_pars		*save;
@@ -160,7 +119,7 @@ int	open_heredoc(t_ori *ori, int	files[], int	c_stdout[], t_pars	*current)
 			&& save->redirections->type == HEREDOC)
 		{
 			c_stdout[0] =
-				ch_err(oper_heredoc_in1(save, c_stdout[0], ori, files), c_stdout);
+				ch_err(oper_heredoc1(save, c_stdout[0], ori, files), c_stdout);
 			files[i++] = save->redirections->fd;
 			if (c_stdout[0] < 0)
 				return (close_file(save->redirections), c_stdout[0] * -1);
@@ -174,7 +133,7 @@ int	open_heredoc(t_ori *ori, int	files[], int	c_stdout[], t_pars	*current)
 	return (0);
 }
 
-int	reset_process(int	files[], int	c_stdout[])
+int	reset_process(int files[], int c_stdout[])
 {
 	if (close_file2(files) == -1)
 		return (reset_stdin_out(c_stdout), -1);
@@ -205,11 +164,8 @@ int	pipe_helper(t_pars	**commands, t_ori *ori)
 	num = open_heredoc(ori, files, c_stdout, current);
 	if (num)
 		return (num * -1);
-	else
-	{
-		if (reset_process(files, c_stdout) == -1)
-			return (-1);
-	}
+	if (reset_process(files, c_stdout) == -1)
+		return (-1);
 	current = *commands;
 	return (0);
 }
