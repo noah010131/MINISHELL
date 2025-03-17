@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 07:13:54 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 07:42:33 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	execute_pipe(t_pars **c, int i, t_pipe *pipe, t_envp **lst, t_ori *ori)
 {
 	int	n;
 
-	g_exit_code = -3;
 	pipe->pids[i] = fork();
 	if (pipe->pids[i] < 0)
 		return (-1);

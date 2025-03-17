@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 00:54:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 07:42:18 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	redirec_main(t_pars	*command, t_envp **lst, t_ori *ori, t_pipe *pipe)
 	t_redir		*save;
 
 	free_flag = 0;
-	if (g_exit_code == -3)
+	if (pipe->num_pipes != 0)
 		free_flag = 1;
 	save = command->redirections;
 	if (!command->redirections)
