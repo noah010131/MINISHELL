@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:50:53 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 14:52:47 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:40:26 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	exec_heredoc(int flag, t_redir	*redirections, t_ori *ori)
 		return (-1);
 	expand_file(redirections->fd, ori);
 	close(temp);
-	temp = open(".temp.txt", O_RDWR, 0644);
+	temp = open(".temp.txt", O_CREAT | O_RDWR, 0644);
 	if (!temp)
 		return (-1);
 	redirections->fd = temp;

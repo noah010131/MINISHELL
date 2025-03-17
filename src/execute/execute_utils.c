@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:13:30 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 22:11:58 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:34:41 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_message(char *argument, int num)
 
 int	check_error(char *command, char **arguments, int status)
 {
-	struct stat sb;
+	struct stat			sb;
 
 	if (!status)
 		return (status);
