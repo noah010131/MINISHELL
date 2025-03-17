@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:39:36 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/13 13:24:40 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:54:55 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,3 @@ int	create_redir_in_order(t_pars	*command)
 	command->redirections = save_new_redir;
 	return (0);
 }
-
