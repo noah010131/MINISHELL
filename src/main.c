@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/17 20:45:28 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:09:02 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*ft_readline(t_envp **lst)
 		exit(0);
 	}
 	history(cpy);
+	signal(SIGINT, SIG_IGN);
 	return (cpy);
 }
 

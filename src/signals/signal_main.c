@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:15:34 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 20:43:34 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:15:04 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void	clear_rl_line(void)
 void	sigint_handler(int sig)
 {
 	(void)sig;
-	if (g_exit_code != -3)
-		write(1, "\n", 1);
+	write(1, "\n", 1);
 	clear_rl_line();
 	// if (g_exit_code == 1)
 	// 	write(1, "input : 1\n", 10);
@@ -44,11 +43,8 @@ void	sigint_handler(int sig)
 	// else
 	// 	printf("input : %d\n", g_exit_code);
 	// fflush(stdout);
-	if (g_exit_code != -2 && g_exit_code != -3)
-		rl_redisplay();
+	rl_redisplay();
 	g_exit_code = 130;
-	// printf("output : %d\n", g_exit_code);
-	// fflush(stdout);
 }
 
 void	sigint_handler1(int sig)
@@ -75,6 +71,7 @@ int	signal_exit_check(int status, int	*flag)
 	if (WTERMSIG(status) == SIGINT)
 	{
 		*flag = 1;
+		write(1, "\n", 1);
 		status = 130;
 	}
 	if (WTERMSIG(status) == SIGQUIT)
