@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 13:56:28 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:48:54 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,9 +241,10 @@ void				check_error_code(char *name);
 void				free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save);
 void				free_child1(t_envp **lst, t_ori *ori, int free_flag, int files[]);
 char				*get_next_line(int fd);
-// int					exec_heredoc1(int flag, t_redir	*redirections, t_ori *ori);
+int					read_heredoc1(char *end_str, int flag, t_ori *ori, int files[]);
 int					ft_strlen(const char *str);
-
+t_pars				*put_command(t_pars	**c, int i);
+void				free_fds(int **fds, int end);
 extern int			g_exit_code;
 
 #endif

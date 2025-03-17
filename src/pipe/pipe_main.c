@@ -6,42 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 07:42:33 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:49:41 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-t_pars		*put_command(t_pars	**c, int i)
-{
-	int		num;
-	t_pars	*tmp;
-	t_pars	*current;
-
-	num = 0;
-	current = (*c);
-	// (void)i;
-	while (current && num < i)
-	{
-		if (current->next)
-			tmp = current->next;
-		// free(current);
-		current = tmp;
-		num++;
-	}
-	if (!current)
-		write(2, "NULL\n", 5);
-	return (current);
-}
-void	free_fds(int **fds, int end)
-{
-	int	i;
-
-	i = -1;
-	while (i <= end)
-		free(fds[i]);
-	free(fds);
-}
 
 int	malloc_pipe(t_pipe *p)
 {
@@ -76,11 +45,6 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 	int	exit_code;
 
 	i = -1;
-// while (waitpid(-1, &status, 0) > 0) {
-//         if (WIFEXITED(status)) {
-//             printf("Child exited with status %d\n", WEXITSTATUS(status));
-//         }
-//     }
 	while (++i <= num_pipes)
 	{
 		if (waitpid(pids[i], &status, 0) > 0)
