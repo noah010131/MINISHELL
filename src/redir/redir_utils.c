@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 15:16:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 23:17:45 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	read_heredoc(int flag, t_ori *ori, t_pipe *pipe, t_redir *save)
 
 int	execute_parsing(int std_s[], t_ori *ori, t_pipe *pipe, t_redir *save)
 {
+	if (!(*ori->parsee)->redirections)
+		return (0);
 	if ((*ori->parsee)->redirections->type == REDIR_IN_S)
 		std_s[0] = ch_err(oper_redir_in(*ori->parsee, std_s[0]), std_s);
 	else if ((*ori->parsee)->redirections->type == REDIR_OUT_S)

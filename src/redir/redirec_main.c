@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 21:57:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/17 23:14:46 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int	redirec_submain(t_pars	*command, t_ori *ori, t_pipe *pipe, t_redir *save)
 		return_value = execute_parsing(cpy_stdin_out, ori, pipe, save);
 		if (return_value < 0)
 		{
-			(*ori->parsee)->redirections = save;
+			if (!free_flag)
+				(*ori->parsee)->redirections = save;
 			return (close_file(command->redirections),
 				free_child(ori, free_flag, pipe, save), return_value * -1);
 		}

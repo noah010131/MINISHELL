@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 22:10:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/18 01:42:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,35 +66,6 @@ char	*pathfinder(char *cmd, char **path_t)
 	return (NULL);
 }
 
-// char	*put_path(char *command, t_envp **lst)
-// {
-// 	int		i;
-// 	char	**temp_path;
-// 	char	*path;
-
-// 	i = 0;
-// 	if (access(command, F_OK) == 0)
-// 		return (ft_strdup(command));
-// 	else
-// 	{
-// 		while (*lst)
-// 		{
-// 			if (ft_strcmp((*lst)->name, "PATH") == 0)
-// 				break ;
-// 			(*lst) = (*lst)->next;
-// 		}
-// 		if (!*lst)
-// 			return (NULL);
-// 		temp_path = ft_split((*lst)->value, ':');
-// 		path = pathfinder(command, temp_path);
-// 		i = -1;
-// 		while (temp_path[++i])
-// 			free(temp_path[i]);
-// 		free(temp_path);
-// 	}
-// 	return (path);
-// }
-
 char	*put_path(char *command, t_envp **lst)
 {
 	int		i;
@@ -108,9 +79,9 @@ char	*put_path(char *command, t_envp **lst)
 			break ;
 		(*lst) = (*lst)->next;
 	}
-	if (!*lst && access(command, F_OK) != 0)
+	if (!*lst && access(command, X_OK) != 0)
 		return (NULL);
-	else if (!*lst && access(command, F_OK) == 0)
+	else if (!*lst && access(command, X_OK) == 0)
 		return (ft_strdup(command));
 	temp_path = ft_split((*lst)->value, ':');
 	path = pathfinder(*&command, temp_path); // add *&command
@@ -120,18 +91,49 @@ char	*put_path(char *command, t_envp **lst)
 	free(temp_path);
 	if (!path)
 	{
-		if (access(command, F_OK) == 0)
+		if (access(command, X_OK) == 0)
 			return (ft_strdup(command));
 	}
 	return (path);
+}
+
+int slach_checker(char	*command)
+{
+	int	i;
+	int	check;
+	int	checker_s;
+
+	i = 0;
+	check = 0;
+	checker_s = 0;
+	if (!ft_strcmp("..", command))
+		return (print_message(command, 4), 127);
+	while (command[i] && (command[i] == '/' || command[i] == '.'))
+	{
+		if (command[i] == '/')
+			checker_s = 1;
+		check = 0;
+		while (command[i + check] && command[i + check] == '.')
+			check++;
+		if (check >= 3)
+			return (print_message(command, 4), 127);
+		i++;
+	}
+	if (!command[i] && checker_s)
+		return (print_message(command, 1), 126);
+	return (0);
 }
 
 int	exec_command(t_pars *c, t_envp **lst, char **env)
 {
 	char	*command;
 	t_envp	*temp;
+	int		rv;
 
 	temp = *lst;
+	rv = slach_checker(c->command);
+	if (rv)
+		return (rv);
 	command = put_path(c->command, lst);
 	*lst = temp;
 	if (!command)
