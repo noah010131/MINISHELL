@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 19:11:54 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 00:18:18 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	malloc_pipe(t_pipe *p)
 		free_fds(p->fds, p->num_pipes);
 		return (-1);
 	}
+	p->fd = -1;
 	return (0);
 }
 
@@ -90,19 +91,35 @@ void	free_pars(t_pars *save, int i)
 int	execute_pipe(int i, t_pipe *pipe, t_ori *ori, t_pars *save)
 {
 	int			n;
+	int			fd;
 
+	fd = -1;
 	pipe->pids[i] = fork();
 	if (pipe->pids[i] < 0)
 		return (-1);
 	else if (pipe->pids[i] == 0)
 	{
 		if (i > 0)
+		{
 			dup2(pipe->fds[i - 1][0], STDIN_FILENO);
+		}
 		if (i < pipe->num_pipes)
-			dup2(pipe->fds[i][1], STDOUT_FILENO);
+		{
+			if (!access(OUTPUT, F_OK))
+			{
+				fd = open(OUTPUT, O_RDWR | O_TRUNC, 0644);
+				if (fd == -1)
+					return (-1);
+				dup2(fd, STDIN_FILENO);
+			}
+			else
+				dup2(pipe->fds[i][1], STDOUT_FILENO);
+		}
 		n = -1;
 		while (++n < pipe->num_pipes)
 		{
+			if(fd != -1)
+				close(fd);
 			close(pipe->fds[n][0]);
 			close(pipe->fds[n][1]);
 		}
@@ -123,6 +140,8 @@ void	close_pipe(t_pipe	*pipe)
 		close(pipe->fds[i][0]);
 		close(pipe->fds[i][1]);
 	}
+	if (pipe->fd != -1)
+		close(pipe->fd);
 }
 
 int	pipe_main(t_pars	**commands, t_envp **lst, t_ori *ori)

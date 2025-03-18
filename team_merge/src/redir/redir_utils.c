@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 00:04:05 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 00:14:55 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	expand_file(int src, t_ori *ori)
 	int		dest_fd;
 	char	*buffer;
 
-	dest_fd = open(".temp.txt", O_RDWR | O_TRUNC, 0644);
+	dest_fd = open(OUTPUT, O_RDWR | O_TRUNC, 0644);
 	while (1)
 	{
 		buffer = NULL;	
@@ -139,7 +139,7 @@ int	exec_heredoc(int flag, t_redir	*redirections, t_ori *ori)
 		return (-1);
 	expand_file(redirections->fd, ori);
 	close(temp);
-	temp = open(".temp.txt", O_RDWR, 0644);
+	temp = open(OUTPUT, O_RDWR, 0644);
 	if (!temp)
 		return (-1);
 	redirections->fd = temp;

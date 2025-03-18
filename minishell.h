@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 18:57:19 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 00:16:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <unistd.h>
 
 # define TEMP ".temp_heredoc.txt"
+# define OUTPUT ".temp.txt"
 # define WORD 9
 # define PIPE_N 10
 # define REDIR_IN 11
@@ -114,6 +115,7 @@ typedef struct s_pipe
 	int				num_pipes;
 	int				**fds;
 	int				*pids;
+	int				fd;
 }					t_pipe;
 
 // 파이프의 갯수를 저장하는 리스트 (실행)

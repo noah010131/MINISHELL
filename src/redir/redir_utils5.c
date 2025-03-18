@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:50:53 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 11:23:22 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 00:14:55 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	expand_file(int src, t_ori *ori)
 	int		dest_fd;
 	char	*buffer;
 
-	dest_fd = open(".temp.txt", O_RDWR | O_TRUNC, 0644);
+	dest_fd = open(OUTPUT, O_RDWR | O_TRUNC, 0644);
 	while (1)
 	{
 		buffer = NULL;
@@ -46,8 +46,8 @@ int	exec_heredoc(int flag, t_redir	*redirections, t_ori *ori)
 	expand_file(redirections->fd, ori);
 	close(temp);
 	redirections->fd = 0;
-	temp = open(".temp.txt", O_CREAT | O_RDWR, 0644);
-	if (!temp)
+	temp = open(OUTPUT, O_CREAT | O_RDWR, 0644);
+	if (temp == -1)
 		return (-1);
 	redirections->fd = temp;
 	if (redirections->fd == -1)
