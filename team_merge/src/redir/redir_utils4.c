@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:44:10 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 01:34:55 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:59:43 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,13 @@ void	free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save)
 	}
 	if (free_flag)
 	{
-		free_envp(ori->envs);
-		free(ori->envs);
+		// free_envp(ori->envs);
+		// free(ori->envs);
 		// free_tori(ori);
+		ori->data
+		free_tcmd(ori->cmds);
+	// free_pars_ls(ori->parsee);
+	if (ori->request)
+		free(ori->request);
 	}
 }
