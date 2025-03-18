@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 17:37:19 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:14:37 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,35 +57,20 @@ int	free_finish(int num_pipes, int *pids, int **fds)
 	free(fds);
 	return (exit_code);
 }
-void	free_arg(char **arg)
-{
-	int	i;
 
-	i = 0;
-	if (!arg)
-		return ;
-	while (arg[i])
-	{
-		free(arg[i]);
-		i++;
-	}
-	free(arg);
-}
-void	free_pars(t_pars *save, int pipe_nums, int i)
+void	free_pars(t_pars *save, int i)
 {
 	t_pars	*current;
 	t_pars	*tmp;
 	t_redir	*current_r;
 	t_redir	*tmp_r;
-	// int		move;
 
 	if (!save)
 		return ;
 	current = save;
-	(void)pipe_nums;
 	while (i)
 	{
-		free_arg(current->arguments);
+		freee_error(current->arguments);
 		tmp = current->next;
 		current_r = current->redirections;
 		while (current_r)
@@ -124,9 +109,7 @@ int	execute_pipe(t_pars **c, int i, t_pipe *pipe, t_ori *ori, t_pars *save)
 			close(pipe->fds[n][1]);
 		}
 		if (save != *c && pipe->num_pipes)
-			free_pars(save, pipe->num_pipes, i);
-		// *c = save;
-		// (void)save;
+			free_pars(save, i);
 		exit(redirec_main(*c, ori->envs, ori, pipe));
 	}
 	return (0);
