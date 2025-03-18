@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 00:40:55 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:57:19 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,8 @@ int					bad_id(char *str);
 int					check_hypen(char *str);
 int					check_direc(char *cmd);
 void				print_message(char *argument, int num);
+int					free_finish(int num_pipes, int *pids, int **fds);
+void				free_pipe(t_pipe *pipe);
 extern int			g_exit_code;
 
 #endif
