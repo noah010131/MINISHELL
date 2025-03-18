@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/17 23:17:45 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/18 11:38:43 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,18 @@ int	put_heredoc(int fd, t_ori *ori, t_pipe *pipe, char name[])
 	exit(close(fd));
 }
 
-void	child_heredoc(int flag, t_ori *ori, t_pipe *pipe, t_redir *save)
+void	child_heredoc(int fd, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
-	int		fd;
+	// int		fd;
 	char	filename[1024];
 
-	if (flag)
-		fd = open(TEMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	else
-		fd = open(TEMP, O_RDWR | O_CREAT | O_APPEND, 0644);
+	(void)fd;
+	// if (flag)
+	// 	fd = open(TEMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	// else
+	// 	fd = open(TEMP, O_RDWR | O_CREAT | O_APPEND, 0644);
+	// if (fd == -1)
+	// 	exit(1);
 	ft_strlcpy(filename, (*ori->parsee)->redirections->filename, 1024);
 	free_child(ori, 2, pipe, save);
 	put_heredoc(fd, ori, pipe, filename);
@@ -66,14 +69,21 @@ int	read_heredoc(int flag, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
 	int		pid;
 	int		status;
+	// char	filename[1024];
+	int		fd;
 
+	signal(SIGINT, SIG_DFL);
 	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
 		return (-1);
+	if (flag)
+		fd = open(TEMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	else
+		fd = open(TEMP, O_RDWR | O_CREAT | O_APPEND, 0644);
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-		child_heredoc(flag, ori, pipe, save);
+		child_heredoc(fd, ori, pipe, save);
 	else
 	{
 		signal(SIGINT, SIG_IGN);
