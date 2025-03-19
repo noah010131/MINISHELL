@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:17 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 04:24:11 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:10:10 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ int						newline_syntax_check(t_token *first);
 
 // main_utils.c
 void					init_all(t_data *data, int ac, char **av, char **envp);
-char					*ft_readline(t_data *data);
+char					*ft_readline(t_data *data, t_envp **lst);
 
 // in main.c
 bool					find_space(char c);
@@ -423,5 +423,6 @@ int					malloc_pipe(t_pipe *p);
 char				*new_expanded_hd(char *str, char *ptr, t_envp *match);
 int					nb_expand_hd(char *str);
 int					exec_command(t_pars *c, t_envp **lst, char **env);
+void				free_all_all(t_data *data, char **prompt, t_envp **lst);
 
 #endif

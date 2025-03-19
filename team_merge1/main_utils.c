@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:20:00 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 11:05:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:11:35 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	check_exit_code(t_pars **commands,
 	}
 }
 
-char	*ft_readline(t_data *data)
+char	*ft_readline(t_data *data, t_envp **lst)
 {
 	char	*prompt;
 
@@ -45,6 +45,8 @@ char	*ft_readline(t_data *data)
 	if (!prompt)
 	{
 		ft_printf("exit\n");
+		free_envp(lst);
+		free(lst);
 		free_all(data, &prompt);
 		exit(0);
 	}
@@ -100,4 +102,11 @@ void	set_signal(void)
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
+}
+
+void	free_all_all(t_data *data, char **prompt, t_envp **lst)
+{
+	free_envp(lst);
+	free(lst);
+	free_all(data, prompt);
 }
