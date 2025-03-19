@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2025/03/19 04:07:48 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:33:14 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_echo(t_pars *cmd)
 		&& check_argument(cmd->arguments[1]))
 	{
 		flag = 0;
-		while (check_argument(cmd->arguments[i]))
+		while (cmd->arguments[i] && check_argument(cmd->arguments[i]))
 			i++;
 	}
 	else
