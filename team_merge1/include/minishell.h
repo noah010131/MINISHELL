@@ -6,7 +6,7 @@
 /*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:17 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 14:53:48 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:45:44 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ char					*compare_env_key(char *curr_str, int dollar,
 char					*find_key(char *curr, int dollar, t_env_list *env_list);
 int						check_only_dollar(char *curr, int dollar);
 int						check_multiple_dollar(char *curr, int dollar); //, t_env_list *env_list);
-char					*special_dollar_sign(char c);
+char					*special_dollar_sign(char c, t_env_list *env_list);
 
 // env_parse.c
 void					env_parse(t_env_list **env_list, char **envp);
@@ -322,9 +322,11 @@ int					ft_tablen(char **env);
 int					is_token(char *str);
 int					tok_acc(char *str);
 t_envp				**add_envplast(t_envp **ret, char *str);
+t_envp				**add_envplast2(t_envp **ret, t_env *origin);
 t_envp				**add_envplast_null(t_envp **ret, char *str);
 void				*free_envp(t_envp **lst);
-// t_envp				**lst_env(char **env);
+t_envp				**lst_env(char **env);
+t_envp				**lst_env2(t_env *bottom);
 int					is_lim_exp(char c);
 t_envp				*env_match(char *str, t_envp **lst);
 int					expanding(t_cmds **cmds, t_envp **lst);

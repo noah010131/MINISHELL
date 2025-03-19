@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transfer_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 22:42:25 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 11:11:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:51:28 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_envp	**add_envplast2(t_envp **ret, t_env *origin)
 	return (ret);
 }
 
-t_envp	**lst_env(t_env *bottom)
+t_envp	**lst_env2(t_env *bottom)
 {
 	t_env	*tmp;
 	t_envp	**head;
@@ -94,13 +94,13 @@ t_env	*create_envp_node2(t_envp *origin)
 		return (NULL);
 	new_env->key = ft_strdup(origin->name);
 	new_env->value = ft_strdup(origin->value);
-	new_env->origin_env = ft_strdup(origin->origin_env);
+	new_env->origin_env = origin->origin_env;
 	return (new_env);
 }
 
 void	transfer_env(t_data *data, t_ori *ori, char **envp)
 {
-	ori->envs = lst_env(data->env_list->bottom);
+	ori->envs = lst_env2(data->env_list->bottom);
 	ori->env = envp;
 }
 
@@ -110,6 +110,7 @@ void	synchro_env(t_data *data, t_ori *ori)
 	t_env	*new_env;
 
 	head = *ori->envs;
+	new_env = NULL;
 	free_env_list(&data->env_list);
 	init_env_list(&data->env_list);
 	while (head)

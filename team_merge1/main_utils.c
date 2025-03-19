@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:20:00 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 11:05:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:36:23 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	*ft_readline(t_data *data)
 
 void	init_all(t_data *data, int ac, char **av, char **envp)
 {
+	//init_ori(ori);
 	init_data(data, ac, av);
 	env_parse(&data->env_list, envp);
 	set_signal();

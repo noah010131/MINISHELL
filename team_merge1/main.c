@@ -6,7 +6,7 @@
 /*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:32 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 14:59:07 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:35:21 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ int	parsing(t_data *data, char *prompt)
 	merge_token_str(data->token_list);
 	remove_space_token(&data->token_list);
 	return (syntax_check(data->token_list));
+}
+
+void	init_ori(t_ori *ori)
+{
+	ori->data = NULL;
+	ori->envs = NULL;
+	ori->parsee = NULL;
+	ori->request = NULL;
+	ori->env = NULL;
 }
 
 int	main(int ac, char **av, char **envp)

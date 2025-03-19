@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:56:02 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 11:11:35 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:26:52 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,32 +59,6 @@ char	*get_suffix(char *curr, int dollar)
 	}
 	return (suffix);
 }
-
-/*char	*get_suffix(char *curr, int dollar)
-{
-	int		start;
-	int		key_end;
-	char	*suffix;
-
-	key_end = dollar + 1;
-	start = key_end;
-	// printf("get suffix key_end : [%c]\n", curr[key_end]);
-	while (curr[key_end] && curr[key_end] != ' ' && curr[key_end] != '\t'
-		&& curr[key_end] != '\n' && curr[key_end] != '$')
-		key_end++;
-	suffix = ft_strdup(curr + start);
-	// printf("get suffix key_end : [%c]\n", curr[key_end]);
-	// printf("%c\n", curr[start]);
-	// suffix = ft_strndup((curr + start), (key_end - start));
-	if (!suffix)
-	{
-		if (!curr[key_end])
-			return (NULL);
-		ft_malloc_fail("get suffix");
-		return (NULL);
-	}
-	return (suffix);
-}*/
 
 int	ft_strcmp(char *s1, char *s2)
 {
