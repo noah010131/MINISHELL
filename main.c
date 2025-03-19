@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:32 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 16:37:15 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:34:23 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	parsing(t_data *data, char *prompt)
 		return (ERR);
 	merge_token_str(data->token_list);
 	remove_space_token(&data->token_list);
+	change_type_to_word(&data->token_list);
 	return (syntax_check(data->token_list));
 }
 

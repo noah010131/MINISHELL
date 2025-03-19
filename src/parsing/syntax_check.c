@@ -6,7 +6,7 @@
 /*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 15:26:41 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/17 13:04:58 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 21:35:35 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,19 @@ int	pipe_syntax_check(t_token *first, t_token *second)
 		}
 	}
 	return (0);
+}
+
+void	change_type_to_word(t_token_list **token_list)
+{
+	t_token	*current;
+
+	current = (*token_list)->bottom;
+	while (current)
+	{
+		if (current->type == DQ || current->type == SQ)
+			current->type = W;
+		current = current->prev;
+	}
 }
 
 int	syntax_check(t_token_list *token_list)

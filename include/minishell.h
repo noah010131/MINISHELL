@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:17 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 22:08:04 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:13:39 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,7 @@ int						syntax_check(t_token_list *token_list);
 int						pipe_syntax_check(t_token *first, t_token *second);
 int						redirect_syntax_check(t_token *first, t_token *second);
 int						newline_syntax_check(t_token *first);
+void					change_type_to_word(t_token_list **token_list);
 
 // main_utils.c
 void					init_all(t_data *data, int ac, char **av, char **envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 06:01:13 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:20:11 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,12 @@ int	exec_command(t_pars *c, t_envp **lst, char **env)
 	int		rv;
 
 	temp = *lst;
+	command = NULL;
 	rv = slach_checker(c->command);
 	if (rv)
 		return (rv);
+	if (!*(c->command))
+		return (check_error(command, c->arguments, 1));
 	command = put_path(c->command, lst);
 	*lst = temp;
 	if (!command)
