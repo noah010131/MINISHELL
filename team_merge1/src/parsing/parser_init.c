@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:57:14 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/18 17:13:32 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:10:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_pars	*init_pars_node(void)
 {
-	 t_pars	*new;
+	t_pars	*new;
 
-	 new = (t_pars *)malloc(sizeof(t_pars));
-	 if (!new)
-	 	return (ft_malloc_fail("ini pars node"), NULL);
+	new = (t_pars *)malloc(sizeof(t_pars));
+	if (!new)
+		return (ft_malloc_fail("ini pars node"), NULL);
 	new->arguments = NULL;
 	new->command = NULL;
 	new->next = NULL;
@@ -39,7 +39,7 @@ t_pars	*init_pars_node(void)
 t_pars	**init_parser(void)
 {
 	t_pars	**result;
-	
+
 	result = (t_pars **)malloc(sizeof(t_pars));
 	if (!result)
 		return (ft_malloc_fail("init parser"), NULL);

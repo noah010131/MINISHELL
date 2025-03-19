@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 02:14:13 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 02:29:22 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:07:00 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*env_value_merge(char *curr, int dollar, t_env_list *env_list)
 {
-	int key_end;
-	char *tmp;
-	char *key;
+	int		key_end;
+	char	*tmp;
+	char	*key;
 	char	*merge;
 
 	tmp = ft_substr(curr, 0, dollar);
@@ -38,10 +38,10 @@ char	*env_value_merge(char *curr, int dollar, t_env_list *env_list)
 	}
 }
 
-void process_token(t_token * curr, t_env_list * env_list)
+void	process_token(t_token *curr, t_env_list *env_list)
 {		
-	int dollar;
-	char *new_str;
+	int		dollar;
+	char	*new_str;
 
 	dollar = find_dollar(curr->str);
 	while (curr->str && dollar != ERR && dollar < (int)ft_strlen(curr->str))
@@ -54,9 +54,9 @@ void process_token(t_token * curr, t_env_list * env_list)
 	}
 }
 
-void expand_env(t_token_list * token_list, t_env_list * env_list)
+void	expand_env(t_token_list	*token_list, t_env_list	*env_list)
 {
-	t_token *curr;
+	t_token	*curr;
 
 	if (!token_list || !env_list)
 	{

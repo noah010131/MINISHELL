@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:55:47 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/17 12:43:27 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:34:00 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void	tokenizer(char *cmd, t_data *data)
 	t_token	*new_token;
 
 	new_token = NULL;
-	while (*cmd && find_space(*cmd))
+	while (cmd && *cmd && find_space(*cmd))
 		cmd++;
-	while (*cmd)
+	while (cmd && *cmd)
 	{
 		new_token = is_special(&cmd);
 		if (new_token)

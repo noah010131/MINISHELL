@@ -6,20 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:32 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 06:09:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:04:55 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
 int		g_exit_code = 0;
-
-void	set_signal()
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
-}
 
 bool	find_space(char c)
 {

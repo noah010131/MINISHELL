@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:44:10 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 06:18:59 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:03:04 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	free_child1(t_envp **lst, t_ori *ori, int free_flag, int files[])
 		free(lst);
 		free_all(ori->data, &ori->data->prompt);
 		free_pars_list(ori->parsee);
-		// free_tori(ori); // ori 전부 free
 	}
 }
 
@@ -65,10 +64,7 @@ void	free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save)
 		free_envp(ori->envs);
 		free(ori->envs);
 		free_all(ori->data, &ori->data->prompt);
-		// free_tcmd(ori->cmds);
 		free_pars_list(ori->parsee);
-		// if (ori->request)
-		// 	free(ori->request); ori 전부 free
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 22:42:25 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 05:28:08 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:11:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_envp	**lst_env(t_env *bottom)
 	}
 	return (head);
 }
+
 t_env	*create_envp_node2(t_envp *origin)
 {
 	t_env	*new_env;
@@ -97,19 +98,19 @@ t_env	*create_envp_node2(t_envp *origin)
 	return (new_env);
 }
 
-void    transfer_env(t_data *data, t_ori *ori, char **envp)
+void	transfer_env(t_data *data, t_ori *ori, char **envp)
 {
 	ori->envs = lst_env(data->env_list->bottom);
 	ori->env = envp;
 }
 
-void    synchro_env(t_data *data, t_ori *ori)
+void	synchro_env(t_data *data, t_ori *ori)
 {
 	t_envp	*head;
 	t_env	*new_env;
 
 	head = *ori->envs;
-    free_env_list(&data->env_list);
+	free_env_list(&data->env_list);
 	init_env_list(&data->env_list);
 	while (head)
 	{

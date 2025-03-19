@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:56:02 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 05:31:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:11:35 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ char	*ft_strndup(const char *str, int stop)
 
 int	ft_occur(char *str, char c)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;

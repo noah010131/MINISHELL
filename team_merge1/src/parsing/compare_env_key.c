@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compare_env_key.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 19:33:16 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 03:43:24 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:08:19 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*find_key(char *curr, int dollar, t_env_list *env_list)
 
 	key = NULL;
 	if (curr[dollar + 1] == '$' || curr[dollar + 1] == '?')
-		return (env_list->dollar_cnt = dollar + 2, special_dollar_sign(curr[dollar + 1]));
+		return (env_list->dollar_cnt = dollar + 2,
+			special_dollar_sign(curr[dollar + 1]));
 	key_end = dollar + 1;
 	while (curr[key_end] && (ft_isalnum(curr[key_end])
 			|| curr[key_end] == '_'))
@@ -42,7 +43,7 @@ char	*compare_env_key(char *curr_str, int dollar, t_env_list *env_list)
 {
 	char	*key;
 	t_env	*curr;
-	
+
 	if (!env_list || !env_list->bottom)
 	{
 		ft_err_print_minishell("compare env key: No environment value");

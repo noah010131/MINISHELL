@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:11:21 by princessj         #+#    #+#             */
-/*   Updated: 2025/03/18 17:01:07 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:08:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	parser_check_print(t_pars **parser)
 				j++;
 			}
 			printf("\n");
-        }
+		}
 		else
 			printf("NULL\n");
 		redir = curr->redirections;

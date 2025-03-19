@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 04:07:48 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:02:07 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int	close_file(t_redir *redirections)
 		}
 		redirections = redirections->next;
 	}
-	// unlink(TEMP);
-	// unlink(OUTPUT);
 	return (0);
 }
 

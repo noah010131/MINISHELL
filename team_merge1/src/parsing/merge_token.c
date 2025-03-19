@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:53:30 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/18 02:30:11 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:10:16 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	merge_token_node(t_token *first, t_token *sec, t_token_list *list)
 	first->prev = sec->prev;
 	if (sec->prev)
 		sec->prev->next = first;
-	if((first->type == SQ || first->type == DQ || first->type == W)
-	&& (sec->type == SQ || sec->type == DQ || sec->type == W))
+	if ((first->type == SQ || first->type == DQ || first->type == W)
+							&& (sec->type == SQ || sec->type == DQ || sec->type == W))
 		first->type = W;
 	free_token(&sec);
 	sec = NULL;

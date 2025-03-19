@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:59:21 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 05:02:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:07:56 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,17 @@ int	keep_pars(t_pars *pars_node, t_token *token)
 	if (token->type == W || token->type == DQ || token->type == SQ)
 		return (add_arg(pars_node, token->str));
 	else if (token->type == RI)
-		return (add_last_redir(new_redir(REDIR_IN_S, token->prev->str), pars_node));
+		return (add_last_redir
+			(new_redir(REDIR_IN_S, token->prev->str), pars_node));
 	else if (token->type == H)
-		return (add_last_redir(new_redir(HEREDOC, token->prev->str), pars_node));
+		return (add_last_redir
+			(new_redir(HEREDOC, token->prev->str), pars_node));
 	else if (token->type == RO)
-		return (add_last_redir(new_redir(REDIR_OUT_S, token->prev->str), pars_node));
+		return (add_last_redir
+			(new_redir(REDIR_OUT_S, token->prev->str), pars_node));
 	else if (token->type == AR)
-		return (add_last_redir(new_redir(REDIR_OUT_D, token->prev->str), pars_node));
+		return (add_last_redir
+			(new_redir(REDIR_OUT_D, token->prev->str), pars_node));
 	return (0);
 }
 
@@ -95,7 +99,7 @@ void	pars_state(t_pars *pars_node, t_token *token_curr, t_pars **pars_list)
 	while (token_curr && token_curr->type != P)
 	{
 		if (keep_pars(pars_node, token_curr))
-				free_pars_list(pars_list);
+			free_pars_list(pars_list);
 		if (token_curr->prev)
 		{
 			if (token_curr->type != W)
@@ -105,6 +109,7 @@ void	pars_state(t_pars *pars_node, t_token *token_curr, t_pars **pars_list)
 	}
 	//return (pars_node);
 }
+
 
 /*t_token	*pars_state(t_pars *pars_node, t_token *token_curr, t_pars **pars_list) // origin
 {

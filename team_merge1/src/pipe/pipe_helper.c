@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:43:11 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 04:07:48 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:02:27 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	close_file2(int files[])
 			return (-1);
 		i++;
 	}
-	// unlink(TEMP);
 	return (0);
 }
 
@@ -78,7 +77,7 @@ int	reset_process(int files[], int c_stdout[])
 	if (close_file2(files) == -1)
 		return (reset_stdin_out(c_stdout), -1);
 	if (reset_stdin_out(c_stdout) == -1)
-		return (-1);	
+		return (-1);
 	return (0);
 }
 
