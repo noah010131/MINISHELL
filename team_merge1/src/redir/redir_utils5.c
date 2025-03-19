@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:50:53 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 13:17:18 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 04:07:48 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	expand_file(int src, t_ori *ori)
 	int		dest_fd;
 	char	*buffer;
 
-	dest_fd = open(OUTPUT, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	dest_fd = open(OUTPUT, O_RDWR | O_TRUNC, 0644);
 	while (1)
 	{
 		buffer = NULL;

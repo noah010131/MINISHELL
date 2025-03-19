@@ -6,7 +6,7 @@
 /*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:27:56 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/18 16:06:30 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:00:59 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,24 @@ t_redir	*new_redir(t_type_redir type, char *filename)
 	res->next = NULL;
 	return (res);
 }
+
+/*int	add_last_pipe(t_redir *new, t_pars *pars)
+{
+	t_redir	*current;
+
+	if (!pars || !new)
+		return (1);
+	if (!pars->redirections)
+		pars->redirections = new;
+	else
+	{
+		current = pars->redirections;
+		while (current->next)
+			current = current->next;
+		current->next = new;
+	}
+	return (0);
+}*/
 
 int	add_last_redir(t_redir *new, t_pars *pars)
 {

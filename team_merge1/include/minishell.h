@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:17 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 14:29:45 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:53:48 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ int						newline_syntax_check(t_token *first);
 
 // main_utils.c
 void					init_all(t_data *data, int ac, char **av, char **envp);
-char					*ft_readline(t_data *data, t_envp **lst);
+char					*ft_readline(t_data *data);
 
 // in main.c
 bool					find_space(char c);
@@ -282,11 +282,14 @@ void					set_signal(void);
 int						keep_pars(t_pars *new, t_token *token);
 int						keep_pars2(t_pars *new, t_cmds *cmd);
 
+//int						add_arg_pipe(t_pars *pars_node, char *token_str);
 int						add_arg(t_pars *pars, char *token_str);
 t_pars					**change_struct(t_token_list *list);
-t_cmds					*pars_state2(t_pars *new, t_cmds *current, t_pars **ret);
-void					pars_state(t_pars *par_node, t_token *token_curr,
+//t_cmds					*pars_state2(t_pars *new, t_cmds *current, t_pars **ret);
+t_token				*pars_state(t_pars *par_node, t_token *token_curr,
 							t_pars **pars_list);
+//t_cmds					*pars_state(t_pars *pars_node, t_token *token_curr,
+			//				t_cmds *current, t_pars **pars_list);
 
 // parser_utils.c
 void					free_pars_list(t_pars **parsee);
@@ -304,7 +307,20 @@ t_pars					**init_parser(void);
 
 int					ft_occur(char *str, char c);
 char				*ft_strlimdup(char *str, int lim);
+t_cmds				**ft_last_tcmd(char *str, int code, t_cmds **list_cmd);
+int					non_print(char *str);
+t_cmds				**split_token(char *request);
 int					ft_pos_c(char *str, char c);
+char				*end_quote(char *str, char c);
+int					is_not_word(char *str);
+int					syn_err(char *str);
+int					code_lex(char *str);
+int					is_not_word(char *str);
+int					meta_type(char *str);
+int					type_quote(char *str);
+int					ft_tablen(char **env);
+int					is_token(char *str);
+int					tok_acc(char *str);
 t_envp				**add_envplast(t_envp **ret, char *str);
 t_envp				**add_envplast_null(t_envp **ret, char *str);
 void				*free_envp(t_envp **lst);
@@ -317,10 +333,16 @@ int					exp_exception(char *str);
 int					replace_exp(t_cmds *cmd, t_envp **lst);
 char				*new_expanded(char *str, char *ptr, t_envp *match);
 char				*nomatch(char *ptr, char *str);
+void				reset_sp_tok(int *i, int *j);
+int					skip_spcaes(int *i, char *request);
+int					n_end_quote(char *str, int i, int j);
 int					ft_isspace(char c);
 int					go_last_lex(char *str, int i, int j);
 void				init_0(int *i, int *j);
 int					interpret(char *str, char *ptr);
+void				free_tcmd(t_cmds **cmds);
+t_cmds				**pptreatment(t_cmds **cmds);
+int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
 int					ft_echo(t_pars *cmd);
 int					ft_env(t_envp **lst);
@@ -331,6 +353,7 @@ int					ft_unset(t_envp **lst, t_pars *pars);
 int					ft_env(t_envp **lst);
 void				check_exit_code(t_pars **commands,
 						int exit_code, t_envp **lst, t_ori *ori);
+int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
 char				*expanding_hd(char *str, t_envp **envp);
@@ -338,9 +361,11 @@ char				*free_ret_nul(char *str);
 void				cp_exp_beg(char **str, char **ret, int *j);
 void				init_1(int *i, int *j, t_cmds ***ret);
 char				**freee_error(char **tab);
+int					free_ori(t_ori *ori);
 void				free_pars_ls(t_pars **parsee);
 char				*rep_ex_sig_hd(char *str, char *ptr);
 char				*rep_ex_sig(char *str, char *ptr);
+int					all_toge(t_ori *ori);
 int					exp_exception_hd(char *str);
 int					parsing_command(t_pars *c, t_envp **lst, t_ori *ori);
 int					check_error(char *command, char **arguments, int status);
@@ -360,6 +385,7 @@ int					close_file(t_redir *redirections);
 int					reset_stdin_out(int copy_stdin_out[]);
 int					pipe_main(t_pars	**commands, t_envp **list, t_ori *ori);
 int					count_pipes(t_pars **commands);
+void				free_tori(t_ori *ori);
 int					print_buff(char *buffer, int filenum);
 int					check_heredoc(t_pars **commands);
 int					check_place(t_pars **commands, int place);
@@ -375,6 +401,7 @@ void				exec_ve(char *command, t_pars *c, char **env);
 int					ft_stricmp(const char *first,
 						const char *second, size_t length);
 t_redir				*new_redir(t_type_redir type, char *filename);
+void				pers_free(void *ptr);
 int					check_ch(char *str, char checker, int i);
 bool				print_error(char *str);
 void				check_error_code(char *name);
@@ -385,6 +412,7 @@ void				free_child1(t_envp **lst, t_ori *ori,
 char				*get_next_line(int fd);
 int					read_heredoc1(char *end_str,
 						int flag, t_ori *ori, int files[]);
+// int					ft_strlen(const char *str);
 t_pars				*put_command(t_pars	**c, int i);
 void				free_fds(int **fds, int end);
 int					bad_id(char *str);
@@ -398,6 +426,5 @@ int					malloc_pipe(t_pipe *p);
 char				*new_expanded_hd(char *str, char *ptr, t_envp *match);
 int					nb_expand_hd(char *str);
 int					exec_command(t_pars *c, t_envp **lst, char **env);
-void				free_all_all(t_data *data, char **prompt, t_envp **lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 16:51:26 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 03:43:52 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:00:02 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	process_token(t_token *curr, t_env_list *env_list)
 		new_str = env_value_merge(curr->str, dollar, env_list);
 		free(curr->str);
 		curr->str = new_str;
-		printf("curr->str = [%s]\n", curr->str);
+		//printf("curr->str = [%s]\n", curr->str);
 		//printf("str : [%s]\n", curr->str);
 		dollar = find_dollar(curr->str);
 	}

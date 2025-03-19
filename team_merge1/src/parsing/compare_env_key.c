@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   compare_env_key.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 19:33:16 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 11:08:19 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:47:59 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*special_dollar_sign(char c)
+char	*special_dollar_sign(char c) // 수정 -> return 
 {
 	if (c == '?')
 		return (ft_itoa(g_exit_code));

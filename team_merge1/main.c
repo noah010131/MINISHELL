@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:32 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 14:26:24 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:59:07 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,16 @@ int	main(int ac, char **av, char **envp)
 	transfer_env(&data, &ori, envp);
 	while (1)
 	{
-		data.prompt = ft_readline(&data, ori.envs);
-		if (parsing(&data, data.prompt) == ERR || g_exit_code == 258)
+		data.prompt = ft_readline(&data);
+		if (parsing(&data, data.prompt) == ERR)
 		{
 			if (data.env_list->flag == ERR)
-				return (free_all_all(&data, &data.prompt, ori.envs), 0);
+				return (free_all(&data, &data.prompt), 0);
 			restart_readline(&data, &data.prompt);
-			g_exit_code = 0;
 			continue ;
 		}
 		ori.parsee = change_struct(data.token_list);
-		// parser_check_print(ori.parsee); // 이 부분에서 에러가 남 
+		//parser_check_print(ori.parsee); // 이 부분에서 에러가 남 
 		ori.data = &data;
 		g_exit_code = pipe_main(ori.parsee, ori.envs, &ori);
 		check_exit_code(ori.parsee, g_exit_code, ori.envs, &ori);
@@ -87,5 +86,5 @@ int	main(int ac, char **av, char **envp)
 		free_pars_list(ori.parsee);
 		restart_readline(&data, &data.prompt);
 	}
-	return (free_all_all(&data, &data.prompt, ori.envs), 0);
+	return (free_all(&data, &data.prompt), 0);
 }
