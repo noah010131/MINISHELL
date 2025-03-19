@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 13:59:28 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 01:25:21 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	check_exit_code(t_pars **commands,
 		free_tori(ori);
 		exit(exit_code);
 	}
+	unlink(TEMP);
+	unlink(OUTPUT);
 }
 
 int	convert_code(int num)

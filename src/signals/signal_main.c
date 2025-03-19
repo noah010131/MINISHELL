@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:15:34 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 10:33:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 01:22:25 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	exec_ve(char *command, t_pars *c, char **env)
 	signal(SIGQUIT, sigquit_handler);
 	signal(SIGINT, SIG_DFL);
 	execve(command, c->arguments, env);
-	
+
 	exit(EXIT_FAILURE);
 }
