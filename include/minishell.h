@@ -55,6 +55,8 @@
 
 /* before struct */
 
+extern int				g_exit_code;
+
 typedef struct s_data	t_data;
 
 typedef struct s_pars	t_pars;
@@ -76,7 +78,6 @@ typedef struct s_cmds
 	char				*name;
 	struct s_cmds		*prev;
 	struct s_cmds		*next;
-	// struct s_file	**file;
 	char				**env;
 }						t_cmds;
 
@@ -127,8 +128,6 @@ typedef struct s_pars
 	struct s_pars		*next;
 }						t_pars;
 // ori 의 값을 실행하기 편하도록 분할 (파싱 & 실행)
-
-extern int				g_exit_code;
 
 /* jihye code */
 typedef struct s_token
@@ -200,7 +199,7 @@ char					*compare_env_key(char *curr_str, int dollar,
 							t_env_list *env_list);
 char					*find_key(char *curr, int dollar, t_env_list *env_list);
 int						check_only_dollar(char *curr, int dollar);
-int						check_multiple_dollar(char *curr, int dollar); 
+int						check_multiple_dollar(char *curr, int dollar);
 char					*special_dollar_sign(char c, t_env_list *env_list);
 
 // env_parse.c

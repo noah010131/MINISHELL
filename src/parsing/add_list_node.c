@@ -12,6 +12,29 @@
 
 #include "../../include/minishell.h"
 
+void	*free_envp(t_envp **lst)
+{
+	t_envp	*current;
+	t_envp	*tmp;
+
+	if (!lst)
+		return (NULL);
+	if (!(*lst))
+		return (free(lst), NULL);
+	current = *lst;
+	while (current)
+	{
+		tmp = current->next;
+		free(current->name);
+		free(current->value);
+		free(current->origin_env);
+		free(current);
+		current = tmp;
+	}
+	*lst = NULL;
+	return (NULL);
+}
+
 void	add_token_list_node(t_token *new_token, t_token_list *token_list)
 {
 	if (!new_token)

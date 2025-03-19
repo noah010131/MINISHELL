@@ -69,8 +69,6 @@ void	process_token(t_token *curr, t_env_list *env_list)
 		new_str = env_value_merge(curr->str, dollar, env_list);
 		free(curr->str);
 		curr->str = new_str;
-		//printf("curr->str = [%s]\n", curr->str);
-		//printf("str : [%s]\n", curr->str);
 		dollar = find_dollar(curr->str);
 	}
 }

@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	*special_dollar_sign(char c, t_env_list *env_list) // 수정 -> return 
+char	*special_dollar_sign(char c, t_env_list *env_list)
 {
 	if (c == '?')
 		return (env_list->flag = 42, ft_itoa(g_exit_code));
@@ -39,6 +39,14 @@ char	*find_key(char *curr, int dollar, t_env_list *env_list)
 	return (key);
 }
 
+char	*check_strcmp(t_env *curr)
+{
+	if (curr->value)
+		return (ft_strdup(curr->value));
+	else
+		return (ft_strdup(""));
+}
+
 char	*compare_env_key(char *curr_str, int dollar, t_env_list *env_list)
 {
 	char	*key;
@@ -46,30 +54,19 @@ char	*compare_env_key(char *curr_str, int dollar, t_env_list *env_list)
 	t_env	*curr;
 
 	if (!env_list || !env_list->bottom)
-	{
-		ft_err_print_minishell("compare env key: No environment value");
-		env_list->flag = ERR;
-		return (NULL);
-	}
+		return (ft_err_print_minishell("compare env key: No environment value"),
+			env_list->flag = ERR, NULL);
+	re = NULL;
 	key = find_key(curr_str, dollar, env_list);
 	if (env_list->flag == 42)
-	{
-		re = ft_strdup(key);
-		free(key);
-		return (re);
-	}
+		return (re = ft_strdup(key), free(key), re);
 	if (!key)
 		return (ft_strdup(""));
 	curr = env_list->bottom;
 	while (curr)
 	{
 		if (!ft_strcmp(curr->key, key))
-		{
-			if (curr->value)
-				return (free(key), ft_strdup(curr->value));
-			else
-				return (free(key), ft_strdup(""));
-		}
+			return (free(key), check_strcmp(curr));
 		curr = curr->prev;
 	}
 	return (free(key), ft_strdup(""));

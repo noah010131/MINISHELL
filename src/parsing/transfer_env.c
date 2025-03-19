@@ -12,29 +12,6 @@
 
 #include "../../include/minishell.h"
 
-void	*free_envp(t_envp **lst)
-{
-	t_envp	*current;
-	t_envp	*tmp;
-
-	if (!lst)
-		return (NULL);
-	if (!(*lst))
-		return (free(lst), NULL);
-	current = *lst;
-	while (current)
-	{
-		tmp = current->next;
-		free(current->name);
-		free(current->value);
-		free(current->origin_env);
-		free(current);
-		current = tmp;
-	}
-	*lst = NULL;
-	return (NULL);
-}
-
 t_envp	**add_envplast2(t_envp **ret, t_env *origin)
 {
 	t_envp	*current;

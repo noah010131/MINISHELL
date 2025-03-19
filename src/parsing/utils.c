@@ -46,7 +46,6 @@ char	*get_suffix(char *curr, int dollar)
 
 	key_end = dollar;
 	start = key_end;
-	// printf("get suffix START : [%c]\n", curr[key_end]);
 	while (curr[key_end])
 		key_end++;
 	suffix = ft_strndup((curr + start), (key_end - start));

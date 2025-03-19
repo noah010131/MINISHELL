@@ -18,7 +18,7 @@ void	merge_token_node(t_token *first, t_token *sec, t_token_list *list)
 	if (sec->prev)
 		sec->prev->next = first;
 	if ((first->type == SQ || first->type == DQ || first->type == W)
-							&& (sec->type == SQ || sec->type == DQ || sec->type == W))
+		&& (sec->type == SQ || sec->type == DQ || sec->type == W))
 		first->type = W;
 	free_token(&sec);
 	sec = NULL;
