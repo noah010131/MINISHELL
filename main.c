@@ -6,7 +6,7 @@
 /*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 19:11:32 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 22:26:59 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:45:07 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ void	restart_readline(t_data *data, char **prompt)
 	if (data->token_list)
 		free_token_list(&data->token_list);
 	init_token_list(&data->token_list);
-	if (prompt && *prompt)
+	if (prompt && *prompt && **prompt)
 	{
 		add_history(*prompt);
 		free(*prompt);
 		*prompt = NULL;
 	}
+	free(*prompt);
+	*prompt = NULL;
 }
 
 int	parsing(t_data *data, char *prompt)

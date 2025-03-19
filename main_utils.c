@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:20:00 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 16:37:22 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:49:49 by jihyeki2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char	*ft_readline(t_data *data, t_envp **lst)
 		while (prompt && !*prompt)
 			prompt = readline("minishell$ ");
 	}
-	add_history(prompt);
 	signal(SIGINT, SIG_IGN);
 	return (prompt);
 }
