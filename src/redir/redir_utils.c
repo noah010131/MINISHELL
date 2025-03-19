@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 11:38:43 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 01:04:39 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,31 @@ int	put_heredoc(int fd, t_ori *ori, t_pipe *pipe, char name[])
 
 void	child_heredoc(int fd, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
-	// int		fd;
 	char	filename[1024];
 
-	(void)fd;
-	// if (flag)
-	// 	fd = open(TEMP, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	// else
-	// 	fd = open(TEMP, O_RDWR | O_CREAT | O_APPEND, 0644);
-	// if (fd == -1)
-	// 	exit(1);
 	ft_strlcpy(filename, (*ori->parsee)->redirections->filename, 1024);
 	free_child(ori, 2, pipe, save);
 	put_heredoc(fd, ori, pipe, filename);
+}
+
+int	parent_waiting(int pid, int status)
+{
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	if (status == 2)
+		write(1, "\n", 1);
+	if (WTERMSIG(status) == SIGINT)
+		status = 130;
+	return (status);
 }
 
 int	read_heredoc(int flag, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
 	int		pid;
 	int		status;
-	// char	filename[1024];
 	int		fd;
 
+	status = 0;
 	signal(SIGINT, SIG_DFL);
 	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
 		return (-1);
@@ -85,33 +88,6 @@ int	read_heredoc(int flag, t_ori *ori, t_pipe *pipe, t_redir *save)
 	if (pid == 0)
 		child_heredoc(fd, ori, pipe, save);
 	else
-	{
-		signal(SIGINT, SIG_IGN);
-		waitpid(pid, &status, 0);
-		if (status == 2)
-			write(1, "\n", 1);
-		if (WTERMSIG(status) == SIGINT)
-			status = 130;
-		return (status);
-	}
-	return (0);
-}
-
-int	execute_parsing(int std_s[], t_ori *ori, t_pipe *pipe, t_redir *save)
-{
-	if (!(*ori->parsee)->redirections)
-		return (0);
-	if ((*ori->parsee)->redirections->type == REDIR_IN_S)
-		std_s[0] = ch_err(oper_redir_in(*ori->parsee, std_s[0]), std_s);
-	else if ((*ori->parsee)->redirections->type == REDIR_OUT_S)
-		std_s[1] = ch_err(oper_redir_out(*ori->parsee, std_s[1]), std_s);
-	else if ((*ori->parsee)->redirections->type == HEREDOC)
-		std_s[0] = ch_err(oper_heredoc_in(std_s[0], ori, pipe, save), std_s);
-	else if ((*ori->parsee)->redirections->type == REDIR_OUT_D)
-		std_s[1] = ch_err(oper_redir_app(*ori->parsee, std_s[1]), std_s);
-	if (std_s[0] < 0)
-		return (std_s[0]);
-	if (std_s[1] < 0)
-		return (std_s[1]);
+		return (parent_waiting(pid, status));
 	return (0);
 }

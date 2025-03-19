@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 00:44:10 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 14:02:41 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 00:31:11 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,10 @@ void	free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save)
 	{
 		free_envp(ori->envs);
 		free(ori->envs);
-		// free_tori(ori);
 		free_tcmd(ori->cmds);
 		free_pars_ls(ori->parsee);
 		if (ori->request)
-		free(ori->request);
+			free(ori->request);
 	}
 }
 
@@ -81,4 +80,21 @@ int	oper_redir_in(t_pars *c, int stdin_save)
 	if (dup2(c->redirections->fd, STDIN_FILENO) == -1)
 		return (-1);
 	return (stdin_save);
+}
+
+int	oper_redir_out(t_pars *c, int stdout_save)
+{
+	if (!stdout_save)
+		stdout_save = dup(STDOUT_FILENO);
+	if (!c->redirections->filename)
+		return (check_error_code(c->redirections->filename), -1);
+	c->redirections->fd
+		= open(c->redirections->filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (c->redirections->fd == -1)
+		return (check_error_code(c->redirections->filename), -1);
+	if (c->redirections->fd == -1)
+		return (-1);
+	if (dup2(c->redirections->fd, STDOUT_FILENO) == -1)
+		return (-1);
+	return (stdout_save);
 }

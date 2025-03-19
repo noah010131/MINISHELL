@@ -6,38 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 00:18:18 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 00:28:15 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	malloc_pipe(t_pipe *p)
-{
-	int	i;
-
-	p->fds = malloc(p->num_pipes * sizeof(int *));
-	if (!p->fds)
-		return (-1);
-	i = -1;
-	while (++i < p->num_pipes)
-	{
-		p->fds[i] = malloc(2 * sizeof(int));
-		if (pipe(p->fds[i]) == -1)
-		{
-			free_fds(p->fds, i);
-			return (-1);
-		}
-	}
-	p->pids = malloc((p->num_pipes + 1) * sizeof(int));
-	if (!p->pids)
-	{
-		free_fds(p->fds, p->num_pipes);
-		return (-1);
-	}
-	p->fd = -1;
-	return (0);
-}
 
 int	free_finish(int num_pipes, int *pids, int **fds)
 {
@@ -90,39 +63,12 @@ void	free_pars(t_pars *save, int i)
 
 int	execute_pipe(int i, t_pipe *pipe, t_ori *ori, t_pars *save)
 {
-	int			n;
-	int			fd;
-
-	fd = -1;
 	pipe->pids[i] = fork();
 	if (pipe->pids[i] < 0)
 		return (-1);
 	else if (pipe->pids[i] == 0)
 	{
-		if (i > 0)
-		{
-			dup2(pipe->fds[i - 1][0], STDIN_FILENO);
-		}
-		if (i < pipe->num_pipes)
-		{
-			if (!access(OUTPUT, F_OK))
-			{
-				fd = open(OUTPUT, O_RDWR | O_TRUNC, 0644);
-				if (fd == -1)
-					return (-1);
-				dup2(fd, STDIN_FILENO);
-			}
-			else
-				dup2(pipe->fds[i][1], STDOUT_FILENO);
-		}
-		n = -1;
-		while (++n < pipe->num_pipes)
-		{
-			if(fd != -1)
-				close(fd);
-			close(pipe->fds[n][0]);
-			close(pipe->fds[n][1]);
-		}
+		pipe_operation(pipe, i);
 		if (save != (*ori->parsee) && pipe->num_pipes)
 			free_pars(save, i);
 		exit(redirec_main((*ori->parsee), ori->envs, ori, pipe));

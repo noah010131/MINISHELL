@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 00:16:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 01:07:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_cmds
 	char			*name;
 	struct s_cmds	*prev;
 	struct s_cmds	*next;
-	// struct s_file	**file;
 	char			**env;
 }					t_cmds;
 
@@ -82,7 +81,7 @@ typedef struct s_redir
 	t_type_redir				type;
 	char						*filename;
 	int							fd;
-	FILE*						f;
+	FILE *						f;
 	struct s_redir				*next;
 }	t_redir;
 
@@ -182,7 +181,6 @@ void				free_tcmd(t_cmds **cmds);
 t_cmds				**pptreatment(t_cmds **cmds);
 int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
-// int					ft_cd(t_pars *pars, t_envp **lst);
 int					ft_echo(t_pars *cmd);
 int					ft_env(t_envp **lst);
 int					ft_exit(t_pars *cmd);
@@ -210,12 +208,16 @@ int					parsing_command(t_pars *c, t_envp **lst, t_ori *ori);
 int					check_error(char *command, char **arguments, int status);
 int					oper_redir_in(t_pars *c, int stdin_save);
 int					oper_redir_out(t_pars *c, int stdout_save);
-int					oper_heredoc_in(int stdin_save, t_ori *ori, t_pipe *pipe, t_redir *save);
-int					read_heredoc(int flag, t_ori *ori, t_pipe *pipe, t_redir *save);
+int					oper_heredoc_in(int stdin_save,
+						t_ori *ori, t_pipe *pipe, t_redir *save);
+int					read_heredoc(int flag, t_ori *ori,
+						t_pipe *pipe, t_redir *save);
 int					exec_heredoc(int flag, t_redir	*redirections, t_ori *ori);
 int					oper_redir_app(t_pars *c, int stdout_save);
-int					redirec_main(t_pars	*command, t_envp **lst, t_ori *ori, t_pipe *pipe);
-int					execute_parsing(int std_s[], t_ori *ori, t_pipe *pipe, t_redir *save);
+int					redirec_main(t_pars	*command,
+						t_envp **lst, t_ori *ori, t_pipe *pipe);
+int					execute_parsing(int std_s[],
+						t_ori *ori, t_pipe *pipe, t_redir *save);
 int					close_file(t_redir *redirections);
 int					reset_stdin_out(int copy_stdin_out[]);
 int					pipe_main(t_pars	**commands, t_envp **list, t_ori *ori);
@@ -225,7 +227,6 @@ int					print_buff(char *buffer, int filenum);
 int					check_heredoc(t_pars **commands);
 int					check_place(t_pars **commands, int place);
 int					ft_cd(t_ori *ori, t_pars *pars);
-// void					check_error_code(char *name);
 int					create_redir_in_order(t_pars	*command);
 void				free_redirections(t_redir *redirections);
 int					pipe_helper(t_pars	**commands, t_ori *ori);
@@ -234,16 +235,20 @@ void				sigquit_handler(int sig);
 void				sigint_handler(int sig);
 int					signal_exit_check(int status, int *flag);
 void				exec_ve(char *command, t_pars *c, char **env);
-int					ft_stricmp(const char *first, const char *second, size_t length);
-t_redir				*new_redir(t_type_redir type, char *filename);\
+int					ft_stricmp(const char *first,
+						const char *second, size_t length);
+t_redir				*new_redir(t_type_redir type, char *filename);
 void				pers_free(void *ptr);
 int					check_ch(char *str, char checker, int i);
 bool				print_error(char *str);
 void				check_error_code(char *name);
-void				free_child(t_ori *ori, int free_flag, t_pipe *pipe, t_redir *save);
-void				free_child1(t_envp **lst, t_ori *ori, int free_flag, int files[]);
+void				free_child(t_ori *ori, int free_flag,
+						t_pipe *pipe, t_redir *save);
+void				free_child1(t_envp **lst, t_ori *ori,
+						int free_flag, int files[]);
 char				*get_next_line(int fd);
-int					read_heredoc1(char *end_str, int flag, t_ori *ori, int files[]);
+int					read_heredoc1(char *end_str,
+						int flag, t_ori *ori, int files[]);
 int					ft_strlen(const char *str);
 t_pars				*put_command(t_pars	**c, int i);
 void				free_fds(int **fds, int end);
@@ -253,6 +258,12 @@ int					check_direc(char *cmd);
 void				print_message(char *argument, int num);
 int					free_finish(int num_pipes, int *pids, int **fds);
 void				free_pipe(t_pipe *pipe);
+void				pipe_operation(t_pipe *pipe, int i);
+int					malloc_pipe(t_pipe *p);
+char				*new_expanded_hd(char *str, char *ptr, t_envp *match);
+int					nb_expand_hd(char *str);
+int					exec_command(t_pars *c, t_envp **lst, char **env);
+
 extern int			g_exit_code;
 
 #endif

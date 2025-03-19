@@ -6,28 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/18 11:11:51 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 00:44:04 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	oper_redir_out(t_pars *c, int stdout_save)
-{
-	if (!stdout_save)
-		stdout_save = dup(STDOUT_FILENO);
-	if (!c->redirections->filename)
-		return (check_error_code(c->redirections->filename), -1);
-	c->redirections->fd
-		= open(c->redirections->filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (c->redirections->fd == -1)
-		return (check_error_code(c->redirections->filename), -1);
-	if (c->redirections->fd == -1)
-		return (-1);
-	if (dup2(c->redirections->fd, STDOUT_FILENO) == -1)
-		return (-1);
-	return (stdout_save);
-}
 
 int	oper_heredoc_in(int stdin_save, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
@@ -63,15 +46,20 @@ int	oper_redir_app(t_pars *c, int stdout_save)
 	return (stdout_save);
 }
 
+void	init_stdin_out(int cpy_stdin_out[2])
+{
+	cpy_stdin_out[0] = 0;
+	cpy_stdin_out[1] = 0;
+}
+
 int	redirec_submain(t_pars	*command, t_ori *ori, t_pipe *pipe, t_redir *save)
 {
 	int	return_value;
 	int	cpy_stdin_out[2];
 	int	free_flag;
 
-	cpy_stdin_out[0] = 0;
-	cpy_stdin_out[1] = 0;
 	free_flag = pipe->num_pipes;
+	init_stdin_out(cpy_stdin_out);
 	while (command && command->redirections)
 	{
 		return_value = execute_parsing(cpy_stdin_out, ori, pipe, save);
