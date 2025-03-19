@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 01:02:36 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 04:28:14 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:05:44 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,12 @@ char	**freee_error(char **tab)
 	}
 	free(tab);
 	return (NULL);
+}
+
+int	checker(t_pars **commands)
+{
+	if (commands && *commands && (*commands)->redirections
+		&& (*commands)->redirections->type == HEREDOC)
+		return (1);
+	return (0);
 }

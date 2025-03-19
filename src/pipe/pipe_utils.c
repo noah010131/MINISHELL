@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 23:13:46 by chanypar          #+#    #+#             */
-/*   Updated: 2025/03/19 16:36:43 by chanypar         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:08:31 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	pipe_operation(t_pipe *pipe, int i)
 {
 	int	n;
 
-	if (!access(OUTPUT, F_OK))
+	if (!access(OUTPUT, F_OK) && pipe->heredoc_check)
 	{
 		pipe->fd = open(OUTPUT, O_RDONLY);
 		if (pipe->fd == -1)
@@ -90,7 +90,7 @@ void	pipe_operation(t_pipe *pipe, int i)
 		close(pipe->fd);
 }
 
-int	malloc_pipe(t_pipe *p)
+int	malloc_pipe(t_pipe *p, int heredoc_check)
 {
 	int	i;
 
@@ -114,5 +114,6 @@ int	malloc_pipe(t_pipe *p)
 		return (-1);
 	}
 	p->fd = -1;
+	p->heredoc_check = heredoc_check;
 	return (0);
 }

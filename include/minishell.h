@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyeki2 <jihyeki2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:17 by jihyeki2          #+#    #+#             */
-/*   Updated: 2025/03/19 20:15:15 by jihyeki2         ###   ########.fr       */
+/*   Updated: 2025/03/19 22:08:04 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_pipe
 	int					**fds;
 	int					*pids;
 	int					fd;
+	int					heredoc_check;
 }						t_pipe;
 
 // 파이프의 갯수를 저장하는 리스트 (실행)
@@ -393,10 +394,11 @@ void					print_message(char *argument, int num);
 int						free_finish(int num_pipes, int *pids, int **fds);
 void					free_pipe(t_pipe *pipe);
 void					pipe_operation(t_pipe *pipe, int i);
-int						malloc_pipe(t_pipe *p);
+int						malloc_pipe(t_pipe *p, int heredoc_check);
 char					*new_expanded_hd(char *str, char *ptr, t_envp *match);
 int						nb_expand_hd(char *str);
 int						exec_command(t_pars *c, t_envp **lst, char **env);
 void					free_all_all(t_data *data, char **prompt, t_envp **lst);
+int						checker(t_pars **commands);
 
 #endif
